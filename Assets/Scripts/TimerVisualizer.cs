@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TimerVisualizer : MonoBehaviour
@@ -8,27 +5,38 @@ public class TimerVisualizer : MonoBehaviour
     [SerializeField] private Transform startPoint;
     [SerializeField] private Transform endPoint;
 
-    [Range(0f, 1f)] [SerializeField] private float t = 1.0f;
+    [Range(0f, 1f)] [SerializeField] private float length = 1.0f;
+
+    public float Length
+    {
+        get => length;
+        set
+        {
+            value = Mathf.Clamp01(value);
+            length = value;
+            UpdateLength();
+        }
+    }
 
     private Vector3 _originalScale;
+    private Vector3 _direction;
+    private float _initialLength;
 
     private void Start()
     {
-        float initialLength = Vector3.Distance(startPoint.position, endPoint.position);
-        
         _originalScale = transform.localScale;
-        transform.localScale = new Vector3(initialLength, _originalScale.y, initialLength);
-        
+        _direction = (endPoint.position - startPoint.position).normalized;
+        _initialLength = Vector3.Distance(startPoint.position, endPoint.position);
+
         transform.position = startPoint.position;
+        transform.rotation = Quaternion.LookRotation(_direction);
+        transform.localScale = new Vector3(_originalScale.x, _originalScale.y, _initialLength);
     }
 
-    private void Update()
+    private void UpdateLength()
     {
-        float currentLength = Vector3.Distance(startPoint.position, endPoint.position) * t;
-        
+        float currentLength = _initialLength * length;
         transform.localScale = new Vector3(_originalScale.x, _originalScale.y, currentLength);
-        
-        Vector3 direction = (endPoint.position - startPoint.position).normalized;
-        transform.position = startPoint.position + direction * (currentLength / 2.0f);
+        transform.position = startPoint.position + _direction * (currentLength / 2.0f);
     }
 }
