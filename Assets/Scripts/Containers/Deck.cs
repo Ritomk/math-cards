@@ -8,14 +8,16 @@ public class Deck : CardContainerBase
 {
     [SerializeField] private GameObject cardPrefab;
     [SerializeField] private float spacing = 0.2f;
+    [SerializeField] private int deckSize = 50;
 
     private void Start()
     {
-        for (int i = 0; i < 50; i++)
+        for (int i = 0; i < deckSize; i++)
         {
             InstantiateCard(i.ToString());
         }
         InstantiateCard("+");
+        UpdateCardsPositions();
     }
 
     public void InstantiateCard(string token)
@@ -25,14 +27,7 @@ public class Deck : CardContainerBase
         cardObject.name = $"Card {token}";
         card.Initialize(token, false, CardData.CardState.NonPickable);
         AddCard(card);
-        UpdateCardsPositions();
     }
-    
-    // public override bool AddCard(Card card)
-    // {
-    //     base.AddCard(card);
-    //     //card.transform.position = CalculateCardPosition(cardsDictionary.Count - 1);
-    // }
 
     public Card DrawCard()
     {

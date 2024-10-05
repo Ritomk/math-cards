@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.Serialization;
 
 
@@ -30,6 +31,7 @@ public class CardManager : MonoBehaviour
         if (soCardEvents != null)
         {
             soCardEvents.OnCardMove += HandleCardMove;
+            soCardEvents.OnCardDraw += HandleCardDraw;
         }
     }
 
@@ -38,6 +40,7 @@ public class CardManager : MonoBehaviour
         if (soCardEvents != null)
         {
             soCardEvents.OnCardMove -= HandleCardMove;
+            soCardEvents.OnCardDraw -= HandleCardDraw;
         }
     }
 
@@ -79,6 +82,37 @@ public class CardManager : MonoBehaviour
         else
         {
             Debug.LogWarning($"Failed to move card. Invalid container(s): {from}, {to}");
+        }
+    }
+
+    private void HandleCardDraw()
+    {
+        Debug.Log("Dupa");
+        if (_cardContainers.TryGetValue(CardContainerType.Deck, out var deckContainer) &&
+            _cardContainers.TryGetValue(CardContainerType.Hand, out var handContainer))
+        {
+            if (deckContainer is Deck deck)
+            {
+                Card drawnCard = deck.DrawCard();
+
+                if (handContainer.AddCard(drawnCard))
+                {
+                    Debug.Log($"Card {drawnCard.name} drawn and added to hand.");
+                }
+                else
+                {
+                    deck.AddCard(drawnCard);
+                    Debug.LogError($"Failed to add card {drawnCard.name} to hand. Returned it to the deck.");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("Deck container is not of type 'Deck'. Cannot draw a card.");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Deck or hand container not found. Cannot draw a card.");
         }
     }
 }

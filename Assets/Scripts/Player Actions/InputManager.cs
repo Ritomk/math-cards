@@ -12,6 +12,7 @@ public class InputManager : MonoBehaviour
     private InputAction _mouseMovement;
     private InputAction _leftClick;
     private InputAction _rightClick;
+    private InputAction _endTurn;
 
 
     private void Awake()
@@ -21,6 +22,7 @@ public class InputManager : MonoBehaviour
         _mouseMovement = _playerInput.actions["MouseMove"];
         _leftClick = _playerInput.actions["LeftClick"];
         _rightClick = _playerInput.actions["rightClick"];
+        _endTurn = _playerInput.actions["EndTurn"];
     }
 
     private void OnEnable()
@@ -29,6 +31,7 @@ public class InputManager : MonoBehaviour
         _leftClick.performed += HandleMouseLeftClick;
         _leftClick.canceled += HandleMouseLeftClick;
         _rightClick.performed += HandleMouseRightClick;
+        _endTurn.performed += HandleEndTurn;
     }
 
     private void OnDisable()
@@ -37,6 +40,7 @@ public class InputManager : MonoBehaviour
         _leftClick.performed -= HandleMouseLeftClick;
         _leftClick.canceled -= HandleMouseLeftClick;
         _rightClick.performed -= HandleMouseRightClick;
+        _endTurn.performed -= HandleEndTurn;
     }
 
     private void HandleMouseMove(InputAction.CallbackContext context)
@@ -70,15 +74,24 @@ public class InputManager : MonoBehaviour
         {
             if (context.performed)
             {
-                Debug.Log("Mouse Left");
                 inputEvents.RaiseCardPick(true);
+                inputEvents.RaiseMouseMove();
             }
             else if (context.canceled)
             {
                 inputEvents.RaiseCardPick(false);
+                inputEvents.RaiseMouseMove();
             }
         }
     }
 
     private void HandleMouseRightClick(InputAction.CallbackContext context) => inputEvents.RaiseCameraReset(!context.control.IsPressed());
+    
+    private void HandleEndTurn(InputAction.CallbackContext obj)
+    {
+        if (gameStateEvents.CurrentPlayerState == PlayerStateEnum.CardPlaced)
+        {
+            inputEvents.RaiseEndTurn();
+        }
+    }
 }

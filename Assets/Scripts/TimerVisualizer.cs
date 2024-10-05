@@ -31,6 +31,8 @@ public class TimerVisualizer : MonoBehaviour
         transform.position = startPoint.position;
         transform.rotation = Quaternion.LookRotation(_direction);
         transform.localScale = new Vector3(_originalScale.x, _originalScale.y, _initialLength);
+        
+        UpdateLength();
     }
 
     private void UpdateLength()

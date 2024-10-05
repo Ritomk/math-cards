@@ -37,20 +37,15 @@ public class CardSelectionController : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        //Debug.Log(selectedCard != null ? selectedCard.transform.name : null);
-    }
-
     private void DetectCardUnderMouse()
     {
         Ray ray = _cameraRef.ScreenPointToRay(Mouse.current.position.ReadValue());
         RaycastHit hit;
-
+        
         if (Physics.Raycast(ray, out hit))
         {
             if (hit.collider.CompareTag("Card") && hit.collider.TryGetComponent<Card>(out Card card))
-            { 
+            {
                 soCardEvents.RaiseCardSelected(card);
                 return;
             }

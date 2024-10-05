@@ -8,6 +8,9 @@ public class SoCardEvents : ScriptableObject
     public delegate void CardMoveHandler(Card card, CardContainerType fromContainer, CardContainerType toContainer);
     public event CardMoveHandler OnCardMove;
 
+    public delegate void CardDrawHandler();
+    public event CardDrawHandler OnCardDraw;
+
     public delegate void CardSelectedHandler(Card card);
     public event CardSelectedHandler OnCardSelected;
 
@@ -17,6 +20,11 @@ public class SoCardEvents : ScriptableObject
     public void RaiseCardMove(Card card, CardContainerType fromContainer, CardContainerType toContainer)
     {
         OnCardMove?.Invoke(card, fromContainer, toContainer);
+    }
+
+    public void RaiseCardDraw()
+    {
+        OnCardDraw?.Invoke();
     }
 
     public void RaiseCardSelected(Card card)

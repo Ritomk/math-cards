@@ -8,7 +8,7 @@ public class CardHighlightController : MonoBehaviour
     [SerializeField] private SoCardEvents soCardEvents;
 
     [SerializeField] private Card selectedCard;
-    private Card _highlightedCard;
+    [SerializeField] private Card _highlightedCard;
     
 
     private void OnEnable()
@@ -31,10 +31,10 @@ public class CardHighlightController : MonoBehaviour
     {
         if (card != null && card.CompareTag("Card"))
         {
-            if(_highlightedCard != card)
+            if(_highlightedCard == null || _highlightedCard?.State == CardData.CardState.Normal
+               || _highlightedCard != card)
             {
                 UpdateSelectedCard(card);
-                HighlightCard(card, true);
             }
         }
         else
@@ -50,15 +50,19 @@ public class CardHighlightController : MonoBehaviour
         {
             HighlightCard(_highlightedCard, false);
         }
-
-        selectedCard.Token = card.Token;
-
-        if (!selectedCard.gameObject.activeInHierarchy)
+        
+        if (card.ContainerType == CardContainerType.Hand)
         {
-            selectedCard.gameObject.SetActive(true);
-        }
+            selectedCard.Token = card.Token;
 
+            if (!selectedCard.gameObject.activeInHierarchy)
+            {
+                selectedCard.gameObject.SetActive(true);
+            }
+        }
+        
         _highlightedCard = card;
+        HighlightCard(card, true);
     }
 
     private void ResetSelectedCard()

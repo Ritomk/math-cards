@@ -53,6 +53,15 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Press(behavior=2)"",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""EndTurn"",
+                    ""type"": ""Button"",
+                    ""id"": ""6d0d4af1-2699-40bb-bcc9-14ddb219f48c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -86,6 +95,17 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""LeftClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""609aa2ee-0b13-4682-83bd-784d5fb105a2"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""EndTurn"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -127,6 +147,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         m_Player_MouseMove = m_Player.FindAction("MouseMove", throwIfNotFound: true);
         m_Player_LeftClick = m_Player.FindAction("LeftClick", throwIfNotFound: true);
         m_Player_RightClick = m_Player.FindAction("RightClick", throwIfNotFound: true);
+        m_Player_EndTurn = m_Player.FindAction("EndTurn", throwIfNotFound: true);
         // Test
         m_Test = asset.FindActionMap("Test", throwIfNotFound: true);
         m_Test_Newaction = m_Test.FindAction("New action", throwIfNotFound: true);
@@ -194,6 +215,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_MouseMove;
     private readonly InputAction m_Player_LeftClick;
     private readonly InputAction m_Player_RightClick;
+    private readonly InputAction m_Player_EndTurn;
     public struct PlayerActions
     {
         private @PlayerInputs m_Wrapper;
@@ -201,6 +223,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         public InputAction @MouseMove => m_Wrapper.m_Player_MouseMove;
         public InputAction @LeftClick => m_Wrapper.m_Player_LeftClick;
         public InputAction @RightClick => m_Wrapper.m_Player_RightClick;
+        public InputAction @EndTurn => m_Wrapper.m_Player_EndTurn;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -219,6 +242,9 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @RightClick.started += instance.OnRightClick;
             @RightClick.performed += instance.OnRightClick;
             @RightClick.canceled += instance.OnRightClick;
+            @EndTurn.started += instance.OnEndTurn;
+            @EndTurn.performed += instance.OnEndTurn;
+            @EndTurn.canceled += instance.OnEndTurn;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -232,6 +258,9 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @RightClick.started -= instance.OnRightClick;
             @RightClick.performed -= instance.OnRightClick;
             @RightClick.canceled -= instance.OnRightClick;
+            @EndTurn.started -= instance.OnEndTurn;
+            @EndTurn.performed -= instance.OnEndTurn;
+            @EndTurn.canceled -= instance.OnEndTurn;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -300,6 +329,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         void OnMouseMove(InputAction.CallbackContext context);
         void OnLeftClick(InputAction.CallbackContext context);
         void OnRightClick(InputAction.CallbackContext context);
+        void OnEndTurn(InputAction.CallbackContext context);
     }
     public interface ITestActions
     {

@@ -11,7 +11,8 @@ public class GameManager : MonoBehaviour
     private GameStateMachine _gameStateMachine;
     private GameStateMachine _playerStateMachine;
     
-    [SerializeField] private SoGameStateEvents gameStateEvents;
+    [SerializeField] private SoGameStateEvents soGameStateEvents;
+    [SerializeField] private SoCardEvents soCardEvents;
     
     [SerializeField] private InputManager inputManager;
     [SerializeField] private CardManager cardManager;
@@ -24,23 +25,27 @@ public class GameManager : MonoBehaviour
         _gameStateMachine = new GameStateMachine();
         _playerStateMachine = new GameStateMachine();
         
-        gameStateEvents.OnGameStateChange += HandleGameStateChange;
-        gameStateEvents.OnPlayerStateChange += HandlePlayerStateChange;
-        gameStateEvents.OnRevertGameState += HandleRevertGameState;
-        gameStateEvents.OnRevertPlayerState += HandleRevertPlayerState;
+        soGameStateEvents.OnGameStateChange += HandleSoGameStateChange;
+        soGameStateEvents.OnPlayerStateChange += HandlePlayerStateChange;
+        soGameStateEvents.OnRevertGameState += HandleRevertSoGameState;
+        soGameStateEvents.OnRevertPlayerState += HandleRevertPlayerState;
         
-        gameStateEvents.RaiseGameStateChange(GameStateEnum.PlayerTurn);
         
         //TODO: Dodaj do player turn
-        gameStateEvents.RaiseOnPlayerStateChange(PlayerStateEnum.PlayerTurnIdle);
+        soGameStateEvents.RaiseOnPlayerStateChange(PlayerStateEnum.PlayerTurnIdle);
     }
 
     private void OnDestroy()
     {
-        gameStateEvents.OnGameStateChange -= HandleGameStateChange;
-        gameStateEvents.OnPlayerStateChange -= HandlePlayerStateChange;
-        gameStateEvents.OnRevertGameState -= HandleRevertGameState;
-        gameStateEvents.OnRevertPlayerState -= HandleRevertPlayerState;
+        soGameStateEvents.OnGameStateChange -= HandleSoGameStateChange;
+        soGameStateEvents.OnPlayerStateChange -= HandlePlayerStateChange;
+        soGameStateEvents.OnRevertGameState -= HandleRevertSoGameState;
+        soGameStateEvents.OnRevertPlayerState -= HandleRevertPlayerState;
+    }
+
+    private void Start()
+    {
+        soGameStateEvents.RaiseGameStateChange(GameStateEnum.Setup);
     }
 
     private void Update()
@@ -48,7 +53,7 @@ public class GameManager : MonoBehaviour
         _gameStateMachine.Update();
     }
 
-    private void HandleGameStateChange(GameStateEnum newState)
+    private void HandleSoGameStateChange(GameStateEnum newState)
     {
         ChangeGameState(newState);
     }
@@ -58,9 +63,11 @@ public class GameManager : MonoBehaviour
         switch (newState)
         {
             case GameStateEnum.Setup:
-                _gameStateMachine.ChangeState(new GameStates.SetupState(_gameStateMachine, inputManager));
+                _gameStateMachine.ChangeState(new GameStates.SetupState(_gameStateMachine, inputManager, soGameStateEvents));
                 break;
             case GameStateEnum.BeginRound:
+                _gameStateMachine.ChangeState(new GameStates.BeginRoundState(_gameStateMachine, soGameStateEvents,
+                    soCardEvents));
                 break;
             case GameStateEnum.PlayerTurn:
                 _gameStateMachine.ChangeState(new GameStates.PlayerTurnState(_gameStateMachine, cardPickController));
@@ -105,7 +112,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private bool HandleRevertGameState() =>  _gameStateMachine.RevertToPreviousState();
+    private bool HandleRevertSoGameState() =>  _gameStateMachine.RevertToPreviousState();
 
     private bool HandleRevertPlayerState() => _playerStateMachine.RevertToPreviousState();
 }

@@ -16,9 +16,13 @@ public class SoUniversalInputEvents : ScriptableObject
 
     public delegate void CameraResetHandler(bool reset);
     public event CameraResetHandler OnCameraReset;
+    
+    public delegate void EndTurnHandler();
+    public event EndTurnHandler OnEndTurn;
 
     public void RaiseMouseMove() => OnMouseMove?.Invoke();
     public void RaiseLookAround(Vector2 input) => OnLookAround?.Invoke(input);
     public void RaiseCardPick(bool state) => OnPickCard?.Invoke(state);
     public void RaiseCameraReset(bool reset) => OnCameraReset?.Invoke(reset);
+    public void RaiseEndTurn() => OnEndTurn?.Invoke();
 }
