@@ -1,29 +1,44 @@
+using System;
 using UnityEngine;
 
 public class TimerAnimation : MonoBehaviour
 {
+    [SerializeField] private SoAnimationEvents soAnimationEvents;
+    
     [SerializeField] private Transform startPoint;
     [SerializeField] private Transform endPoint;
 
     [Range(0f, 1f)] [SerializeField] private float length = 1.0f;
 
-    public float Length
+    private void OnEnable()
     {
-        get => length;
-        set
-        {
-            value = Mathf.Clamp01(value);
-            length = value;
-            UpdateLength();
-        }
+        soAnimationEvents.TimerAnimation += UpdateLength;
+    }
+
+    private void OnDestroy()
+    {
+        soAnimationEvents.TimerAnimation -= UpdateLength;
     }
 
     private Vector3 _originalScale;
     private Vector3 _direction;
     private float _initialLength;
 
-    private void Start()
+    private void UpdateLength(float t)
     {
+        length = Mathf.Clamp01(t);
+        UpdateLength();
+    }
+
+    private void Awake()
+    {
+        if (startPoint == null || endPoint == null)
+        {
+            Debug.LogError("Start and end points are required.");
+            enabled = false;
+            return;
+        }
+        
         _originalScale = transform.localScale;
         _direction = (endPoint.position - startPoint.position).normalized;
         _initialLength = Vector3.Distance(startPoint.position, endPoint.position);
@@ -32,6 +47,8 @@ public class TimerAnimation : MonoBehaviour
         transform.rotation = Quaternion.LookRotation(_direction);
         transform.localScale = new Vector3(_originalScale.x, _originalScale.y, _initialLength);
         
+        
+        Debug.Log("Dupa");
         UpdateLength();
     }
 

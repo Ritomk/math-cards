@@ -1804,6 +1804,7 @@ MonoBehaviour:
   soGameStateEvents: {fileID: 11400000, guid: 4517320ae0c4c8a49b163426720e9e6f, type: 2}
   soCardEvents: {fileID: 11400000, guid: f77567a06a4dd9248b318fbd0ed33fcb, type: 2}
   soAnimationEvents: {fileID: 11400000, guid: 15e605dc297ff674b8e8d81515d021e8, type: 2}
+  soTimerEvents: {fileID: 11400000, guid: 2e4c0fe572b7a9c4b90ff5f4fd3a50a3, type: 2}
   inputManager: {fileID: 1969345822}
   cardManager: {fileID: 1969345820}
   cardHighlightController: {fileID: 1073608853}
@@ -2331,6 +2332,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2042779353}
   - component: {fileID: 2042779354}
+  - component: {fileID: 2042779355}
   m_Layer: 0
   m_Name: TimerVisualizer
   m_TagString: Untagged
@@ -2366,9 +2368,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ceb33d39bd0ae904196a788dbb1dad5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soAnimationEvents: {fileID: 11400000, guid: 15e605dc297ff674b8e8d81515d021e8, type: 2}
   startPoint: {fileID: 288884465}
   endPoint: {fileID: 1478529733}
   length: 1
+--- !u!114 &2042779355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2042779352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff1d155f9b1fe1c4eae2229067b89c43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soAnimationEvents: {fileID: 11400000, guid: 15e605dc297ff674b8e8d81515d021e8, type: 2}
+  soTimerEvents: {fileID: 11400000, guid: 2e4c0fe572b7a9c4b90ff5f4fd3a50a3, type: 2}
+  timerDuration: 0
 --- !u!1 &2075524668
 GameObject:
   m_ObjectHideFlags: 0

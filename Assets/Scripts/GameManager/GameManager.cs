@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private SoGameStateEvents soGameStateEvents;
     [SerializeField] private SoCardEvents soCardEvents;
     [SerializeField] private SoAnimationEvents soAnimationEvents;
+    [SerializeField] private SoTimerEvents soTimerEvents;
     
     [Space]
     [Header("Player Scripts")]
@@ -76,7 +77,7 @@ public class GameManager : MonoBehaviour
                 break;
             case GameStateEnum.PlayerTurn:
                 _gameStateMachine.ChangeState(new GameStates.PlayerTurnState(_gameStateMachine, soAnimationEvents,
-                    soGameStateEvents ,cardPickController));
+                    soGameStateEvents, soTimerEvents ,cardPickController));
                 break;
             case GameStateEnum.OpponentTurn:
                 _gameStateMachine.ChangeState(new GameStates.OpponentTurnState(_gameStateMachine, soGameStateEvents));

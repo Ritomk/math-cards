@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,10 +9,12 @@ public class SoAnimationEvents : ScriptableObject
     public delegate void CoinFlipAnimationHandler();
     public event CoinFlipAnimationHandler CoinFlipAnimation;
     
-    public delegate void TimerAnimationHandler();
+    public delegate void TimerAnimationHandler(float t);
     public event TimerAnimationHandler TimerAnimation;
+    
+    public delegate void TimerStartHandler(float duration, Action callback = null);
     
     public void RaiseCoinFlipAnimation() => CoinFlipAnimation?.Invoke();
     
-    public void RaiseTimerAnimation() => TimerAnimation?.Invoke();
+    public void RaiseTimerAnimation(float t) => TimerAnimation?.Invoke(t);
 }
