@@ -1,9 +1,5 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.Serialization;
 
 
 public enum CardContainerType
@@ -87,7 +83,6 @@ public class CardManager : MonoBehaviour
 
     private void HandleCardDraw()
     {
-        Debug.Log("Dupa");
         if (_cardContainers.TryGetValue(CardContainerType.Deck, out var deckContainer) &&
             _cardContainers.TryGetValue(CardContainerType.Hand, out var handContainer))
         {

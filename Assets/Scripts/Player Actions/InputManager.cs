@@ -91,7 +91,7 @@ public class InputManager : MonoBehaviour
     {
         if (gameStateEvents.CurrentPlayerState == PlayerStateEnum.CardPlaced)
         {
-            inputEvents.RaiseEndTurn();
+            gameStateEvents.RaiseGameStateChange(GameStateEnum.OpponentTurn);
         }
     }
 }

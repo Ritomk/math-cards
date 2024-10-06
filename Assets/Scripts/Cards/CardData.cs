@@ -27,6 +27,7 @@ public class CardData : ScriptableObject
 
     private Dictionary<CardState, Color> _stateColorMap;
 
+    //Todo: Rewrite for OnValidate
     private void OnEnable()
     {
         InitializeStateColorMap();

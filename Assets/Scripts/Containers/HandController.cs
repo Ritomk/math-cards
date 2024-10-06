@@ -17,20 +17,6 @@ public class HandController : CardContainerBase
         _centerPosition -= new Vector3(0, 3, 0);
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            var card = _deck.DrawCard();
-            if(card != null)
-                AddCard(card);
-        }
-        else if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl))
-        {
-            UpdateCardPositions();
-        }
-    }
-
     public override bool AddCard(Card card)
     {
         bool result = base.AddCard(card);

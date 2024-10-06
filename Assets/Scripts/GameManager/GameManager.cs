@@ -11,9 +11,13 @@ public class GameManager : MonoBehaviour
     private GameStateMachine _gameStateMachine;
     private GameStateMachine _playerStateMachine;
     
+    [Header("Scriptable Objects")]
     [SerializeField] private SoGameStateEvents soGameStateEvents;
     [SerializeField] private SoCardEvents soCardEvents;
+    [SerializeField] private SoAnimationEvents soAnimationEvents;
     
+    [Space]
+    [Header("Player Scripts")]
     [SerializeField] private InputManager inputManager;
     [SerializeField] private CardManager cardManager;
     [SerializeField] private CardHighlightController cardHighlightController;
@@ -32,7 +36,7 @@ public class GameManager : MonoBehaviour
         
         
         //TODO: Dodaj do player turn
-        soGameStateEvents.RaiseOnPlayerStateChange(PlayerStateEnum.PlayerTurnIdle);
+        soGameStateEvents.RaiseOnPlayerStateChange(PlayerStateEnum.OpponentTurnIdle);
     }
 
     private void OnDestroy()
@@ -63,16 +67,19 @@ public class GameManager : MonoBehaviour
         switch (newState)
         {
             case GameStateEnum.Setup:
-                _gameStateMachine.ChangeState(new GameStates.SetupState(_gameStateMachine, inputManager, soGameStateEvents));
+                _gameStateMachine.ChangeState(new GameStates.SetupState(_gameStateMachine, inputManager,
+                    soGameStateEvents));
                 break;
             case GameStateEnum.BeginRound:
                 _gameStateMachine.ChangeState(new GameStates.BeginRoundState(_gameStateMachine, soGameStateEvents,
                     soCardEvents));
                 break;
             case GameStateEnum.PlayerTurn:
-                _gameStateMachine.ChangeState(new GameStates.PlayerTurnState(_gameStateMachine, cardPickController));
+                _gameStateMachine.ChangeState(new GameStates.PlayerTurnState(_gameStateMachine, soAnimationEvents,
+                    soGameStateEvents ,cardPickController));
                 break;
             case GameStateEnum.OpponentTurn:
+                _gameStateMachine.ChangeState(new GameStates.OpponentTurnState(_gameStateMachine, soGameStateEvents));
                 break;
             default:
                 Debug.LogWarning($"Case not implemented: {newState}");

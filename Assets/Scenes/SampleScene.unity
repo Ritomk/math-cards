@@ -152,7 +152,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55a81e395908aef4986e87d28444357e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flipHeight: 1.5
+  soAnimationEvents: {fileID: 11400000, guid: 15e605dc297ff674b8e8d81515d021e8, type: 2}
+  flipHeight: 3
   flipDuration: 0.5
   flipAmount: 2
 --- !u!4 &17579709
@@ -1396,7 +1397,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 0.1, z: 2}
+  m_LocalScale: {x: 3, y: 0.1, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 17579709}
@@ -1802,6 +1803,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   soGameStateEvents: {fileID: 11400000, guid: 4517320ae0c4c8a49b163426720e9e6f, type: 2}
   soCardEvents: {fileID: 11400000, guid: f77567a06a4dd9248b318fbd0ed33fcb, type: 2}
+  soAnimationEvents: {fileID: 11400000, guid: 15e605dc297ff674b8e8d81515d021e8, type: 2}
   inputManager: {fileID: 1969345822}
   cardManager: {fileID: 1969345820}
   cardHighlightController: {fileID: 1073608853}

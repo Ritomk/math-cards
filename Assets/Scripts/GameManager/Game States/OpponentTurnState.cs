@@ -4,18 +4,18 @@ using UnityEngine;
 
 namespace GameStates
 {
-    public class OpponentTurnState : MonoBehaviour
+    public class OpponentTurnState : GameStateBase
     {
-        // Start is called before the first frame update
-        void Start()
+        private SoGameStateEvents _soGameStateEvents;
+
+        public OpponentTurnState(GameStateMachine stateMachine, SoGameStateEvents soGameStateEvents) : base(stateMachine)
         {
-        
+            _soGameStateEvents = soGameStateEvents;
         }
 
-        // Update is called once per frame
-        void Update()
+        public override void Enter()
         {
-        
+            _soGameStateEvents.RaiseGameStateChange(GameStateEnum.PlayerTurn);
         }
     }   
 }

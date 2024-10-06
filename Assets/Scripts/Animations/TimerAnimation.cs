@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class TimerVisualizer : MonoBehaviour
+public class TimerAnimation : MonoBehaviour
 {
     [SerializeField] private Transform startPoint;
     [SerializeField] private Transform endPoint;

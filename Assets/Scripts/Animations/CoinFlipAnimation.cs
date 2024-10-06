@@ -1,8 +1,13 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
 public class CoinFlipAnimation : MonoBehaviour
 {
+    [Header("Scriptable Objects")]
+    [SerializeField] private SoAnimationEvents soAnimationEvents;
+    
+    [Header("Animation Parameters")]
     [SerializeField] private float flipHeight = 2.0f;
     [SerializeField] private float flipDuration = 1.0f;
     [SerializeField] private int flipAmount = 3;
@@ -17,12 +22,19 @@ public class CoinFlipAnimation : MonoBehaviour
         _originalRotation = transform.rotation;
     }
 
-
-    void Update()
+    private void OnEnable()
     {
-        if (Input.GetKeyDown(KeyCode.K))
+        if (soAnimationEvents != null)
         {
-            StartCoinFlip();
+            soAnimationEvents.CoinFlipAnimation += StartCoinFlip;
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (soAnimationEvents != null)
+        {
+            soAnimationEvents.CoinFlipAnimation -= StartCoinFlip;
         }
     }
 
@@ -30,7 +42,7 @@ public class CoinFlipAnimation : MonoBehaviour
     {
         if (!_isFlipping)
         {
-            StartCoroutine(FlipCoin());
+            CoroutineHelper.Start(FlipCoin());
         }
     }
 

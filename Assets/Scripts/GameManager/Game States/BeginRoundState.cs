@@ -1,9 +1,16 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
 namespace GameStates
 {
     public class BeginRoundState : GameStateBase
     {
         private SoGameStateEvents _soGameStateEvents;
         private SoCardEvents _soCardEvents;
+
+        private int _numberOfCards = 5;
+        private float _timeBetweenDraws = 0.3f;
 
 
         public BeginRoundState(GameStateMachine stateMachine, SoGameStateEvents soGameStateEvents, SoCardEvents soCardEvents) : base(stateMachine)
@@ -14,12 +21,18 @@ namespace GameStates
 
         public override void Enter()
         {
-            for (int i = 0; i < 5; i++)
-            {
-                _soCardEvents.RaiseCardDraw();
-            }
+            CoroutineHelper.Start(DrawCardsWithDelay());
             
             _soGameStateEvents.RaiseGameStateChange(GameStateEnum.PlayerTurn);
+        }
+
+        private IEnumerator DrawCardsWithDelay()
+        {
+            for (int i = 0; i < _numberOfCards; i++)
+            {
+                _soCardEvents.RaiseCardDraw();
+                yield return new WaitForSecondsPauseable(_timeBetweenDraws);
+            }
         }
     }
 }
