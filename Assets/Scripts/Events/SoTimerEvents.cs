@@ -19,14 +19,16 @@ public class SoTimerEvents : ScriptableObject
         if (duration > 0f)
         {
             OnStartTimer?.Invoke(duration);
+            
         }
-        else
-        {
-            Debug.Log($"Timer event raised starting timer with duration {duration}");
-        }
+        Debug.Log($"Timer event raised starting timer with duration {duration}");
     }
-    
-    public void RaiseStopTimer() => OnStopTimer?.Invoke();
-    
+
+    public void RaiseStopTimer()
+    {
+        OnStopTimer?.Invoke();
+
+    }
+
     public void RaiseCompleteTimer() => OnTimerComplete?.Invoke();
 }

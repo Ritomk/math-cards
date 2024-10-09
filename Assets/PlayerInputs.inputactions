@@ -2,7 +2,7 @@
     "name": "PlayerInputs",
     "maps": [
         {
-            "name": "Player",
+            "name": "Gameplay",
             "id": "1d7a01ac-690e-4232-8e29-5139e7679451",
             "actions": [
                 {
@@ -36,6 +36,15 @@
                     "name": "EndTurn",
                     "type": "Button",
                     "id": "6d0d4af1-2699-40bb-bcc9-14ddb219f48c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "EscapePress",
+                    "type": "Button",
+                    "id": "10dc509e-eb27-4899-bc2f-5d4558497b06",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -86,17 +95,37 @@
                     "action": "EndTurn",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "beaa90a2-1c67-418c-9fef-f11a0210470f",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "EscapePress",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
         {
-            "name": "Test",
+            "name": "Menu",
             "id": "51913bf4-8e80-4e0d-bf0c-77d2d6bfbef7",
             "actions": [
                 {
-                    "name": "New action",
+                    "name": "SpacePress",
                     "type": "Button",
                     "id": "366d8764-7d75-4069-8da7-350d6c16438f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "EscapePress",
+                    "type": "Button",
+                    "id": "39e31c7d-2e40-43a6-a067-b9cd2a97fe88",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -107,11 +136,22 @@
                 {
                     "name": "",
                     "id": "cbd24fd7-c6df-413c-9b2b-5b6d85eb03ba",
-                    "path": "",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "New action",
+                    "action": "SpacePress",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c6dc4dcc-2a27-447d-9c87-cff1639019ad",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "EscapePress",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

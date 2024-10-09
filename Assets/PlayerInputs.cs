@@ -24,7 +24,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
     ""name"": ""PlayerInputs"",
     ""maps"": [
         {
-            ""name"": ""Player"",
+            ""name"": ""Gameplay"",
             ""id"": ""1d7a01ac-690e-4232-8e29-5139e7679451"",
             ""actions"": [
                 {
@@ -58,6 +58,15 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""name"": ""EndTurn"",
                     ""type"": ""Button"",
                     ""id"": ""6d0d4af1-2699-40bb-bcc9-14ddb219f48c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""EscapePress"",
+                    ""type"": ""Button"",
+                    ""id"": ""10dc509e-eb27-4899-bc2f-5d4558497b06"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -108,17 +117,37 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""action"": ""EndTurn"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""beaa90a2-1c67-418c-9fef-f11a0210470f"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""EscapePress"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
         {
-            ""name"": ""Test"",
+            ""name"": ""Menu"",
             ""id"": ""51913bf4-8e80-4e0d-bf0c-77d2d6bfbef7"",
             ""actions"": [
                 {
-                    ""name"": ""New action"",
+                    ""name"": ""SpacePress"",
                     ""type"": ""Button"",
                     ""id"": ""366d8764-7d75-4069-8da7-350d6c16438f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""EscapePress"",
+                    ""type"": ""Button"",
+                    ""id"": ""39e31c7d-2e40-43a6-a067-b9cd2a97fe88"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -129,11 +158,22 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""cbd24fd7-c6df-413c-9b2b-5b6d85eb03ba"",
-                    ""path"": """",
+                    ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""New action"",
+                    ""action"": ""SpacePress"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c6dc4dcc-2a27-447d-9c87-cff1639019ad"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""EscapePress"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -142,15 +182,17 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
     ],
     ""controlSchemes"": []
 }");
-        // Player
-        m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
-        m_Player_MouseMove = m_Player.FindAction("MouseMove", throwIfNotFound: true);
-        m_Player_LeftClick = m_Player.FindAction("LeftClick", throwIfNotFound: true);
-        m_Player_RightClick = m_Player.FindAction("RightClick", throwIfNotFound: true);
-        m_Player_EndTurn = m_Player.FindAction("EndTurn", throwIfNotFound: true);
-        // Test
-        m_Test = asset.FindActionMap("Test", throwIfNotFound: true);
-        m_Test_Newaction = m_Test.FindAction("New action", throwIfNotFound: true);
+        // Gameplay
+        m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
+        m_Gameplay_MouseMove = m_Gameplay.FindAction("MouseMove", throwIfNotFound: true);
+        m_Gameplay_LeftClick = m_Gameplay.FindAction("LeftClick", throwIfNotFound: true);
+        m_Gameplay_RightClick = m_Gameplay.FindAction("RightClick", throwIfNotFound: true);
+        m_Gameplay_EndTurn = m_Gameplay.FindAction("EndTurn", throwIfNotFound: true);
+        m_Gameplay_EscapePress = m_Gameplay.FindAction("EscapePress", throwIfNotFound: true);
+        // Menu
+        m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
+        m_Menu_SpacePress = m_Menu.FindAction("SpacePress", throwIfNotFound: true);
+        m_Menu_EscapePress = m_Menu.FindAction("EscapePress", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -209,30 +251,32 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         return asset.FindBinding(bindingMask, out action);
     }
 
-    // Player
-    private readonly InputActionMap m_Player;
-    private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
-    private readonly InputAction m_Player_MouseMove;
-    private readonly InputAction m_Player_LeftClick;
-    private readonly InputAction m_Player_RightClick;
-    private readonly InputAction m_Player_EndTurn;
-    public struct PlayerActions
+    // Gameplay
+    private readonly InputActionMap m_Gameplay;
+    private List<IGameplayActions> m_GameplayActionsCallbackInterfaces = new List<IGameplayActions>();
+    private readonly InputAction m_Gameplay_MouseMove;
+    private readonly InputAction m_Gameplay_LeftClick;
+    private readonly InputAction m_Gameplay_RightClick;
+    private readonly InputAction m_Gameplay_EndTurn;
+    private readonly InputAction m_Gameplay_EscapePress;
+    public struct GameplayActions
     {
         private @PlayerInputs m_Wrapper;
-        public PlayerActions(@PlayerInputs wrapper) { m_Wrapper = wrapper; }
-        public InputAction @MouseMove => m_Wrapper.m_Player_MouseMove;
-        public InputAction @LeftClick => m_Wrapper.m_Player_LeftClick;
-        public InputAction @RightClick => m_Wrapper.m_Player_RightClick;
-        public InputAction @EndTurn => m_Wrapper.m_Player_EndTurn;
-        public InputActionMap Get() { return m_Wrapper.m_Player; }
+        public GameplayActions(@PlayerInputs wrapper) { m_Wrapper = wrapper; }
+        public InputAction @MouseMove => m_Wrapper.m_Gameplay_MouseMove;
+        public InputAction @LeftClick => m_Wrapper.m_Gameplay_LeftClick;
+        public InputAction @RightClick => m_Wrapper.m_Gameplay_RightClick;
+        public InputAction @EndTurn => m_Wrapper.m_Gameplay_EndTurn;
+        public InputAction @EscapePress => m_Wrapper.m_Gameplay_EscapePress;
+        public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(PlayerActions set) { return set.Get(); }
-        public void AddCallbacks(IPlayerActions instance)
+        public static implicit operator InputActionMap(GameplayActions set) { return set.Get(); }
+        public void AddCallbacks(IGameplayActions instance)
         {
-            if (instance == null || m_Wrapper.m_PlayerActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_PlayerActionsCallbackInterfaces.Add(instance);
+            if (instance == null || m_Wrapper.m_GameplayActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_GameplayActionsCallbackInterfaces.Add(instance);
             @MouseMove.started += instance.OnMouseMove;
             @MouseMove.performed += instance.OnMouseMove;
             @MouseMove.canceled += instance.OnMouseMove;
@@ -245,9 +289,12 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @EndTurn.started += instance.OnEndTurn;
             @EndTurn.performed += instance.OnEndTurn;
             @EndTurn.canceled += instance.OnEndTurn;
+            @EscapePress.started += instance.OnEscapePress;
+            @EscapePress.performed += instance.OnEscapePress;
+            @EscapePress.canceled += instance.OnEscapePress;
         }
 
-        private void UnregisterCallbacks(IPlayerActions instance)
+        private void UnregisterCallbacks(IGameplayActions instance)
         {
             @MouseMove.started -= instance.OnMouseMove;
             @MouseMove.performed -= instance.OnMouseMove;
@@ -261,78 +308,91 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @EndTurn.started -= instance.OnEndTurn;
             @EndTurn.performed -= instance.OnEndTurn;
             @EndTurn.canceled -= instance.OnEndTurn;
+            @EscapePress.started -= instance.OnEscapePress;
+            @EscapePress.performed -= instance.OnEscapePress;
+            @EscapePress.canceled -= instance.OnEscapePress;
         }
 
-        public void RemoveCallbacks(IPlayerActions instance)
+        public void RemoveCallbacks(IGameplayActions instance)
         {
-            if (m_Wrapper.m_PlayerActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_GameplayActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
-        public void SetCallbacks(IPlayerActions instance)
+        public void SetCallbacks(IGameplayActions instance)
         {
-            foreach (var item in m_Wrapper.m_PlayerActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_GameplayActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_PlayerActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_GameplayActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
-    public PlayerActions @Player => new PlayerActions(this);
+    public GameplayActions @Gameplay => new GameplayActions(this);
 
-    // Test
-    private readonly InputActionMap m_Test;
-    private List<ITestActions> m_TestActionsCallbackInterfaces = new List<ITestActions>();
-    private readonly InputAction m_Test_Newaction;
-    public struct TestActions
+    // Menu
+    private readonly InputActionMap m_Menu;
+    private List<IMenuActions> m_MenuActionsCallbackInterfaces = new List<IMenuActions>();
+    private readonly InputAction m_Menu_SpacePress;
+    private readonly InputAction m_Menu_EscapePress;
+    public struct MenuActions
     {
         private @PlayerInputs m_Wrapper;
-        public TestActions(@PlayerInputs wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Newaction => m_Wrapper.m_Test_Newaction;
-        public InputActionMap Get() { return m_Wrapper.m_Test; }
+        public MenuActions(@PlayerInputs wrapper) { m_Wrapper = wrapper; }
+        public InputAction @SpacePress => m_Wrapper.m_Menu_SpacePress;
+        public InputAction @EscapePress => m_Wrapper.m_Menu_EscapePress;
+        public InputActionMap Get() { return m_Wrapper.m_Menu; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(TestActions set) { return set.Get(); }
-        public void AddCallbacks(ITestActions instance)
+        public static implicit operator InputActionMap(MenuActions set) { return set.Get(); }
+        public void AddCallbacks(IMenuActions instance)
         {
-            if (instance == null || m_Wrapper.m_TestActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_TestActionsCallbackInterfaces.Add(instance);
-            @Newaction.started += instance.OnNewaction;
-            @Newaction.performed += instance.OnNewaction;
-            @Newaction.canceled += instance.OnNewaction;
+            if (instance == null || m_Wrapper.m_MenuActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_MenuActionsCallbackInterfaces.Add(instance);
+            @SpacePress.started += instance.OnSpacePress;
+            @SpacePress.performed += instance.OnSpacePress;
+            @SpacePress.canceled += instance.OnSpacePress;
+            @EscapePress.started += instance.OnEscapePress;
+            @EscapePress.performed += instance.OnEscapePress;
+            @EscapePress.canceled += instance.OnEscapePress;
         }
 
-        private void UnregisterCallbacks(ITestActions instance)
+        private void UnregisterCallbacks(IMenuActions instance)
         {
-            @Newaction.started -= instance.OnNewaction;
-            @Newaction.performed -= instance.OnNewaction;
-            @Newaction.canceled -= instance.OnNewaction;
+            @SpacePress.started -= instance.OnSpacePress;
+            @SpacePress.performed -= instance.OnSpacePress;
+            @SpacePress.canceled -= instance.OnSpacePress;
+            @EscapePress.started -= instance.OnEscapePress;
+            @EscapePress.performed -= instance.OnEscapePress;
+            @EscapePress.canceled -= instance.OnEscapePress;
         }
 
-        public void RemoveCallbacks(ITestActions instance)
+        public void RemoveCallbacks(IMenuActions instance)
         {
-            if (m_Wrapper.m_TestActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_MenuActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
-        public void SetCallbacks(ITestActions instance)
+        public void SetCallbacks(IMenuActions instance)
         {
-            foreach (var item in m_Wrapper.m_TestActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_MenuActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_TestActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_MenuActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
-    public TestActions @Test => new TestActions(this);
-    public interface IPlayerActions
+    public MenuActions @Menu => new MenuActions(this);
+    public interface IGameplayActions
     {
         void OnMouseMove(InputAction.CallbackContext context);
         void OnLeftClick(InputAction.CallbackContext context);
         void OnRightClick(InputAction.CallbackContext context);
         void OnEndTurn(InputAction.CallbackContext context);
+        void OnEscapePress(InputAction.CallbackContext context);
     }
-    public interface ITestActions
+    public interface IMenuActions
     {
-        void OnNewaction(InputAction.CallbackContext context);
+        void OnSpacePress(InputAction.CallbackContext context);
+        void OnEscapePress(InputAction.CallbackContext context);
     }
 }

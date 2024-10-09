@@ -8,22 +8,33 @@ using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
+    #region Variables
     private GameStateMachine _gameStateMachine;
     private GameStateMachine _playerStateMachine;
+
+    private Dictionary<GameStateEnum, GameStateBase> _gameStates;
+    private Dictionary<PlayerStateEnum, GameStateBase> _playerStates;
     
     [Header("Scriptable Objects")]
+    [SerializeField] private SoUniversalInputEvents soUniversalInputEvents;
     [SerializeField] private SoGameStateEvents soGameStateEvents;
     [SerializeField] private SoCardEvents soCardEvents;
     [SerializeField] private SoAnimationEvents soAnimationEvents;
     [SerializeField] private SoTimerEvents soTimerEvents;
     
     [Space]
-    [Header("Player Scripts")]
+    [Header("Player Gameplay Scripts")]
     [SerializeField] private InputManager inputManager;
     [SerializeField] private CardManager cardManager;
     [SerializeField] private CardHighlightController cardHighlightController;
     [SerializeField] private CardPickController cardPickController;
     [SerializeField] private CardSelectionController cardSelectionController;
+    
+    [Space]
+    [Header("Player Menu Scripts")]
+    [SerializeField] private InputUIManager inputUIManager;
+    
+    #endregion
     
     private void Awake()
     {
@@ -34,10 +45,52 @@ public class GameManager : MonoBehaviour
         soGameStateEvents.OnPlayerStateChange += HandlePlayerStateChange;
         soGameStateEvents.OnRevertGameState += HandleRevertSoGameState;
         soGameStateEvents.OnRevertPlayerState += HandleRevertPlayerState;
-        
-        
-        //TODO: Dodaj do player turn
-        soGameStateEvents.RaiseOnPlayerStateChange(PlayerStateEnum.OpponentTurnIdle);
+
+
+        _gameStates = new Dictionary<GameStateEnum, GameStateBase>
+        {
+            {
+                GameStateEnum.Setup, new GameStates.SetupState(_gameStateMachine, inputManager,
+                    soGameStateEvents)
+            },
+            {
+                GameStateEnum.BeginRound, new GameStates.BeginRoundState(_gameStateMachine, soGameStateEvents,
+                    soCardEvents)
+            },
+            {
+                GameStateEnum.PlayerTurn, new GameStates.PlayerTurnState(_gameStateMachine, soAnimationEvents,
+                    soGameStateEvents, soTimerEvents, cardPickController)
+            },
+            { GameStateEnum.OpponentTurn, new GameStates.OpponentTurnState(_gameStateMachine, soGameStateEvents) }
+        };
+
+        _playerStates = new Dictionary<PlayerStateEnum, GameStateBase>
+        {
+            {
+                PlayerStateEnum.PlayerTurnIdle, new PlayerStates.PlayerTurnIdleState(_playerStateMachine,
+                    cardHighlightController, cardPickController)
+            },
+            {
+                PlayerStateEnum.CardPicked, new PlayerStates.PlayerPickedCardState(_playerStateMachine,
+                    cardHighlightController)
+            },
+            {
+                PlayerStateEnum.CardPlaced, new PlayerStates.PlayerPlacedCardState(_playerStateMachine,
+                    cardHighlightController)
+            },
+            {
+                PlayerStateEnum.OpponentTurnIdle, new PlayerStates.OpponentTurnIdleState(_playerStateMachine,
+                    soCardEvents, cardPickController)
+            },
+            {
+                PlayerStateEnum.LookAround, new PlayerStates.LookAroundState(_playerStateMachine,
+                    cardSelectionController)
+            },
+            {
+                PlayerStateEnum.PauseGame, new PlayerStates.PauseGameState(_playerStateMachine,
+                    inputManager, inputUIManager, soUniversalInputEvents, soCardEvents)
+            }
+        };
     }
 
     private void OnDestroy()
@@ -65,26 +118,13 @@ public class GameManager : MonoBehaviour
 
     private void ChangeGameState(GameStateEnum newState)
     {
-        switch (newState)
+        if (_gameStates.TryGetValue(newState, out GameStateBase gameState))
         {
-            case GameStateEnum.Setup:
-                _gameStateMachine.ChangeState(new GameStates.SetupState(_gameStateMachine, inputManager,
-                    soGameStateEvents));
-                break;
-            case GameStateEnum.BeginRound:
-                _gameStateMachine.ChangeState(new GameStates.BeginRoundState(_gameStateMachine, soGameStateEvents,
-                    soCardEvents));
-                break;
-            case GameStateEnum.PlayerTurn:
-                _gameStateMachine.ChangeState(new GameStates.PlayerTurnState(_gameStateMachine, soAnimationEvents,
-                    soGameStateEvents, soTimerEvents ,cardPickController));
-                break;
-            case GameStateEnum.OpponentTurn:
-                _gameStateMachine.ChangeState(new GameStates.OpponentTurnState(_gameStateMachine, soGameStateEvents));
-                break;
-            default:
-                Debug.LogWarning($"Case not implemented: {newState}");
-                break;
+            _gameStateMachine.ChangeState(gameState);
+        }
+        else
+        {
+            Debug.LogWarning($"Game state {newState} not found");
         }
     }
     
@@ -95,28 +135,13 @@ public class GameManager : MonoBehaviour
 
     private void ChangePlayerState(PlayerStateEnum newState)
     {
-        switch (newState)
+        if (_playerStates.TryGetValue(newState, out GameStateBase state))
         {
-            case PlayerStateEnum.PlayerTurnIdle:
-                _playerStateMachine.ChangeState(new PlayerStates.PlayerTurnIdleState(_playerStateMachine, 
-                    cardHighlightController, cardPickController));
-                break;
-            case PlayerStateEnum.CardPicked:
-                _playerStateMachine.ChangeState(new PlayerStates.PlayerPickedCardState(_playerStateMachine, 
-                    cardHighlightController));
-                break;
-            case PlayerStateEnum.CardPlaced:
-                _playerStateMachine.ChangeState(new PlayerStates.PlayerPlacedCardState(_playerStateMachine, 
-                    cardHighlightController));
-                break;
-            case PlayerStateEnum.OpponentTurnIdle:
-                break;
-            case PlayerStateEnum.LookAround:
-                _playerStateMachine.ChangeState(new PlayerStates.LookAroundState(_playerStateMachine,
-                    cardSelectionController));
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
+            _playerStateMachine.ChangeState(state);
+        }
+        else
+        {
+            Debug.LogWarning($"Player state {newState} not found.");
         }
     }
 

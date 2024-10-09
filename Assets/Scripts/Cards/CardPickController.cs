@@ -31,7 +31,14 @@ public class CardPickController : MonoBehaviour
         {
             soCardEvents.OnCardSelected += SelectCard;
             soCardEvents.OnCardSelectionReset += ResetSelection;
-            
+        }
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            soCardEvents.RaiseCardSelectionReset();
         }
     }
 
@@ -46,18 +53,7 @@ public class CardPickController : MonoBehaviour
         {
             soCardEvents.OnCardSelected -= SelectCard;
             soCardEvents.OnCardSelectionReset -= ResetSelection;
-        }
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            Debug.Log(soGameStateEvents.CurrentGameState);
-        }
-        else if (Input.GetKeyDown(KeyCode.D))
-        {
-            Debug.Log(soGameStateEvents.CurrentPlayerState);
+            Debug.Log("Unsubscribe card selection");
         }
     }
 
@@ -147,6 +143,7 @@ public class CardPickController : MonoBehaviour
 
     private void ResetSelection()
     {
+        Debug.Log("ResetSelection");
         if (pickedCard != null)
         {
             pickedCard.State = CardData.CardState.Normal;

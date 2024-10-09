@@ -10,7 +10,7 @@ public class TimerController : MonoBehaviour
     
     [SerializeField] private float timerDuration;
     
-    private Coroutine _timerCoroutine;
+    private int _timerCoroutineId = -1;
 
     private void Awake()
     {
@@ -41,38 +41,41 @@ public class TimerController : MonoBehaviour
 
     private void StartTimer(float duration)
     {
-        if (_timerCoroutine != null)
+        if (_timerCoroutineId != -1)
         {
-            StopCoroutine(_timerCoroutine);
+            CoroutineHelper.Stop(_timerCoroutineId);
+            _timerCoroutineId = -1;
         }
         
         timerDuration = duration;
-        _timerCoroutine = StartCoroutine(TimerCoroutine());
+        _timerCoroutineId = CoroutineHelper.Start(TimerCoroutine());
     }
 
     private void StopTimer()
     {
-        if (_timerCoroutine != null)
+        if (_timerCoroutineId != -1)
         {
-            StopCoroutine(TimerCoroutine());
-            _timerCoroutine = null;
+            CoroutineHelper.Stop(_timerCoroutineId);
+            _timerCoroutineId = -1;
+            
+            soAnimationEvents.RaiseTimerAnimation(0f);
         }
     }
 
     private IEnumerator TimerCoroutine()
     {
         float timeRemaining = timerDuration;
-        soAnimationEvents.RaiseTimerAnimation(timeRemaining / timerDuration);
+        float halfTime = timerDuration / 2.0f;
 
         while (timeRemaining > 0)
         {
             yield return null;
             timeRemaining -= Time.deltaTime;
-            soAnimationEvents.RaiseTimerAnimation(timeRemaining / timerDuration);
+            if (timeRemaining < halfTime)
+            {
+                soAnimationEvents.RaiseTimerAnimation(timeRemaining / halfTime);
+            }
         }
-        
-        soAnimationEvents.RaiseTimerAnimation(0f);
-        
         soTimerEvents.RaiseCompleteTimer();
     }
 }

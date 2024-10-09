@@ -16,6 +16,9 @@ public class SoCardEvents : ScriptableObject
 
     public delegate void CardSelectionResetHandler();
     public event CardSelectionResetHandler OnCardSelectionReset;
+
+    public delegate void TestHandler();
+    public event TestHandler OnTest;
     
     public void RaiseCardMove(Card card, CardContainerType fromContainer, CardContainerType toContainer)
     {
@@ -35,5 +38,10 @@ public class SoCardEvents : ScriptableObject
     public void RaiseCardSelectionReset()
     {
         OnCardSelectionReset?.Invoke();
+    }
+
+    public void RaiseTest()
+    {
+        OnTest?.Invoke();
     }
 }

@@ -135,5 +135,6 @@ public enum PlayerStateEnum
     CardPicked,
     CardPlaced,
     OpponentTurnIdle,
-    LookAround
+    LookAround,
+    PauseGame
 }

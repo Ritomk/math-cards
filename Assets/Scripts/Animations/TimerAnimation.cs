@@ -5,29 +5,26 @@ public class TimerAnimation : MonoBehaviour
 {
     [SerializeField] private SoAnimationEvents soAnimationEvents;
     
+    [SerializeField] private Transform timerTransform;
     [SerializeField] private Transform startPoint;
     [SerializeField] private Transform endPoint;
 
     [Range(0f, 1f)] [SerializeField] private float length = 1.0f;
 
+    
+    private Vector3 _originalScale;
+    private Vector3 _direction;
+    private float _initialLength;
+    private bool _isTransformVisible = false;
+    
     private void OnEnable()
     {
         soAnimationEvents.TimerAnimation += UpdateLength;
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         soAnimationEvents.TimerAnimation -= UpdateLength;
-    }
-
-    private Vector3 _originalScale;
-    private Vector3 _direction;
-    private float _initialLength;
-
-    private void UpdateLength(float t)
-    {
-        length = Mathf.Clamp01(t);
-        UpdateLength();
     }
 
     private void Awake()
@@ -39,23 +36,35 @@ public class TimerAnimation : MonoBehaviour
             return;
         }
         
-        _originalScale = transform.localScale;
+        _originalScale = timerTransform.localScale;
         _direction = (endPoint.position - startPoint.position).normalized;
         _initialLength = Vector3.Distance(startPoint.position, endPoint.position);
 
-        transform.position = startPoint.position;
-        transform.rotation = Quaternion.LookRotation(_direction);
-        transform.localScale = new Vector3(_originalScale.x, _originalScale.y, _initialLength);
+        timerTransform.position = startPoint.position;
+        timerTransform.rotation = Quaternion.LookRotation(_direction);
+        timerTransform.localScale = new Vector3(_originalScale.x, _originalScale.y, _initialLength);
         
-        
-        Debug.Log("Dupa");
-        UpdateLength();
+        timerTransform.gameObject.SetActive(_isTransformVisible);
     }
 
-    private void UpdateLength()
+    private void UpdateLength(float t)
     {
+        if (t <= 0)
+        {
+            _isTransformVisible = false;
+            timerTransform.gameObject.SetActive(_isTransformVisible);
+            return;
+        }
+        else if (!_isTransformVisible)
+        {
+            _isTransformVisible = true;
+            timerTransform.gameObject.SetActive(_isTransformVisible);
+        }
+        
+        length = Mathf.Clamp01(t);
+        
         float currentLength = _initialLength * length;
-        transform.localScale = new Vector3(_originalScale.x, _originalScale.y, currentLength);
-        transform.position = startPoint.position + _direction * (currentLength / 2.0f);
+        timerTransform.localScale = new Vector3(_originalScale.x, _originalScale.y, currentLength);
+        timerTransform.position = startPoint.position + _direction * (currentLength / 2.0f);
     }
 }

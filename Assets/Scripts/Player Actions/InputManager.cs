@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
@@ -9,29 +10,37 @@ public class InputManager : MonoBehaviour
     [SerializeField] private SoGameStateEvents gameStateEvents;
 
     private PlayerInput _playerInput;
+    private InputActionMap _inputActionMap;
+
     private InputAction _mouseMovement;
     private InputAction _leftClick;
     private InputAction _rightClick;
     private InputAction _endTurn;
+    private InputAction _escapePress;
 
 
     private void Awake()
     {
         _playerInput = GetComponent<PlayerInput>();
+        _inputActionMap = _playerInput.actions.FindActionMap("Gameplay");
         
-        _mouseMovement = _playerInput.actions["MouseMove"];
-        _leftClick = _playerInput.actions["LeftClick"];
-        _rightClick = _playerInput.actions["rightClick"];
-        _endTurn = _playerInput.actions["EndTurn"];
+        _mouseMovement = _inputActionMap.FindAction("MouseMove");
+        _leftClick = _inputActionMap.FindAction("LeftClick");
+        _rightClick = _inputActionMap.FindAction("RightClick");
+        _endTurn = _inputActionMap.FindAction("EndTurn");
+        _escapePress = _inputActionMap.FindAction("EscapePress"); 
     }
 
     private void OnEnable()
     {
+        _playerInput.SwitchCurrentActionMap("Gameplay");
+        
         _mouseMovement.performed += HandleMouseMove;
         _leftClick.performed += HandleMouseLeftClick;
         _leftClick.canceled += HandleMouseLeftClick;
         _rightClick.performed += HandleMouseRightClick;
         _endTurn.performed += HandleEndTurn;
+        _escapePress.performed += HandleEscapePress;
     }
 
     private void OnDisable()
@@ -41,6 +50,7 @@ public class InputManager : MonoBehaviour
         _leftClick.canceled -= HandleMouseLeftClick;
         _rightClick.performed -= HandleMouseRightClick;
         _endTurn.performed -= HandleEndTurn;
+        _escapePress.performed -= HandleEscapePress;
     }
 
     private void HandleMouseMove(InputAction.CallbackContext context)
@@ -93,5 +103,20 @@ public class InputManager : MonoBehaviour
         {
             gameStateEvents.RaiseGameStateChange(GameStateEnum.OpponentTurn);
         }
+        else if (gameStateEvents.CurrentGameState == GameStateEnum.OpponentTurn)
+        {
+            gameStateEvents.RaiseGameStateChange(GameStateEnum.PlayerTurn);
+        }
+    }
+
+    private void HandleEscapePress(InputAction.CallbackContext context)
+    {
+        if (gameStateEvents.CurrentPlayerState is PlayerStateEnum.CardPicked
+            or PlayerStateEnum.LookAround)
+        {
+            gameStateEvents.RaiseOnRevertPlayerState();
+        }
+        
+        gameStateEvents.RaiseOnPlayerStateChange(PlayerStateEnum.PauseGame);
     }
 }

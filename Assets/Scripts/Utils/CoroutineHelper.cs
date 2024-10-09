@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public static class CoroutineHelper
 {
@@ -8,9 +9,11 @@ public static class CoroutineHelper
     
     private static CoroutineRunner _runner;
     
-    private static Dictionary<IEnumerator, Coroutine> _coroutineMapping
-     = new Dictionary<IEnumerator, Coroutine>();
+    private static Dictionary<int, Coroutine> _coroutineMapping
+     = new Dictionary<int, Coroutine>();
 
+    private static int _nextId = 0;
+    
     /// <summary>
     /// Singleton instance of the CoroutineRunner.
     /// </summary>
@@ -37,24 +40,26 @@ public static class CoroutineHelper
     /// Starts a coroutine.
     /// </summary>
     /// <param name="coroutine">The IEnumerator to run as a coroutine.</param>
-    public static void Start(IEnumerator coroutine)
+    public static int Start(IEnumerator coroutine)
     {
-        Coroutine wrappedCoroutine = Runner.StartCoroutine(WrapCoroutine(coroutine));
-        _coroutineMapping[coroutine] = wrappedCoroutine;
+        int id = _nextId++;
+        Coroutine wrappedCoroutine = Runner.StartCoroutine(WrapCoroutine(coroutine, id));
+        _coroutineMapping[id] = wrappedCoroutine;
+        return id;
     }
 
     /// <summary>
     /// Stops a specific coroutine.
     /// </summary>
     /// <param name="coroutine">The Coroutine to stop.</param>
-    public static void Stop(IEnumerator coroutine)
+    public static void Stop(int id)
     {
-        if (_runner != null && coroutine != null)
+        if (_runner != null)
         {
-            if (_coroutineMapping.TryGetValue(coroutine, out Coroutine wrappedCoroutine))
+            if (_coroutineMapping.TryGetValue(id, out Coroutine wrappedCoroutine))
             {
                 Runner.StopCoroutine(wrappedCoroutine);
-                _coroutineMapping.Remove(coroutine);
+                _coroutineMapping.Remove(id);
             }
         }
     }
@@ -92,7 +97,7 @@ public static class CoroutineHelper
         }
     }
 
-    private static IEnumerator WrapCoroutine(IEnumerator coroutine)
+    private static IEnumerator WrapCoroutine(IEnumerator coroutine, int id)
     {
         while (IsPaused)
         {
@@ -103,7 +108,7 @@ public static class CoroutineHelper
         {
             if (!coroutine.MoveNext())
             {
-                _coroutineMapping.Remove(coroutine);
+                _coroutineMapping.Remove(id);
                 yield break;
             }
             

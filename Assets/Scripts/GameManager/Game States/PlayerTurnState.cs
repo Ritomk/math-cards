@@ -34,9 +34,8 @@ namespace GameStates
         {
             _soTimerEvents.OnTimerComplete -= TurnEnded;
             
-            _cardPickController.enabled = false;
-            _soGameStateEvents.RaiseOnPlayerStateChange(PlayerStateEnum.OpponentTurnIdle);
             _soAnimationEvents.RaiseCoinFlipAnimation();
+            _soTimerEvents.RaiseStopTimer();
         }
 
         private void TurnEnded()
