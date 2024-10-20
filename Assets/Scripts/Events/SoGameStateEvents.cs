@@ -33,10 +33,10 @@ public class SoGameStateEvents : ScriptableObject
     public delegate void PlayerStateChangeHandler(PlayerStateEnum newState);
     public event PlayerStateChangeHandler OnPlayerStateChange;
 
-    public delegate bool RevertGameStateHandler();
+    public delegate void RevertGameStateHandler(out bool success);
     public event RevertGameStateHandler OnRevertGameState;
     
-    public delegate bool RevertPlayerStateHandler();
+    public delegate void RevertPlayerStateHandler(out bool success);
     public event RevertPlayerStateHandler OnRevertPlayerState;
     
     #endregion
@@ -59,49 +59,27 @@ public class SoGameStateEvents : ScriptableObject
 
     public void RaiseOnRevertGameState()
     {
-        bool shouldChangeState = true;
-        
         if (OnRevertGameState != null)
         {
-            foreach (var @delegate in OnRevertGameState.GetInvocationList())
+            OnRevertGameState(out bool shouldChangeState);
+
+            if (shouldChangeState)
             {
-                var handler = (RevertGameStateHandler)@delegate;
-                bool response = handler();
-                if (!response)
-                {
-                    shouldChangeState = false;
-                    break;
-                }
+                (_previousGameState, currentGameState) = (currentGameState, _previousGameState);
             }
-        }
-        
-        if (shouldChangeState)
-        {
-            (_previousGameState, currentGameState) = (currentGameState, _previousGameState);
         }
     }
 
     public void RaiseOnRevertPlayerState()
     {
-        bool shouldChangeState = true;
-
         if (OnRevertPlayerState != null)
         {
-            foreach (var @delegate in OnRevertPlayerState.GetInvocationList())
+            OnRevertPlayerState.Invoke(out bool shouldChangeState);
+
+            if (shouldChangeState)
             {
-                var handler = (RevertPlayerStateHandler)@delegate;
-                bool response = handler();
-                if (!response)
-                {
-                    shouldChangeState = false;
-                    break;
-                }
+                (_previousPlayerState, currentPlayerState) = (currentPlayerState, _previousPlayerState);
             }
-        }
-        
-        if (shouldChangeState)
-        {
-            (_previousPlayerState, currentPlayerState) = (currentPlayerState, _previousPlayerState);
         }
     }
 

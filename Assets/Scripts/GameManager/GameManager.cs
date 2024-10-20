@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private SoCardEvents soCardEvents;
     [SerializeField] private SoAnimationEvents soAnimationEvents;
     [SerializeField] private SoTimerEvents soTimerEvents;
+    [SerializeField] private SoContainerEvents soContainerEvents;
     
     [Space]
     [Header("Player Gameplay Scripts")]
@@ -59,7 +60,7 @@ public class GameManager : MonoBehaviour
             },
             {
                 GameStateEnum.PlayerTurn, new GameStates.PlayerTurnState(_gameStateMachine, soAnimationEvents,
-                    soGameStateEvents, soTimerEvents, cardPickController)
+                    soGameStateEvents, soTimerEvents, soContainerEvents, soCardEvents, cardPickController)
             },
             { GameStateEnum.OpponentTurn, new GameStates.OpponentTurnState(_gameStateMachine, soGameStateEvents) }
         };
@@ -145,7 +146,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private bool HandleRevertSoGameState() =>  _gameStateMachine.RevertToPreviousState();
+    private void HandleRevertSoGameState(out bool success) => success = _gameStateMachine.RevertToPreviousState();
 
-    private bool HandleRevertPlayerState() => _playerStateMachine.RevertToPreviousState();
+    private void HandleRevertPlayerState(out bool success) => success = _playerStateMachine.RevertToPreviousState();
 }

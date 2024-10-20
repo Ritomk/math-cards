@@ -5,6 +5,7 @@ using UnityEngine;
 public class SoContainerEvents : ScriptableObject
 {
     public delegate void ChangeCardsStateHandler(CardData.CardState newState);
+    
     public event ChangeCardsStateHandler OnChangeCardsState;
 
     public delegate float EvaluateExpressionHandler();

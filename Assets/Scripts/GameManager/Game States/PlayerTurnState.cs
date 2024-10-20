@@ -9,14 +9,18 @@ namespace GameStates
         private SoAnimationEvents _soAnimationEvents;
         private SoGameStateEvents _soGameStateEvents;
         private SoTimerEvents _soTimerEvents;
+        private SoContainerEvents _soContainerEvents;
+        private SoCardEvents _soCardEvents;
         private CardPickController _cardPickController;
 
 
-        public PlayerTurnState(GameStateMachine stateMachine, SoAnimationEvents soAnimationEvents, SoGameStateEvents soGameStateEvents, SoTimerEvents soTimerEvents, CardPickController cardPickController) : base(stateMachine)
+        public PlayerTurnState(GameStateMachine stateMachine, SoAnimationEvents soAnimationEvents, SoGameStateEvents soGameStateEvents, SoTimerEvents soTimerEvents, SoContainerEvents soContainerEvents, SoCardEvents soCardEvents, CardPickController cardPickController) : base(stateMachine)
         {
             _soAnimationEvents = soAnimationEvents;
             _soGameStateEvents = soGameStateEvents;
             _soTimerEvents = soTimerEvents;
+            _soContainerEvents = soContainerEvents;
+            _soCardEvents = soCardEvents;
             _cardPickController = cardPickController;
         }
 
@@ -24,7 +28,7 @@ namespace GameStates
         {
             _soTimerEvents.OnTimerComplete += TurnEnded;
             
-            _soTimerEvents.RaiseStartTimer(15f);
+            _soTimerEvents.RaiseStartTimer(8f);
             
             _cardPickController.enabled = true;
             _soGameStateEvents.RaiseOnPlayerStateChange(PlayerStateEnum.PlayerTurnIdle);
@@ -33,6 +37,11 @@ namespace GameStates
         public override void Exit()
         {
             _soTimerEvents.OnTimerComplete -= TurnEnded;
+            
+            _soCardEvents.RaiseCardSelectionReset();
+            _soCardEvents.RaiseCardSelected(null);
+ 
+            _soContainerEvents.RaiseChangeCardsState(CardData.CardState.NonPickable);
             
             _soAnimationEvents.RaiseCoinFlipAnimation();
             _soTimerEvents.RaiseStopTimer();

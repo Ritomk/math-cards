@@ -1,13 +1,12 @@
 using UnityEngine;
 using UnityEngine.Splines;
 
-public class HandController : CardContainerBase
+public class HandContainer : CardContainerBase
 {
     [SerializeField] private SplineContainer splineContainer;
     [SerializeField] private GameObject cardPrefab;
     [SerializeField] private float initialSpacing = 1f;
     private Vector3 _centerPosition;
-    [SerializeField] private Deck _deck;
 
     private void Start()
     {

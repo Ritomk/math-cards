@@ -1,13 +1,21 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.UI;
 using UnityEngine;
 
-public class Table : CardContainerBase
+public class TableContainer : CardContainerBase
 {
-    [SerializeField] private GameObject cardPrefab;
-    
+    [SerializeField] private SoContainerEvents soContainerEvents;
+
+    private void OnEnable()
+    {
+        soContainerEvents.OnChangeCardsState += HandleChangeCardsState;
+    }
+
+    private void OnDisable()
+    {
+        soContainerEvents.OnChangeCardsState -= HandleChangeCardsState;
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.F))
@@ -40,6 +48,14 @@ public class Table : CardContainerBase
             card.transform.localPosition = new Vector3(spacing * index, 0.2f, 0);
             card.transform.rotation = Quaternion.Euler(0, 0, 0);
             ++index;
+        }
+    }
+
+    private void HandleChangeCardsState(CardData.CardState newState)
+    {
+        foreach (var card in cardsDictionary.Values)
+        {
+            card.State = newState;
         }
     }
 

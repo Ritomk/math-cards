@@ -58,8 +58,10 @@ public class CardManager : MonoBehaviour
         }
     }
 
-    private void HandleCardMove(Card card, CardContainerType from, CardContainerType to)
+    private void HandleCardMove(Card card, CardContainerType from, CardContainerType to, out bool success)
     {
+        success = false;
+        
         if (_cardContainers.TryGetValue(from, out var fromContainer) &&
             _cardContainers.TryGetValue(to, out var toContainer))
         {
@@ -68,6 +70,7 @@ public class CardManager : MonoBehaviour
             if (toContainer.AddCard(card))
             {
                 Debug.Log($"Moved card {card.name} from {fromContainer.name} to {toContainer.name}");
+                success = true;
             }
             else
             {
@@ -86,7 +89,7 @@ public class CardManager : MonoBehaviour
         if (_cardContainers.TryGetValue(CardContainerType.Deck, out var deckContainer) &&
             _cardContainers.TryGetValue(CardContainerType.Hand, out var handContainer))
         {
-            if (deckContainer is Deck deck)
+            if (deckContainer is DeckContainer deck)
             {
                 Card drawnCard = deck.DrawCard();
 

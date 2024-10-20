@@ -15,8 +15,6 @@ namespace PlayerStates
 
         public override void Enter()
         {
-            _soCardEvents.RaiseCardSelectionReset();
-            _soCardEvents.RaiseCardSelected(null);
             _cardPickController.enabled = false;
         }
     }

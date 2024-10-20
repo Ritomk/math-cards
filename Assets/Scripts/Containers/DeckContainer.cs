@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Deck : CardContainerBase
+public class DeckContainer : CardContainerBase
 {
     [SerializeField] private GameObject cardPrefab;
     [SerializeField] private float spacing = 0.2f;

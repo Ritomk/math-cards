@@ -53,7 +53,6 @@ public class CardPickController : MonoBehaviour
         {
             soCardEvents.OnCardSelected -= SelectCard;
             soCardEvents.OnCardSelectionReset -= ResetSelection;
-            Debug.Log("Unsubscribe card selection");
         }
     }
 
@@ -112,10 +111,16 @@ public class CardPickController : MonoBehaviour
             Debug.Log($"Card released: {pickedCard.name}");
             pickedCard.State = CardData.CardState.Normal;
 
-            if (IsCardOverTable(out Table targetTable))
+            if (IsCardOverTable(out TableContainer targetTable))
             {
-                soGameStateEvents.RaiseOnPlayerStateChange(PlayerStateEnum.CardPlaced);
-                soCardEvents.RaiseCardMove(pickedCard, pickedCard.ContainerType, targetTable.ContainerType);
+                if (soCardEvents.RaiseCardMove(pickedCard, pickedCard.ContainerType, targetTable.ContainerType))
+                {
+                    soGameStateEvents.RaiseOnPlayerStateChange(PlayerStateEnum.CardPlaced);
+                }
+                else
+                {
+                    soGameStateEvents.RaiseOnRevertPlayerState();
+                }
                 Debug.Log($"Card over table: {targetTable.name}");
             }
             else
@@ -129,24 +134,22 @@ public class CardPickController : MonoBehaviour
         }
     }
 
-    private bool IsCardOverTable(out Table table)
+    private bool IsCardOverTable(out TableContainer tableContainer)
     {
-        table = null;
+        tableContainer = null;
         Ray ray = _camera.ScreenPointToRay(Mouse.current.position.ReadValue());
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, layerMask))
         {
-            table = hit.transform.GetComponentInParent<Table>();
-            return table != null;
+            tableContainer = hit.transform.GetComponentInParent<TableContainer>();
+            return tableContainer != null;
         }
         return false;
     }
 
     private void ResetSelection()
     {
-        Debug.Log("ResetSelection");
         if (pickedCard != null)
         {
-            pickedCard.State = CardData.CardState.Normal;
             pickedCard = null;
         }
     }
