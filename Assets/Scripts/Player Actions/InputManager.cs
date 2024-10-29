@@ -41,6 +41,9 @@ public class InputManager : MonoBehaviour
         _rightClick.performed += HandleMouseRightClick;
         _endTurn.performed += HandleEndTurn;
         _escapePress.performed += HandleEscapePress;
+
+        //Spaghetti Code
+        inputEvents.RaiseCameraReset(_rightClick.ReadValue<float>() < 0.5f);
     }
 
     private void OnDisable()

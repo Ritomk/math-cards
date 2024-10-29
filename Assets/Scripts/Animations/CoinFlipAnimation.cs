@@ -26,7 +26,7 @@ public class CoinFlipAnimation : MonoBehaviour
     {
         if (soAnimationEvents != null)
         {
-            soAnimationEvents.CoinFlipAnimation += StartCoinFlip;
+            soAnimationEvents.OnCoinFlipAnimation += StartCoinFlip;
         }
     }
 
@@ -34,7 +34,7 @@ public class CoinFlipAnimation : MonoBehaviour
     {
         if (soAnimationEvents != null)
         {
-            soAnimationEvents.CoinFlipAnimation -= StartCoinFlip;
+            soAnimationEvents.OnCoinFlipAnimation -= StartCoinFlip;
         }
     }
 
@@ -51,34 +51,24 @@ public class CoinFlipAnimation : MonoBehaviour
         _isFlipping = true;
 
         float elapsedTime = 0f;
-        Vector3 targetPosition = _originalPosition + Vector3.up * flipHeight;
         float totalRotation = 360f * flipAmount;
         
-        float rotationPerSecond = totalRotation / flipDuration;
 
         while (elapsedTime < flipDuration)
         {
             float t = elapsedTime / flipDuration;
             
-            float positionT;
-            if (t < 0.5f)
-            {
-                positionT = Mathf.SmoothStep(0f, 1f, t * 2f);
-                transform.position = Vector3.Lerp(_originalPosition, targetPosition, positionT);
-            }
-            else
-            {
-                positionT = Mathf.SmoothStep(1f, 0f, (t - 0.5f) * 2f);
-                transform.position = Vector3.Lerp(_originalPosition, targetPosition, positionT);
-            }
+            float height = 4 * flipHeight * t * (1 - t);
+            transform.position = _originalPosition + Vector3.up * height;
             
-            float rotationThisFrame = rotationPerSecond * Time.deltaTime;
-            transform.Rotate(Vector3.right, rotationThisFrame, Space.World);
+            float rotationAngle = totalRotation * t;
+            transform.rotation = _originalRotation * Quaternion.Euler(rotationAngle, 0f, 0f);
 
             elapsedTime += Time.deltaTime;
             yield return null;
         }
         
+        transform.position = _originalPosition;
         transform.rotation = _originalRotation * Quaternion.Euler(totalRotation, 0f, 0f);
 
         _isFlipping = false;

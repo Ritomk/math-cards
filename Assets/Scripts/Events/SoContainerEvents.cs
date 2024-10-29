@@ -5,11 +5,16 @@ using UnityEngine;
 public class SoContainerEvents : ScriptableObject
 {
     public delegate void ChangeCardsStateHandler(CardData.CardState newState);
-    
     public event ChangeCardsStateHandler OnChangeCardsState;
 
     public delegate float EvaluateExpressionHandler();
     public event EvaluateExpressionHandler OnEvaluateExpression;
+
+    public delegate void ValidateCardPlacementHandler();
+    public event ValidateCardPlacementHandler OnValidateCardPlacement;
+    
+    public delegate void MergeCardsHandler();
+    public event MergeCardsHandler OnMergeCards;
 
     public void RaiseChangeCardsState(CardData.CardState newState)
     {
@@ -27,5 +32,15 @@ public class SoContainerEvents : ScriptableObject
                 float expressionValue = handler();
             }
         }
+    }
+
+    public void RaiseMergeCards()
+    {
+        OnMergeCards?.Invoke();
+    }
+
+    public void RaiseValidateCardPlacement()
+    {
+        OnValidateCardPlacement?.Invoke();
     }
 }

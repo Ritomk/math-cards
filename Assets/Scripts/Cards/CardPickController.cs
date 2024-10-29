@@ -74,7 +74,7 @@ public class CardPickController : MonoBehaviour
                         break;
                     case PlayerStateEnum.CardPlaced:
                         if (selectedCard.ContainerType is CardContainerType.AttackTable
-                            or CardContainerType.DefenceTable)
+                            or CardContainerType.DefenceTable or CardContainerType.Merger)
                         {
                             PerformCardSelection(selectedCard);
                         }
@@ -106,44 +106,51 @@ public class CardPickController : MonoBehaviour
     
     private void ReleaseCard()
     {
-        if (pickedCard != null)
-        {
-            Debug.Log($"Card released: {pickedCard.name}");
-            pickedCard.State = CardData.CardState.Normal;
+        if (pickedCard == null) return;
+        
+        Debug.Log($"Card released: {pickedCard.name}");
+        pickedCard.State = CardData.CardState.Normal;
 
-            if (IsCardOverTable(out TableContainer targetTable))
+        if (IsCardOverTable(out CardContainerBase targetContainer) &&
+            targetContainer is TableContainer or MergerContainer)
+        {
+            if (soCardEvents.RaiseCardMove(pickedCard, pickedCard.ContainerType, targetContainer.ContainerType))
             {
-                if (soCardEvents.RaiseCardMove(pickedCard, pickedCard.ContainerType, targetTable.ContainerType))
-                {
-                    soGameStateEvents.RaiseOnPlayerStateChange(PlayerStateEnum.CardPlaced);
-                }
-                else
-                {
-                    soGameStateEvents.RaiseOnRevertPlayerState();
-                }
-                Debug.Log($"Card over table: {targetTable.name}");
+                soGameStateEvents.RaiseOnPlayerStateChange(PlayerStateEnum.CardPlaced);
             }
             else
             {
-                soGameStateEvents.RaiseOnPlayerStateChange(PlayerStateEnum.PlayerTurnIdle);
-                soCardEvents.RaiseCardMove(pickedCard, pickedCard.ContainerType, CardContainerType.Hand);
-                Debug.Log("Card was not over any table");
+                soGameStateEvents.RaiseOnRevertPlayerState();
             }
-            pickedCard = null;
-            selectedCard = null;
+
+            Debug.Log($"Card over table: {targetContainer.name}");
+
         }
+        else
+        {
+            HandleCardReturnToHand();
+        }
+        pickedCard = null;
+        selectedCard = null;
     }
 
-    private bool IsCardOverTable(out TableContainer tableContainer)
+    private bool IsCardOverTable(out CardContainerBase container)
     {
-        tableContainer = null;
+        container = null;
         Ray ray = _camera.ScreenPointToRay(Mouse.current.position.ReadValue());
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, layerMask))
         {
-            tableContainer = hit.transform.GetComponentInParent<TableContainer>();
-            return tableContainer != null;
+            container = hit.transform.GetComponentInParent<CardContainerBase>();
+            return container != null;
         }
         return false;
+    }
+
+    private void HandleCardReturnToHand()
+    {
+        soGameStateEvents.RaiseOnPlayerStateChange(PlayerStateEnum.PlayerTurnIdle);
+        soCardEvents.RaiseCardMove(pickedCard, pickedCard.ContainerType, CardContainerType.Hand);
+        Debug.Log("Card was not over any valid table");
     }
 
     private void ResetSelection()

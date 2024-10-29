@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Random = System.Random;
 
 public class DeckContainer : CardContainerBase
 {
@@ -12,11 +13,23 @@ public class DeckContainer : CardContainerBase
 
     private void Start()
     {
-        for (int i = 0; i < deckSize; i++)
+        for (int i = 0; i < maxCardCount - 5; i++)
         {
             InstantiateCard(i.ToString());
+            if (i % 2 == 0)
+            {
+                var randomIndex = UnityEngine.Random.Range(0, 3);
+                var sign = randomIndex switch
+                {
+                    0 => "+",
+                    1 => "-",
+                    2 => "*",
+                    3 => "/",
+                    _ => "0"
+                };
+                InstantiateCard(sign);
+            }
         }
-        InstantiateCard("+");
         UpdateCardsPositions();
     }
 

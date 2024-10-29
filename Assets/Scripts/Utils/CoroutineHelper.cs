@@ -21,7 +21,7 @@ public static class CoroutineHelper
     {
         get
         {
-            if (_runner == null)
+            if (_runner is null)
             {
                 GameObject obj = new GameObject("CoroutineHelper");
                 _runner = obj.AddComponent<CoroutineRunner>();
@@ -64,6 +64,14 @@ public static class CoroutineHelper
         }
     }
 
+    public static void Pause(int id)
+    {
+        if (_runner != null)
+        {
+            
+        }
+    }
+
     /// <summary>
     /// Stops all running coroutines managed by the CoroutineHelper.
     /// </summary>
@@ -76,7 +84,7 @@ public static class CoroutineHelper
     /// <summary>
     /// Pauses all coroutines managed by the CoroutineHelper.
     /// </summary>
-    public static void Pause()
+    public static void PauseAll()
     {
         if (!IsPaused)
         {
@@ -88,7 +96,7 @@ public static class CoroutineHelper
     /// <summary>
     /// Resumes all coroutines managed by the CoroutineHelper.
     /// </summary>
-    public static void Resume()
+    public static void ResumeAll()
     {
         if (IsPaused)
         {

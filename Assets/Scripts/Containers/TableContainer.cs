@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class TableContainer : CardContainerBase
@@ -9,20 +10,18 @@ public class TableContainer : CardContainerBase
     private void OnEnable()
     {
         soContainerEvents.OnChangeCardsState += HandleChangeCardsState;
+        soContainerEvents.OnValidateCardPlacement += ValidateCardPlacement;
     }
 
     private void OnDisable()
     {
         soContainerEvents.OnChangeCardsState -= HandleChangeCardsState;
+        soContainerEvents.OnValidateCardPlacement -= ValidateCardPlacement;
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            
-        }
-        else if (Input.GetKeyDown(KeyCode.G))
+        if (Input.GetKeyDown(KeyCode.G))
         {
             Debug.Log(EvaluateExpression());
         }
@@ -37,6 +36,30 @@ public class TableContainer : CardContainerBase
         }
         
         return result;
+    }
+
+    protected override void ValidateCardPlacement()
+    {
+        var cos = 0;
+        foreach (var card in cardsDictionary.Values)
+        {
+            switch (card.TokenType)
+            {
+                case CardData.TokenType.SingleDigit:
+                case CardData.TokenType.DoubleDigit:
+                    ++cos;
+                    break;
+                case CardData.TokenType.Symbol:
+                    --cos;
+                    break;
+            }
+
+            if (cos <= 0)
+            {
+                BurnCard(cardsDictionary.Last().Value.CardId);
+                return;
+            }
+        }
     }
 
     private void UpdateCardPositions()
@@ -67,10 +90,10 @@ public class TableContainer : CardContainerBase
             tokens.Add(card.Token);
         }
 
-        return EvaluateRPN(tokens);
+        return EvaluateRpn(tokens);
     }
 
-    private float EvaluateRPN(List<string> tokens)
+    private float EvaluateRpn(List<string> tokens)
     {
         Stack<float> stack = new Stack<float>();
         foreach (var token in tokens)

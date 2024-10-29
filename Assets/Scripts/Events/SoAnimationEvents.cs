@@ -7,14 +7,17 @@ using UnityEngine;
 public class SoAnimationEvents : ScriptableObject
 {
     public delegate void CoinFlipAnimationHandler();
-    public event CoinFlipAnimationHandler CoinFlipAnimation;
+    public event CoinFlipAnimationHandler OnCoinFlipAnimation;
     
     public delegate void TimerAnimationHandler(float t);
-    public event TimerAnimationHandler TimerAnimation;
+    public event TimerAnimationHandler OnTimerAnimation;
     
-    public delegate void TimerStartHandler(float duration, Action callback = null);
+    public delegate void ToggleChestAnimationHandler(bool state);
+    public event ToggleChestAnimationHandler OnToggleChestAnimation;
     
-    public void RaiseCoinFlipAnimation() => CoinFlipAnimation?.Invoke();
+    public void RaiseCoinFlipAnimation() => OnCoinFlipAnimation?.Invoke();
+
+    public void RaiseTimerAnimation(float t) => OnTimerAnimation?.Invoke(t);
     
-    public void RaiseTimerAnimation(float t) => TimerAnimation?.Invoke(t);
+    public void RaiseToggleChestAnimation(bool isOpen) => OnToggleChestAnimation?.Invoke(isOpen);
 }

@@ -9,8 +9,8 @@ public abstract class CardContainerBase : MonoBehaviour, ICardContainer
     
     [field: SerializeField] public CardContainerType ContainerType { get; private set; }
 
-    [SerializeField] private int maxCardCount = 10;
-    private int _currentCardCount = 0;
+    [SerializeField] protected int maxCardCount = 10;
+    protected int currentCardCount = 0;
 
     public virtual bool AddCard(Card card)
     {
@@ -20,7 +20,7 @@ public abstract class CardContainerBase : MonoBehaviour, ICardContainer
             return false;
         }
 
-        if (_currentCardCount >= maxCardCount)
+        if (currentCardCount >= maxCardCount)
         {
             Debug.LogWarning($"Cannot add card. Container {gameObject.name} has reached its maximum capacity of {maxCardCount} cards.", gameObject);
             return false;
@@ -31,7 +31,7 @@ public abstract class CardContainerBase : MonoBehaviour, ICardContainer
         {
             card.transform.parent = transform;
             card.ContainerType = this.ContainerType;
-            _currentCardCount++;
+            currentCardCount++;
             return true;
         }
         else
@@ -45,7 +45,22 @@ public abstract class CardContainerBase : MonoBehaviour, ICardContainer
     {
         if (cardsDictionary.Remove(cardId, out var card))
         {
-            _currentCardCount--;
+            currentCardCount--;
+            return true;
+        }
+        else
+        {
+            Debug.LogWarning($"Card with ID {cardId} does not exist in the container {gameObject.name}.", gameObject);
+            return false;
+        }
+    }
+
+    public virtual bool BurnCard(int cardId)
+    {
+        if (cardsDictionary.Remove(cardId, out var card))
+        {
+            Destroy(card.gameObject);
+            currentCardCount--;
             return true;
         }
         else
@@ -64,4 +79,6 @@ public abstract class CardContainerBase : MonoBehaviour, ICardContainer
     {
         return transform;
     }
+
+    protected virtual void ValidateCardPlacement() { }
 }

@@ -31,13 +31,20 @@ public class Card : MonoBehaviour
         set => textMesh.gameObject.SetActive(value);
     }
 
+    public CardData.TokenType TokenType { get; private set; } = CardData.TokenType.IllegalToken;
     public string Token
     {
         get => textMesh.text;
         set
         {
-            textMesh.text = value;
-            //Debug.Log(textMesh.text);
+            if (DetermineTokenType(value))
+            {
+                textMesh.text = value;
+            }
+            else
+            {
+                Debug.Log($"Invalid token type: {value}", gameObject);
+            }
         }
     }
 
@@ -83,5 +90,35 @@ public class Card : MonoBehaviour
     private int GenerateUniqueID()
     {
         return ++_globalCardId;
+    }
+
+    private bool DetermineTokenType(string token)
+    {
+        if (int.TryParse(token, out var numericValue))
+        {
+            switch (token.Length)
+            {
+                case 1:
+                    TokenType = CardData.TokenType.SingleDigit;
+                    break;
+                case 2:
+                    TokenType = CardData.TokenType.DoubleDigit;
+                    break;
+                default:
+                    TokenType = CardData.TokenType.IllegalToken;
+                    return false;
+            }
+        }
+        else if (token is "+" or "-" or "*" or "/")
+        {
+            TokenType = CardData.TokenType.Symbol;
+        }
+        else
+        {
+            TokenType = CardData.TokenType.IllegalToken;
+            return false;
+        }
+        
+        return true;
     }
 }

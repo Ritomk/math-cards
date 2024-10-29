@@ -7,7 +7,8 @@ public enum CardContainerType
     Hand,
     Deck,
     AttackTable,
-    DefenceTable
+    DefenceTable,
+    Merger
 }
 
 public class CardManager : MonoBehaviour

@@ -28,7 +28,9 @@ namespace GameStates
         {
             _soTimerEvents.OnTimerComplete += TurnEnded;
             
-            _soTimerEvents.RaiseStartTimer(8f);
+            _soTimerEvents.RaiseStartTimer(30f);
+            
+            _soAnimationEvents.RaiseToggleChestAnimation(true);
             
             _cardPickController.enabled = true;
             _soGameStateEvents.RaiseOnPlayerStateChange(PlayerStateEnum.PlayerTurnIdle);
@@ -42,6 +44,11 @@ namespace GameStates
             _soCardEvents.RaiseCardSelected(null);
  
             _soContainerEvents.RaiseChangeCardsState(CardData.CardState.NonPickable);
+            
+            _soAnimationEvents.RaiseToggleChestAnimation(false);
+            
+            _soContainerEvents.RaiseValidateCardPlacement();
+            _soContainerEvents.RaiseMergeCards();
             
             _soAnimationEvents.RaiseCoinFlipAnimation();
             _soTimerEvents.RaiseStopTimer();

@@ -20,14 +20,14 @@ namespace PlayerStates
         {
             _inputManager.enabled = false;
             _inputUIManager.enabled = true;
-            CoroutineHelper.Pause();
+            CoroutineHelper.PauseAll();
         }
 
         public override void Exit()
         {
             _inputManager.enabled = true;
             _inputUIManager.enabled = false;
-            CoroutineHelper.Resume();
+            CoroutineHelper.ResumeAll();
             _soCardEvents.RaiseCardSelectionReset();
             _soUniversalInputEvents.RaiseMouseMove();
         }

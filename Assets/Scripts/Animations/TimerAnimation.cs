@@ -19,12 +19,12 @@ public class TimerAnimation : MonoBehaviour
     
     private void OnEnable()
     {
-        soAnimationEvents.TimerAnimation += UpdateLength;
+        soAnimationEvents.OnTimerAnimation += UpdateLength;
     }
 
     private void OnDisable()
     {
-        soAnimationEvents.TimerAnimation -= UpdateLength;
+        soAnimationEvents.OnTimerAnimation -= UpdateLength;
     }
 
     private void Awake()

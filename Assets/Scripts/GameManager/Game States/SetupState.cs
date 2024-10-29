@@ -9,7 +9,6 @@ namespace GameStates
         private InputManager _inputManager;
         private SoGameStateEvents _soGameStateEvents;
 
-
         public SetupState(GameStateMachine stateMachine, InputManager inputManager, SoGameStateEvents soGameStateEvents) : base(stateMachine)
         {
             _inputManager = inputManager;

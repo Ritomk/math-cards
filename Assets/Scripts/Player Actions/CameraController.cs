@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
@@ -13,7 +14,8 @@ public class CameraController : MonoBehaviour
 
     private Quaternion _targetRotation;
     private bool _isResetting = false;
-
+    private int _coroutineId = -1;
+    
     private void Start()
     {
         if (lookAtGameObject == null)
@@ -61,24 +63,27 @@ public class CameraController : MonoBehaviour
     private void HandleCameraReset(bool reset)
     {
         _isResetting = reset;
-
-        if (_isResetting)
+        
+        if (_isResetting && _coroutineId == -1)
         {
+            Debug.Log("Coroutine Started");
             _targetRotation = Quaternion.LookRotation(lookAtGameObject.position - transform.position);
+            _coroutineId = CoroutineHelper.Start(ResetCamera());
         }
     }
-    
-    private void Update()
-    {
-        if (!_isResetting) return;
 
-        transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, 0);
-        transform.rotation = Quaternion.Slerp(transform.rotation, _targetRotation, returnSpeed * Time.deltaTime);
-        
-        if (Quaternion.Angle(transform.rotation, _targetRotation) < 0.1f)
+    private IEnumerator ResetCamera()
+    {
+        while (Quaternion.Angle(transform.rotation, _targetRotation) > 0.1f)
         {
-            transform.rotation = _targetRotation;
-            _isResetting = true;
+            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, 0);
+            transform.rotation = Quaternion.Slerp(transform.rotation, _targetRotation, returnSpeed * Time.deltaTime);
+            
+            yield return new WaitWhile(() => !_isResetting);
         }
+        transform.rotation = _targetRotation;
+        _coroutineId = -1;
+        Debug.Log("Camera Reset Ended");
+        yield return null;
     }
 }

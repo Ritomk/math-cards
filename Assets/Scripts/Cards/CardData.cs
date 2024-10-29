@@ -15,6 +15,14 @@ public class CardData : ScriptableObject
         Placed,
         NonPickable
     }
+
+    public enum TokenType
+    {
+        SingleDigit,
+        DoubleDigit,
+        Symbol,
+        IllegalToken
+    }
     
     [Serializable]
     public struct StateColorPair
