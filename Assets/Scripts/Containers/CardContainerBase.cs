@@ -59,7 +59,7 @@ public abstract class CardContainerBase : MonoBehaviour, ICardContainer
     {
         if (cardsDictionary.Remove(cardId, out var card))
         {
-            Destroy(card.gameObject);
+            card.DestroyCard();
             currentCardCount--;
             return true;
         }

@@ -49,6 +49,22 @@ public static class CoroutineHelper
     }
 
     /// <summary>
+    /// Starts a coroutine and waits until it finishes.
+    /// </summary>
+    /// <param name="coroutine">The IEnumerator to run as a coroutine.</param>
+    public static IEnumerator StartAndWait(IEnumerator coroutine)
+    {
+        int id = _nextId++;
+        IEnumerator wrappedCoroutine = WrapCoroutine(coroutine, id);
+        _coroutineMapping[id] = Runner.StartCoroutine(wrappedCoroutine);
+
+        while (_coroutineMapping.ContainsKey(id))
+        {
+            yield return null;
+        }
+    }
+
+    /// <summary>
     /// Stops a specific coroutine.
     /// </summary>
     /// <param name="coroutine">The Coroutine to stop.</param>
@@ -107,27 +123,20 @@ public static class CoroutineHelper
 
     private static IEnumerator WrapCoroutine(IEnumerator coroutine, int id)
     {
-        while (IsPaused)
-        {
-            yield return null;
-        }
-
         while (true)
         {
+            while (IsPaused)
+            {
+                yield return null;
+            }
+
             if (!coroutine.MoveNext())
             {
                 _coroutineMapping.Remove(id);
                 yield break;
             }
-            
-            object yielded = coroutine.Current;
 
-            while (IsPaused)
-            {
-                yield return null;
-            }
-            
-            yield return yielded;
+            yield return coroutine.Current;
         }
     }
 }

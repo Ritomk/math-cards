@@ -1,14 +1,14 @@
-using System;
 using UnityEngine;
 using TMPro;
+using System.Collections;
 using UnityEngine.Serialization;
 
 public class Card : MonoBehaviour
 {
     [SerializeField] private CardData cardData;
     [SerializeField] private TextMeshPro textMesh;
-    [SerializeField] private Transform cardTransform;
     [SerializeField] private Renderer cardRenderer;
+    [SerializeField] private DissolveEffect dissolveShader;
     
     [field: SerializeField]
     public CardContainerType ContainerType { get; set; }
@@ -18,13 +18,16 @@ public class Card : MonoBehaviour
     private static int _globalCardId = -1;
     
     public int CardId { get; private set; }
-    
-    public Vector3 VisualPosition
-    {
-        get => cardTransform.position;
-        set => cardTransform.position = value;
-    }
 
+    public void DestroyCard() => StartCoroutine(DissolveAndDestroy());
+
+    private IEnumerator DissolveAndDestroy()
+    {
+        yield return CoroutineHelper.StartAndWait(dissolveShader.StartDissolve());
+        Destroy(gameObject);
+        
+    }
+    
     public bool IsTokenVisible
     {
         get => textMesh.gameObject.activeSelf;
@@ -66,15 +69,14 @@ public class Card : MonoBehaviour
         Token = token;
         IsTokenVisible = isTokenVisible;
         State = state;
-        UpdateCardColor();
     }
     
     private void UpdateCardColor()
     {
         if (cardRenderer != null)
         {
-            Color newColor = cardData.GetColorForState(_currentState);
-            cardRenderer.material.color = newColor;
+            Color newColor = cardData.GetColorForState(_currentState); 
+            dissolveShader.ChangeColor(newColor);
         }
         else
         {
