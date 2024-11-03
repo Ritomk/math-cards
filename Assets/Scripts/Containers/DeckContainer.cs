@@ -18,13 +18,13 @@ public class DeckContainer : CardContainerBase
             InstantiateCard(i.ToString());
             if (i % 2 == 0)
             {
-                var randomIndex = UnityEngine.Random.Range(0, 3);
+                var randomIndex = UnityEngine.Random.Range(0, 4);
                 var sign = randomIndex switch
                 {
                     0 => "+",
                     1 => "-",
-                    2 => "*",
-                    3 => "/",
+                    2 => "\u00d7",
+                    3 => "\u00f7",
                     _ => "0"
                 };
                 InstantiateCard(sign);

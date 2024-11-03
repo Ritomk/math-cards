@@ -9,6 +9,7 @@ public class Card : MonoBehaviour
     [SerializeField] private TextMeshPro textMesh;
     [SerializeField] private Renderer cardRenderer;
     [SerializeField] private DissolveEffect dissolveShader;
+    [SerializeField] private HighlightEffect highlightShader;
     
     [field: SerializeField]
     public CardContainerType ContainerType { get; set; }
@@ -18,15 +19,6 @@ public class Card : MonoBehaviour
     private static int _globalCardId = -1;
     
     public int CardId { get; private set; }
-
-    public void DestroyCard() => StartCoroutine(DissolveAndDestroy());
-
-    private IEnumerator DissolveAndDestroy()
-    {
-        yield return CoroutineHelper.StartAndWait(dissolveShader.StartDissolve());
-        Destroy(gameObject);
-        
-    }
     
     public bool IsTokenVisible
     {
@@ -46,11 +38,12 @@ public class Card : MonoBehaviour
             }
             else
             {
-                Debug.Log($"Invalid token type: {value}", gameObject);
+                textMesh.text = "Error"; 
+                Debug.LogError($"Invalid token type: {value}", gameObject);
             }
         }
     }
-
+    
     public CardData.CardState State
     {
         get => _currentState;
@@ -71,16 +64,28 @@ public class Card : MonoBehaviour
         State = state;
     }
     
+    public void DestroyCard() => StartCoroutine(DissolveAndDestroy());
+
+    private IEnumerator DissolveAndDestroy()
+    {
+        yield return CoroutineHelper.StartAndWait(dissolveShader.StartDissolve());
+        Destroy(gameObject);
+        
+    }
+    
     private void UpdateCardColor()
     {
-        if (cardRenderer != null)
+        var colorSet = cardData.GetColorSetForState(_currentState);
+
+        dissolveShader.ChangeColor(colorSet.color);
+        
+        if(highlightShader.gameObject.activeSelf != colorSet.hasHighlight)
+            highlightShader.gameObject.SetActive(colorSet.hasHighlight);
+        
+        if (colorSet.hasHighlight)
         {
-            Color newColor = cardData.GetColorForState(_currentState); 
-            dissolveShader.ChangeColor(newColor);
-        }
-        else
-        {
-            Debug.LogError($"{nameof(Card)} has no card renderer.", gameObject);
+            highlightShader.SmoothChangeHighlightColor(colorSet.outlineColor, 0.2f);
+            highlightShader.SmoothChangeOutlineColor(colorSet.highlightColor, 0.2f);
         }
     }
 
@@ -111,7 +116,7 @@ public class Card : MonoBehaviour
                     return false;
             }
         }
-        else if (token is "+" or "-" or "*" or "/")
+        else if (token is "+" or "-" or "\u00d7" or "\u00f7")
         {
             TokenType = CardData.TokenType.Symbol;
         }

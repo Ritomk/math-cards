@@ -89,7 +89,7 @@ public class GameManager : MonoBehaviour
             },
             {
                 PlayerStateEnum.PauseGame, new PlayerStates.PauseGameState(_playerStateMachine,
-                    inputManager, inputUIManager, soUniversalInputEvents, soCardEvents)
+                    inputManager, inputUIManager, soUniversalInputEvents, soCardEvents, soGameStateEvents)
             }
         };
     }

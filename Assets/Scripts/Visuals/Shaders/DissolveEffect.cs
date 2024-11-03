@@ -17,7 +17,6 @@ public class DissolveEffect  : MonoBehaviour
     private void Awake()
     {
         _dissolveMaterial = GetComponent<MeshRenderer>().material;
-        Debug.Log("Dupa");
     }
     
     public IEnumerator StartDissolve()

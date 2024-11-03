@@ -39,6 +39,9 @@ public class SoGameStateEvents : ScriptableObject
     public delegate void RevertPlayerStateHandler(out bool success);
     public event RevertPlayerStateHandler OnRevertPlayerState;
     
+    public delegate void PauseGameHandler(bool paused);
+    public event PauseGameHandler OnPauseGame;
+    
     #endregion
 
     
@@ -95,6 +98,11 @@ public class SoGameStateEvents : ScriptableObject
 
         ++currentGameState;
         OnGameStateChange?.Invoke(currentGameState);
+    }
+
+    public void RaisePauseGame(bool paused)
+    {
+        OnPauseGame?.Invoke(paused);
     }
 }
 
