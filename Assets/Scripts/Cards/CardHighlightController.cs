@@ -51,7 +51,7 @@ public class CardHighlightController : MonoBehaviour
             HighlightCard(_highlightedCard, false);
         }
         
-        if (card.ContainerType == CardContainerType.Hand)
+        if (card.ContainerKey.ContainerType == CardContainerType.Hand)
         {
             selectedCard.Token = card.Token;
 

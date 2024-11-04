@@ -1,22 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-public enum CardContainerType
-{
-    Hand,
-    Deck,
-    AttackTable,
-    DefenceTable,
-    Merger
-}
-
 public class CardManager : MonoBehaviour
 {
     [SerializeField] private SoCardEvents soCardEvents;
     [SerializeField] private List<CardContainerBase> containerList;
     
-    private Dictionary<CardContainerType, CardContainerBase> _cardContainers;
+    [Space]
+    [SerializeField] private OwnerType ownerType;
+    private Dictionary<ContainerKey, CardContainerBase> _cardContainers;
 
     private void Awake()
     {
@@ -43,23 +35,21 @@ public class CardManager : MonoBehaviour
 
     private void InitializeCardContainers()
     {
-        _cardContainers = new Dictionary<CardContainerType, CardContainerBase>();
+        _cardContainers = new Dictionary<ContainerKey, CardContainerBase>();
 
         foreach (var container in containerList)
         {
             if (container != null)
             {
-                var containerType = container.ContainerType;
-
-                if (!_cardContainers.TryAdd(containerType, container))
+                if (!_cardContainers.TryAdd(container.SelfContainerKey, container))
                 {
-                    Debug.LogWarning($"Duplicate container type detected: {containerType}");
+                    Debug.LogWarning($"Duplicate container detected: {container.SelfContainerKey.OwnerType} - {container.SelfContainerKey.ContainerType}");
                 }
             }
         }
     }
 
-    private void HandleCardMove(Card card, CardContainerType from, CardContainerType to, out bool success)
+    private void HandleCardMove(Card card, ContainerKey from, ContainerKey to, out bool success)
     {
         success = false;
         
@@ -87,8 +77,11 @@ public class CardManager : MonoBehaviour
 
     private void HandleCardDraw()
     {
-        if (_cardContainers.TryGetValue(CardContainerType.Deck, out var deckContainer) &&
-            _cardContainers.TryGetValue(CardContainerType.Hand, out var handContainer))
+        var deckKey = new ContainerKey(ownerType, CardContainerType.Deck);
+        var handKey = new ContainerKey(ownerType, CardContainerType.Hand);
+        
+        if (_cardContainers.TryGetValue(deckKey, out var deckContainer) &&
+            _cardContainers.TryGetValue(handKey, out var handContainer))
         {
             if (deckContainer is DeckContainer deck)
             {

@@ -67,13 +67,13 @@ public class CardPickController : MonoBehaviour
                 switch (currentState)
                 {
                     case PlayerStateEnum.PlayerTurnIdle:
-                        if (selectedCard.ContainerType == CardContainerType.Hand)
+                        if (selectedCard.ContainerKey.ContainerType == CardContainerType.Hand)
                         {
                             PerformCardSelection(selectedCard);
                         }
                         break;
                     case PlayerStateEnum.CardPlaced:
-                        if (selectedCard.ContainerType is CardContainerType.AttackTable
+                        if (selectedCard.ContainerKey.ContainerType is CardContainerType.AttackTable
                             or CardContainerType.DefenceTable or CardContainerType.Merger)
                         {
                             PerformCardSelection(selectedCard);
@@ -114,13 +114,16 @@ public class CardPickController : MonoBehaviour
         if (IsCardOverTable(out CardContainerBase targetContainer) &&
             targetContainer is TableContainer or MergerContainer)
         {
-            if (soCardEvents.RaiseCardMove(pickedCard, pickedCard.ContainerType, targetContainer.ContainerType))
+            var temp = soCardEvents.RaiseCardMove(pickedCard, pickedCard.ContainerKey,
+                targetContainer.SelfContainerKey);
+            Debug.Log(temp);
+            if (soCardEvents.RaiseCardMove(pickedCard, pickedCard.ContainerKey, targetContainer.SelfContainerKey))
             {
                 soGameStateEvents.RaiseOnPlayerStateChange(PlayerStateEnum.CardPlaced);
             }
             else
             {
-                soGameStateEvents.RaiseOnRevertPlayerState();
+                HandleCardReturnToHand();
             }
 
             Debug.Log($"Card over table: {targetContainer.name}");
@@ -149,7 +152,8 @@ public class CardPickController : MonoBehaviour
     private void HandleCardReturnToHand()
     {
         soGameStateEvents.RaiseOnPlayerStateChange(PlayerStateEnum.PlayerTurnIdle);
-        soCardEvents.RaiseCardMove(pickedCard, pickedCard.ContainerType, CardContainerType.Hand);
+        var toKey = new ContainerKey(OwnerType.Player, CardContainerType.Hand);
+        soCardEvents.RaiseCardMove(pickedCard, pickedCard.ContainerKey, toKey);
         Debug.Log("Card was not over any valid table");
     }
 

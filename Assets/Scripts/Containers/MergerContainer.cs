@@ -11,9 +11,7 @@ public class MergerContainer : CardContainerBase
     [SerializeField] private SoContainerEvents soContainerEvents;
     [SerializeField] private ChestAnimation chestAnimation;
     [SerializeField] private Transform cardPositionTransform;
-
-    private Vector3 _baseCardRotation = new Vector3(90, 0, 90);
-
+    
     private void Awake()
     {
         Application.targetFrameRate = 0;
@@ -131,6 +129,7 @@ public class MergerContainer : CardContainerBase
         soAnimationEvents.RaiseToggleChestAnimation(true);
         yield return new WaitWhile(() => chestAnimation!.IsMoving);
 
-        soCardEvents.RaiseCardMove(firstCard, ContainerType, CardContainerType.Hand);
+        var toKey = new ContainerKey(SelfContainerKey.OwnerType, CardContainerType.Hand);
+        soCardEvents.RaiseCardMove(firstCard, SelfContainerKey, toKey);
     }
 }

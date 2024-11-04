@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,8 +7,8 @@ using UnityEngine.Serialization;
 public abstract class CardContainerBase : MonoBehaviour, ICardContainer
 {
     protected Dictionary<int, Card> cardsDictionary = new Dictionary<int, Card>();
-    
-    [field: SerializeField] public CardContainerType ContainerType { get; private set; }
+
+    [field: SerializeField] public ContainerKey SelfContainerKey { get; protected set; }
 
     [SerializeField] protected int maxCardCount = 10;
     protected int currentCardCount = 0;
@@ -30,7 +31,7 @@ public abstract class CardContainerBase : MonoBehaviour, ICardContainer
         if (cardsDictionary.TryAdd(cardId, card))
         {
             card.transform.parent = transform;
-            card.ContainerType = this.ContainerType;
+            card.ContainerKey = SelfContainerKey;
             currentCardCount++;
             return true;
         }

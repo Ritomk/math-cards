@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "CardEvents", menuName = "Events/Card Events")]
 public class SoCardEvents : ScriptableObject
 {
-    public delegate void CardMoveHandler(Card card, CardContainerType fromContainer, CardContainerType toContainer, out bool success);
+    public delegate void CardMoveHandler(Card card, ContainerKey fromContainer, ContainerKey toContainer, out bool success);
     public event CardMoveHandler OnCardMove;
 
     public delegate void CardDrawHandler();
@@ -17,7 +17,7 @@ public class SoCardEvents : ScriptableObject
     public delegate void CardSelectionResetHandler();
     public event CardSelectionResetHandler OnCardSelectionReset;
     
-    public bool RaiseCardMove(Card card, CardContainerType fromContainer, CardContainerType toContainer)
+    public bool RaiseCardMove(Card card, ContainerKey fromContainer, ContainerKey toContainer)
     {
         if (OnCardMove != null)
         {

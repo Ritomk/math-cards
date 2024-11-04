@@ -12,7 +12,7 @@ public class Card : MonoBehaviour
     [SerializeField] private HighlightEffect highlightShader;
     
     [field: SerializeField]
-    public CardContainerType ContainerType { get; set; }
+    public ContainerKey ContainerKey { get; set; }
     
     private CardData.CardState _currentState = CardData.CardState.Normal;
     
