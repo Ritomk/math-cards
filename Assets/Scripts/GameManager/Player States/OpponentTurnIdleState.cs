@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace PlayerStates
 {
@@ -13,9 +14,11 @@ namespace PlayerStates
             _cardPickController = cardPickController;
         }
 
-        public override void Enter()
+        public override IEnumerator Enter()
         {
             _cardPickController.enabled = false;
+            
+            yield return null;
         }
     }
 }

@@ -13,9 +13,11 @@ namespace GameStates
             _soGameStateEvents = soGameStateEvents;
         }
 
-        public override void Enter()
+        public override IEnumerator Enter()
         {
             _soGameStateEvents.RaiseOnPlayerStateChange(PlayerStateEnum.OpponentTurnIdle);
+
+            yield return null;
         }
     }   
 }

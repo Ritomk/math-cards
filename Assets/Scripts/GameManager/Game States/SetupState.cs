@@ -15,14 +15,18 @@ namespace GameStates
             _soGameStateEvents = soGameStateEvents;
         }
 
-        public override void Enter()
+        public override IEnumerator Enter()
         {
             _soGameStateEvents.RaiseGameStateChange(GameStateEnum.BeginRound);
+            
+            yield return null;
         }
 
-        public override void Exit()
+        public override IEnumerator Exit()
         {
             _inputManager.enabled = true;
+            
+            yield return null;
         }
     }
 }

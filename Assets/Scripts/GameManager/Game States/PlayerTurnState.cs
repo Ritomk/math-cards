@@ -24,7 +24,7 @@ namespace GameStates
             _cardPickController = cardPickController;
         }
 
-        public override void Enter()
+        public override IEnumerator Enter()
         {
             _soTimerEvents.OnTimerComplete += TurnEnded;
             
@@ -34,10 +34,13 @@ namespace GameStates
             
             _cardPickController.enabled = true;
             _soGameStateEvents.RaiseOnPlayerStateChange(PlayerStateEnum.PlayerTurnIdle);
+            
+            yield return null;
         }
 
-        public override void Exit()
+        public override IEnumerator Exit()
         {
+            Debug.Log($"Start Exiting Player State | Running Coroutines {CoroutineHelper.GetRunningCoroutinesCount()}");
             _soTimerEvents.OnTimerComplete -= TurnEnded;
             
             _soCardEvents.RaiseCardSelectionReset();
@@ -45,13 +48,16 @@ namespace GameStates
  
             _soContainerEvents.RaiseChangeCardsState(CardData.CardState.NonPickable);
             
-            _soAnimationEvents.RaiseToggleChestAnimation(false);
-            
             _soContainerEvents.RaiseValidateCardPlacement();
             _soContainerEvents.RaiseMergeCards();
             
             _soAnimationEvents.RaiseCoinFlipAnimation();
             _soTimerEvents.RaiseStopTimer();
+            
+            Debug.Log($"End Exiting Player State | Running Coroutines {CoroutineHelper.GetRunningCoroutinesCount()}");
+            CoroutineHelper.DebugRunningCoroutines(CoroutineHelper.DebugType.Both);
+
+            yield return CoroutineHelper.WaitForAllCoroutines(5f);
         }
 
         private void TurnEnded()

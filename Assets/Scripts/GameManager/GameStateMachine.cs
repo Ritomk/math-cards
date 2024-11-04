@@ -7,17 +7,32 @@ public class GameStateMachine
     private GameStateBase _currentState;
     private GameStateBase _previousState;
 
+    private int _stateTransitionCoroutineId = -1;
+    
     public void ChangeState(GameStateBase newState)
+    {
+        if (_stateTransitionCoroutineId != -1)
+        {
+            CoroutineHelper.StopState(_stateTransitionCoroutineId);
+            _stateTransitionCoroutineId = -1;
+        }
+        
+        _stateTransitionCoroutineId = CoroutineHelper.StartState(ChangeStateCoroutine(newState));
+    }
+
+    private IEnumerator ChangeStateCoroutine(GameStateBase newState)
     {
         if (_currentState != null)
         {
-            _currentState.Exit();
+            yield return _currentState.Exit();
             _previousState = _currentState;
         }
-        
+
         _currentState = newState;
         Debug.Log($"Game State Changed to {_currentState.GetType().Name}");
-        _currentState.Enter();
+        yield return _currentState.Enter();
+
+        _stateTransitionCoroutineId = -1;
     }
 
     public bool RevertToPreviousState()

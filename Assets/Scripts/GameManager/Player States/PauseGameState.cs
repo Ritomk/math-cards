@@ -1,3 +1,5 @@
+using System.Collections;
+
 namespace PlayerStates
 {
     public class PauseGameState : GameStateBase
@@ -17,16 +19,18 @@ namespace PlayerStates
             _soGameStateEvents = soGameStateEvents;
         }
 
-        public override void Enter()
+        public override IEnumerator Enter()
         {
             _inputManager.enabled = false;
             _inputUIManager.enabled = true;
             
             _soGameStateEvents.RaisePauseGame(true);
             CoroutineHelper.PauseAll(); 
+            
+            yield return null;
         }
 
-        public override void Exit()
+        public override IEnumerator Exit()
         {
             _inputManager.enabled = true;
             _inputUIManager.enabled = false;
@@ -36,6 +40,8 @@ namespace PlayerStates
             
             _soCardEvents.RaiseCardSelectionReset();
             _soUniversalInputEvents.RaiseMouseMove();
+            
+            yield return null;
         }
     }
 }

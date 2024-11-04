@@ -11,9 +11,9 @@ public abstract class GameStateBase
         this.stateMachine = stateMachine;
     }
 
-    public virtual void Enter() { }
+    public virtual IEnumerator Enter() { yield break; }
     
-    public virtual void Exit() { }
+    public virtual IEnumerator Exit() { yield break; }
     
     public virtual void Update() { }
 }

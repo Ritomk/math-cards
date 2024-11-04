@@ -52,6 +52,7 @@ public class MergerContainer : CardContainerBase
         {
             BurnCard(lastCard.CardId);
         }
+        soAnimationEvents.RaiseToggleChestAnimation(false);
     }
 
     private void UpdateCardPositions()
@@ -99,6 +100,7 @@ public class MergerContainer : CardContainerBase
 
     private void HandleMergeCards()
     {
+        Debug.Log("MergeCall");
         CoroutineHelper.Start(MergeCards());
     }
     
@@ -112,8 +114,11 @@ public class MergerContainer : CardContainerBase
 
     private IEnumerator MergeCards()
     {
-        if(cardsDictionary.Count != 2) yield break;
-
+        if (cardsDictionary.Count != 2)
+        {
+            yield break;
+        }
+        
         soAnimationEvents.RaiseToggleChestAnimation(false);
         yield return new WaitWhile(() => chestAnimation!.IsMoving);
         
@@ -128,7 +133,7 @@ public class MergerContainer : CardContainerBase
         
         soAnimationEvents.RaiseToggleChestAnimation(true);
         yield return new WaitWhile(() => chestAnimation!.IsMoving);
-
+        
         var toKey = new ContainerKey(SelfContainerKey.OwnerType, CardContainerType.Hand);
         soCardEvents.RaiseCardMove(firstCard, SelfContainerKey, toKey);
     }

@@ -1,4 +1,6 @@
-﻿namespace PlayerStates
+﻿using System.Collections;
+
+namespace PlayerStates
 {
     public class PlayerTurnIdleState : GameStateBase
     {
@@ -12,10 +14,12 @@
             _cardPickController = cardPickController;
         }
 
-        public override void Enter()
+        public override IEnumerator Enter()
         {
             _cardHighlightController.enabled = true;
             _cardPickController.enabled = true;
+            
+            yield return null;
         }
     }
 }

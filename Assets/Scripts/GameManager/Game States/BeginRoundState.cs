@@ -19,11 +19,13 @@ namespace GameStates
             _soCardEvents = soCardEvents;
         }
 
-        public override void Enter()
+        public override IEnumerator Enter()
         {
             CoroutineHelper.Start(DrawCardsWithDelay());
             
             _soGameStateEvents.RaiseGameStateChange(GameStateEnum.PlayerTurn);
+
+            yield return null;
         }
 
         private IEnumerator DrawCardsWithDelay()

@@ -14,14 +14,18 @@ namespace PlayerStates
             _cardHighlightController = cardHighlightController;
         }
 
-        public override void Enter()
+        public override IEnumerator Enter()
         {
             _cardHighlightController.enabled = false;
+            
+            yield return null;
         }
 
-        public override void Exit()
+        public override IEnumerator Exit()
         {
             _cardHighlightController.enabled = true;
+            
+            yield return null;
         }
     }
 }

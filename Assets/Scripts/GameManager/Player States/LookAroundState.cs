@@ -1,4 +1,6 @@
-﻿namespace PlayerStates
+﻿using System.Collections;
+
+namespace PlayerStates
 {
     public class LookAroundState : GameStateBase
     {
@@ -10,14 +12,18 @@
             _cardSelectionController = cardSelectionController;
         }
 
-        public override void Enter()
+        public override IEnumerator Enter()
         {
             _cardSelectionController.enabled = false;
+            
+            yield return null;
         }
 
-        public override void Exit()
+        public override IEnumerator Exit()
         {
             _cardSelectionController.enabled = true;
+            
+            yield return null;
         }
     }
 }
