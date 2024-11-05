@@ -2451,6 +2451,7 @@ MonoBehaviour:
   cardHighlightController: {fileID: 1073608853}
   cardPickController: {fileID: 1073608852}
   cardSelectionController: {fileID: 1073608851}
+  cameraController: {fileID: 1073608850}
   inputUIManager: {fileID: 1969345824}
 --- !u!4 &1588663890
 Transform:

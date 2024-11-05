@@ -14,7 +14,7 @@ public class Card : MonoBehaviour
     [field: SerializeField]
     public ContainerKey ContainerKey { get; set; }
     
-    private CardData.CardState _currentState = CardData.CardState.Normal;
+    [SerializeField] private CardData.CardState _currentState = CardData.CardState.Normal;
     
     private static int _globalCardId = -1;
     
@@ -70,7 +70,6 @@ public class Card : MonoBehaviour
     {
         yield return CoroutineHelper.StartAndWait(dissolveShader.StartDissolve());
         Destroy(gameObject);
-        
     }
     
     private void UpdateCardColor()

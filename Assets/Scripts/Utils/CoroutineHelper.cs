@@ -78,8 +78,7 @@ public static class CoroutineHelper
     public static IEnumerator StartAndWait(IEnumerator coroutine, 
         [CallerMemberName] string name = "Unnamed Coroutine")
     {
-        int id = _nextId++;
-        Start(coroutine, name);
+        int id = Start(coroutine, name);
         
         while (_coroutineMapping.ContainsKey(id))
         {

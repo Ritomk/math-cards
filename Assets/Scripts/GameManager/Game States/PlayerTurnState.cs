@@ -12,9 +12,10 @@ namespace GameStates
         private SoContainerEvents _soContainerEvents;
         private SoCardEvents _soCardEvents;
         private CardPickController _cardPickController;
+        private SoUniversalInputEvents _soUniversalInputEvents;
 
 
-        public PlayerTurnState(GameStateMachine stateMachine, SoAnimationEvents soAnimationEvents, SoGameStateEvents soGameStateEvents, SoTimerEvents soTimerEvents, SoContainerEvents soContainerEvents, SoCardEvents soCardEvents, CardPickController cardPickController) : base(stateMachine)
+        public PlayerTurnState(GameStateMachine stateMachine, SoAnimationEvents soAnimationEvents, SoGameStateEvents soGameStateEvents, SoTimerEvents soTimerEvents, SoContainerEvents soContainerEvents, SoCardEvents soCardEvents, CardPickController cardPickController, SoUniversalInputEvents soUniversalInputEvents) : base(stateMachine)
         {
             _soAnimationEvents = soAnimationEvents;
             _soGameStateEvents = soGameStateEvents;
@@ -22,18 +23,20 @@ namespace GameStates
             _soContainerEvents = soContainerEvents;
             _soCardEvents = soCardEvents;
             _cardPickController = cardPickController;
+            _soUniversalInputEvents = soUniversalInputEvents;
         }
 
         public override IEnumerator Enter()
         {
             _soTimerEvents.OnTimerComplete += TurnEnded;
             
-            _soTimerEvents.RaiseStartTimer(30f);
+            _soTimerEvents.RaiseStartTimer(5f);
             
             _soAnimationEvents.RaiseToggleChestAnimation(true);
             
             _cardPickController.enabled = true;
             _soGameStateEvents.RaiseOnPlayerStateChange(PlayerStateEnum.PlayerTurnIdle);
+            _soUniversalInputEvents.RaiseMouseMove();
             
             yield return null;
         }
@@ -43,9 +46,10 @@ namespace GameStates
             Debug.Log($"Start Exiting Player State | Running Coroutines {CoroutineHelper.GetRunningCoroutinesCount()}");
             _soTimerEvents.OnTimerComplete -= TurnEnded;
             
-            _soCardEvents.RaiseCardSelectionReset();
-            _soCardEvents.RaiseCardSelected(null);
- 
+            _soUniversalInputEvents.RaiseCardPick(false);
+            _soUniversalInputEvents.RaiseMouseMove();
+            _soUniversalInputEvents.RaiseCameraReset(true);
+            
             _soContainerEvents.RaiseChangeCardsState(CardData.CardState.NonPickable);
             
             _soContainerEvents.RaiseValidateCardPlacement();

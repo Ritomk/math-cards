@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private CardHighlightController cardHighlightController;
     [SerializeField] private CardPickController cardPickController;
     [SerializeField] private CardSelectionController cardSelectionController;
+    [SerializeField] private CameraController cameraController;
     
     [Space]
     [Header("Player Menu Scripts")]
@@ -60,7 +61,8 @@ public class GameManager : MonoBehaviour
             },
             {
                 GameStateEnum.PlayerTurn, new GameStates.PlayerTurnState(_gameStateMachine, soAnimationEvents,
-                    soGameStateEvents, soTimerEvents, soContainerEvents, soCardEvents, cardPickController)
+                    soGameStateEvents, soTimerEvents, soContainerEvents, soCardEvents, cardPickController,
+                    soUniversalInputEvents)
             },
             { GameStateEnum.OpponentTurn, new GameStates.OpponentTurnState(_gameStateMachine, soGameStateEvents) }
         };

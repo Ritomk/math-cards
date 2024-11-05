@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using PlayerStates;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameStateMachine
@@ -7,19 +9,33 @@ public class GameStateMachine
     private GameStateBase _currentState;
     private GameStateBase _previousState;
 
-    private int _stateTransitionCoroutineId = -1;
+    private Queue<GameStateBase> _stateQueue = new Queue<GameStateBase>();
+    
+    private bool _isTransitioning = false;
     
     public void ChangeState(GameStateBase newState)
     {
-        if (_stateTransitionCoroutineId != -1)
-        {
-            CoroutineHelper.StopState(_stateTransitionCoroutineId);
-            _stateTransitionCoroutineId = -1;
-        }
+        _stateQueue.Enqueue(newState);
         
-        _stateTransitionCoroutineId = CoroutineHelper.StartState(ChangeStateCoroutine(newState));
+        if (!_isTransitioning)
+        {
+            _isTransitioning = true;
+
+            CoroutineHelper.StartState(ProcessTransitionQueue());
+        } 
     }
 
+    private IEnumerator ProcessTransitionQueue()
+    {
+        while (_stateQueue.Count > 0)
+        {
+            GameStateBase newState = _stateQueue.Dequeue();
+            yield return ChangeStateCoroutine(newState);
+        }
+        
+        _isTransitioning = false;
+    }
+    
     private IEnumerator ChangeStateCoroutine(GameStateBase newState)
     {
         if (_currentState != null)
@@ -31,13 +47,11 @@ public class GameStateMachine
         _currentState = newState;
         Debug.Log($"Game State Changed to {_currentState.GetType().Name}");
         yield return _currentState.Enter();
-
-        _stateTransitionCoroutineId = -1;
     }
 
     public bool RevertToPreviousState()
     {
-        if (_previousState != null)
+        if (_previousState != null && _previousState is not LookAroundState)
         {
             ChangeState(_previousState);
             _previousState = null;
