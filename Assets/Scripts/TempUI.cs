@@ -12,7 +12,7 @@ public class TempUI : MonoBehaviour
 
     private void Update()
     {
-        gameStateText.text = soGameStateEvents.CurrentGameState.ToString();
-        playerStateText.text = soGameStateEvents.CurrentPlayerState.ToString();
+        gameStateText.text = soGameStateEvents.RunningGameState.ToString();
+        playerStateText.text = soGameStateEvents.RunningPlayerState.ToString();
     }
 }

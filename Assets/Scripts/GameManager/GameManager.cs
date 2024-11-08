@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -9,13 +10,13 @@ using UnityEngine.Serialization;
 public class GameManager : MonoBehaviour
 {
     #region Variables
-    private GameStateMachine _gameStateMachine;
-    private GameStateMachine _playerStateMachine;
+    private StateMachine<GameStateEnum> _gameStateMachine;
+    private StateMachine<PlayerStateEnum> _playerStateMachine;
 
     private Dictionary<GameStateEnum, GameStateBase> _gameStates;
-    private Dictionary<PlayerStateEnum, GameStateBase> _playerStates;
+    private Dictionary<PlayerStateEnum, PlayerStateBase> _playerStates;
     
-    [Header("Scriptable Objects")]
+    [Header("Player Scriptable Objects")]
     [SerializeField] private SoUniversalInputEvents soUniversalInputEvents;
     [SerializeField] private SoGameStateEvents soGameStateEvents;
     [SerializeField] private SoCardEvents soCardEvents;
@@ -35,69 +36,56 @@ public class GameManager : MonoBehaviour
     [Space]
     [Header("Player Menu Scripts")]
     [SerializeField] private InputUIManager inputUIManager;
+
+    [Space] 
+    [Header("Enemy Scriptable Objects")] 
+    [SerializeField] private SoCardEvents enemySoCardEvents;
     
     #endregion
-    
+
     private void Awake()
     {
-        _gameStateMachine = new GameStateMachine();
-        _playerStateMachine = new GameStateMachine();
-        
+        _gameStateMachine = new StateMachine<GameStateEnum>();
+        _playerStateMachine = new StateMachine<PlayerStateEnum>();
+
+        _gameStateMachine.OnStateChanged += HandleGameStateChanged;
+        _playerStateMachine.OnStateChanged += HandlePlayerStateChanged;
+
         soGameStateEvents.OnGameStateChange += HandleSoGameStateChange;
         soGameStateEvents.OnPlayerStateChange += HandlePlayerStateChange;
         soGameStateEvents.OnRevertGameState += HandleRevertSoGameState;
         soGameStateEvents.OnRevertPlayerState += HandleRevertPlayerState;
 
-
-        _gameStates = new Dictionary<GameStateEnum, GameStateBase>
+        List<GameStateBase> gameStateInstances = new List<GameStateBase>
         {
-            {
-                GameStateEnum.Setup, new GameStates.SetupState(_gameStateMachine, inputManager,
-                    soGameStateEvents)
-            },
-            {
-                GameStateEnum.BeginRound, new GameStates.BeginRoundState(_gameStateMachine, soGameStateEvents,
-                    soCardEvents)
-            },
-            {
-                GameStateEnum.PlayerTurn, new GameStates.PlayerTurnState(_gameStateMachine, soAnimationEvents,
-                    soGameStateEvents, soTimerEvents, soContainerEvents, soCardEvents, cardPickController,
-                    soUniversalInputEvents)
-            },
-            { GameStateEnum.OpponentTurn, new GameStates.OpponentTurnState(_gameStateMachine, soGameStateEvents) }
+            new GameStates.SetupState(_gameStateMachine, inputManager, soGameStateEvents),
+            new GameStates.BeginRoundState(_gameStateMachine, soGameStateEvents, soCardEvents, enemySoCardEvents),
+            new GameStates.PlayerTurnState(_gameStateMachine, soAnimationEvents, soGameStateEvents, soTimerEvents,
+                soContainerEvents, soCardEvents, cardPickController, soUniversalInputEvents),
+            new GameStates.OpponentTurnState(_gameStateMachine, soGameStateEvents)
         };
 
-        _playerStates = new Dictionary<PlayerStateEnum, GameStateBase>
+        _gameStates = gameStateInstances.ToDictionary(state => state.StateType, state => state);
+
+        List<PlayerStateBase> playerStates = new List<PlayerStateBase>()
         {
-            {
-                PlayerStateEnum.PlayerTurnIdle, new PlayerStates.PlayerTurnIdleState(_playerStateMachine,
-                    cardHighlightController, cardPickController)
-            },
-            {
-                PlayerStateEnum.CardPicked, new PlayerStates.PlayerPickedCardState(_playerStateMachine,
-                    cardHighlightController)
-            },
-            {
-                PlayerStateEnum.CardPlaced, new PlayerStates.PlayerPlacedCardState(_playerStateMachine,
-                    cardHighlightController)
-            },
-            {
-                PlayerStateEnum.OpponentTurnIdle, new PlayerStates.OpponentTurnIdleState(_playerStateMachine,
-                    soCardEvents, cardPickController)
-            },
-            {
-                PlayerStateEnum.LookAround, new PlayerStates.LookAroundState(_playerStateMachine,
-                    cardSelectionController)
-            },
-            {
-                PlayerStateEnum.PauseGame, new PlayerStates.PauseGameState(_playerStateMachine,
-                    inputManager, inputUIManager, soUniversalInputEvents, soCardEvents, soGameStateEvents)
-            }
+            new PlayerStates.PlayerTurnIdleState(_playerStateMachine, cardHighlightController, cardPickController),
+            new PlayerStates.PlayerPickedCardState(_playerStateMachine, cardHighlightController),
+            new PlayerStates.PlayerPlacedCardState(_playerStateMachine, cardHighlightController),
+            new PlayerStates.OpponentTurnIdleState(_playerStateMachine, soCardEvents, cardPickController),
+            new PlayerStates.LookAroundState(_playerStateMachine, cardSelectionController),
+            new PlayerStates.PauseState(_playerStateMachine, inputManager, inputUIManager, soUniversalInputEvents,
+                soCardEvents, soGameStateEvents)
         };
+        
+        _playerStates = playerStates.ToDictionary(state => state.StateType, state => state);
     }
 
     private void OnDestroy()
     {
+        _gameStateMachine.OnStateChanged -= HandleGameStateChanged;
+        _playerStateMachine.OnStateChanged -= HandlePlayerStateChanged;
+        
         soGameStateEvents.OnGameStateChange -= HandleSoGameStateChange;
         soGameStateEvents.OnPlayerStateChange -= HandlePlayerStateChange;
         soGameStateEvents.OnRevertGameState -= HandleRevertSoGameState;
@@ -121,7 +109,7 @@ public class GameManager : MonoBehaviour
 
     private void ChangeGameState(GameStateEnum newState)
     {
-        if (_gameStates.TryGetValue(newState, out GameStateBase gameState))
+        if (_gameStates.TryGetValue(newState, out var gameState))
         {
             _gameStateMachine.ChangeState(gameState);
         }
@@ -138,7 +126,7 @@ public class GameManager : MonoBehaviour
 
     private void ChangePlayerState(PlayerStateEnum newState)
     {
-        if (_playerStates.TryGetValue(newState, out GameStateBase state))
+        if (_playerStates.TryGetValue(newState, out var state))
         {
             _playerStateMachine.ChangeState(state);
         }
@@ -151,4 +139,14 @@ public class GameManager : MonoBehaviour
     private void HandleRevertSoGameState(out bool success) => success = _gameStateMachine.RevertToPreviousState();
 
     private void HandleRevertPlayerState(out bool success) => success = _playerStateMachine.RevertToPreviousState();
+    
+    private void HandleGameStateChanged(StateBase<GameStateEnum> newState)
+    {
+        soGameStateEvents.UpdateCurrentGameState(newState.StateType);
+    }
+
+    private void HandlePlayerStateChanged(StateBase<PlayerStateEnum> newState)
+    {
+        soGameStateEvents.UpdateCurrentPlayerState(newState.StateType);
+    }
 }

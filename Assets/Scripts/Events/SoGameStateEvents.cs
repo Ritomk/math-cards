@@ -1,8 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 [CreateAssetMenu(fileName = "GameStateEvents", menuName = "Events/GameStateEvents")]
 public class SoGameStateEvents : ScriptableObject
@@ -14,6 +11,9 @@ public class SoGameStateEvents : ScriptableObject
     
     [SerializeField] private GameStateEnum currentGameState;
     public GameStateEnum CurrentGameState => currentGameState;
+
+    [SerializeField] private GameStateEnum runningGameState;
+    public GameStateEnum RunningGameState => runningGameState;
     
     
     private PlayerStateEnum _previousPlayerState;
@@ -21,6 +21,9 @@ public class SoGameStateEvents : ScriptableObject
     
     [SerializeField] private PlayerStateEnum currentPlayerState;
     public PlayerStateEnum CurrentPlayerState => currentPlayerState;
+    
+    [SerializeField] private PlayerStateEnum runningPlayerState;
+    public PlayerStateEnum RunningPlayerState => runningPlayerState;
     
     #endregion
 
@@ -50,7 +53,7 @@ public class SoGameStateEvents : ScriptableObject
     {
         _previousPlayerState = currentPlayerState;
         currentPlayerState = newState;
-        OnPlayerStateChange?.Invoke(currentPlayerState);
+        OnPlayerStateChange?.Invoke(newState);
     }
 
     public void RaiseGameStateChange(GameStateEnum newState)
@@ -103,6 +106,16 @@ public class SoGameStateEvents : ScriptableObject
     public void RaisePauseGame(bool paused)
     {
         OnPauseGame?.Invoke(paused);
+    }
+
+    public void UpdateCurrentGameState(GameStateEnum newState)
+    {
+        runningGameState = newState;
+    }
+
+    public void UpdateCurrentPlayerState(PlayerStateEnum newState)
+    {
+        runningPlayerState = newState;
     }
 }
 

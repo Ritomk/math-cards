@@ -4,12 +4,14 @@ using UnityEngine;
 
 namespace PlayerStates
 {
-    public class PlayerPickedCardState : GameStateBase
+    public class PlayerPickedCardState : PlayerStateBase
     {
+        public override PlayerStateEnum StateType => PlayerStateEnum.CardPicked;
+
         private CardHighlightController _cardHighlightController;
 
 
-        public PlayerPickedCardState(GameStateMachine stateMachine, CardHighlightController cardHighlightController) : base(stateMachine)
+        public PlayerPickedCardState(StateMachine<PlayerStateEnum> stateMachine, CardHighlightController cardHighlightController) : base(stateMachine)
         {
             _cardHighlightController = cardHighlightController;
         }

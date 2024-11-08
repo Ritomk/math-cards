@@ -6,10 +6,12 @@ namespace GameStates
 {
     public class SetupState : GameStateBase
     {
+        public override GameStateEnum StateType => GameStateEnum.Setup;
+        
         private InputManager _inputManager;
         private SoGameStateEvents _soGameStateEvents;
 
-        public SetupState(GameStateMachine stateMachine, InputManager inputManager, SoGameStateEvents soGameStateEvents) : base(stateMachine)
+        public SetupState(StateMachine<GameStateEnum> stateMachine, InputManager inputManager, SoGameStateEvents soGameStateEvents) : base(stateMachine)
         {
             _inputManager = inputManager;
             _soGameStateEvents = soGameStateEvents;

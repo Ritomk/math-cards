@@ -6,9 +6,11 @@ namespace GameStates
 {
     public class OpponentTurnState : GameStateBase
     {
+        public override GameStateEnum StateType => GameStateEnum.OpponentTurn;
+
         private SoGameStateEvents _soGameStateEvents;
 
-        public OpponentTurnState(GameStateMachine stateMachine, SoGameStateEvents soGameStateEvents) : base(stateMachine)
+        public OpponentTurnState(StateMachine<GameStateEnum> stateMachine, SoGameStateEvents soGameStateEvents) : base(stateMachine)
         {
             _soGameStateEvents = soGameStateEvents;
         }

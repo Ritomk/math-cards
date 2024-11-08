@@ -4,16 +4,19 @@ using PlayerStates;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class GameStateMachine
+public class StateMachine<TStateEnum>
 {
-    private GameStateBase _currentState;
-    private GameStateBase _previousState;
+    private StateBase<TStateEnum> _currentState;
+    private StateBase<TStateEnum> _previousState;
 
-    private Queue<GameStateBase> _stateQueue = new Queue<GameStateBase>();
+    private Queue<StateBase<TStateEnum>> _stateQueue = new Queue<StateBase<TStateEnum>>();
+    
+    public delegate void GameStateChangeHandler(StateBase<TStateEnum> newState);
+    public event GameStateChangeHandler OnStateChanged;
     
     private bool _isTransitioning = false;
     
-    public void ChangeState(GameStateBase newState)
+    public void ChangeState(StateBase<TStateEnum> newState)
     {
         _stateQueue.Enqueue(newState);
         
@@ -21,7 +24,7 @@ public class GameStateMachine
         {
             _isTransitioning = true;
 
-            CoroutineHelper.StartState(ProcessTransitionQueue());
+            CoroutineHelper.StartState(ProcessTransitionQueue(), newState.GetType().ToString());
         } 
     }
 
@@ -29,14 +32,14 @@ public class GameStateMachine
     {
         while (_stateQueue.Count > 0)
         {
-            GameStateBase newState = _stateQueue.Dequeue();
+            StateBase<TStateEnum> newState = _stateQueue.Dequeue();
             yield return ChangeStateCoroutine(newState);
         }
         
         _isTransitioning = false;
     }
     
-    private IEnumerator ChangeStateCoroutine(GameStateBase newState)
+    private IEnumerator ChangeStateCoroutine(StateBase<TStateEnum> newState)
     {
         if (_currentState != null)
         {
@@ -45,12 +48,15 @@ public class GameStateMachine
         }
 
         _currentState = newState;
+        OnStateChanged?.Invoke(_currentState);
+        
         Debug.Log($"Game State Changed to {_currentState.GetType().Name}");
         yield return _currentState.Enter();
     }
 
     public bool RevertToPreviousState()
     {
+        Debug.LogError(_previousState);
         if (_previousState != null && _previousState is not LookAroundState)
         {
             ChangeState(_previousState);

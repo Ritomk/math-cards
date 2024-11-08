@@ -2,15 +2,17 @@ using System.Collections;
 
 namespace PlayerStates
 {
-    public class PauseGameState : GameStateBase
+    public class PauseState : PlayerStateBase
     {
+        public override PlayerStateEnum StateType => PlayerStateEnum.PauseGame;
+
         private InputManager _inputManager;
         private InputUIManager _inputUIManager;
         private SoUniversalInputEvents _soUniversalInputEvents;
         private SoCardEvents _soCardEvents;
         private SoGameStateEvents _soGameStateEvents;
 
-        public PauseGameState(GameStateMachine stateMachine, InputManager inputManager, InputUIManager inputUIManager, SoUniversalInputEvents soUniversalInputEvents, SoCardEvents soCardEvents, SoGameStateEvents soGameStateEvents) : base(stateMachine)
+        public PauseState(StateMachine<PlayerStateEnum> stateMachine, InputManager inputManager, InputUIManager inputUIManager, SoUniversalInputEvents soUniversalInputEvents, SoCardEvents soCardEvents, SoGameStateEvents soGameStateEvents) : base(stateMachine)
         {
             _inputManager = inputManager;
             _inputUIManager = inputUIManager;

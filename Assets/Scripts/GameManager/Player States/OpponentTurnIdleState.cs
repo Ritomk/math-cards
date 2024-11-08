@@ -3,12 +3,14 @@ using UnityEngine;
 
 namespace PlayerStates
 {
-    public class OpponentTurnIdleState : GameStateBase
+    public class OpponentTurnIdleState : PlayerStateBase
     {
+        public override PlayerStateEnum StateType => PlayerStateEnum.OpponentTurnIdle;
+
         private SoCardEvents _soCardEvents;
         private CardPickController _cardPickController;
 
-        public OpponentTurnIdleState(GameStateMachine stateMachine, SoCardEvents soCardEvents, CardPickController cardPickController) : base(stateMachine)
+        public OpponentTurnIdleState(StateMachine<PlayerStateEnum> stateMachine, SoCardEvents soCardEvents, CardPickController cardPickController) : base(stateMachine)
         {
             _soCardEvents = soCardEvents;
             _cardPickController = cardPickController;

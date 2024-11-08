@@ -2,12 +2,14 @@
 
 namespace PlayerStates
 {
-    public class LookAroundState : GameStateBase
+    public class LookAroundState : PlayerStateBase
     {
+        public override PlayerStateEnum StateType => PlayerStateEnum.LookAround;
+        
         private CardSelectionController _cardSelectionController;
 
 
-        public LookAroundState(GameStateMachine stateMachine, CardSelectionController cardSelectionController) : base(stateMachine)
+        public LookAroundState(StateMachine<PlayerStateEnum> stateMachine, CardSelectionController cardSelectionController) : base(stateMachine)
         {
             _cardSelectionController = cardSelectionController;
         }

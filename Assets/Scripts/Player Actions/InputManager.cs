@@ -28,7 +28,12 @@ public class InputManager : MonoBehaviour
         _leftClick = _inputActionMap.FindAction("LeftClick");
         _rightClick = _inputActionMap.FindAction("RightClick");
         _endTurn = _inputActionMap.FindAction("EndTurn");
-        _escapePress = _inputActionMap.FindAction("EscapePress"); 
+        _escapePress = _inputActionMap.FindAction("EscapePress");
+    }
+
+    private void Start()
+    {
+        Application.targetFrameRate = -1;
     }
 
     private void OnEnable()
@@ -74,7 +79,7 @@ public class InputManager : MonoBehaviour
         else
         {
             inputEvents.RaiseMouseMove();
-
+            
             if (gameStateEvents.CurrentPlayerState != PlayerStateEnum.LookAround) return;
 
             gameStateEvents.RaiseOnRevertPlayerState();

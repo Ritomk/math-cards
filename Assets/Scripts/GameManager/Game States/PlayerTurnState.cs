@@ -6,6 +6,8 @@ namespace GameStates
 {
     public class PlayerTurnState : GameStateBase
     {
+        public override GameStateEnum StateType => GameStateEnum.PlayerTurn;
+        
         private SoAnimationEvents _soAnimationEvents;
         private SoGameStateEvents _soGameStateEvents;
         private SoTimerEvents _soTimerEvents;
@@ -15,7 +17,7 @@ namespace GameStates
         private SoUniversalInputEvents _soUniversalInputEvents;
 
 
-        public PlayerTurnState(GameStateMachine stateMachine, SoAnimationEvents soAnimationEvents, SoGameStateEvents soGameStateEvents, SoTimerEvents soTimerEvents, SoContainerEvents soContainerEvents, SoCardEvents soCardEvents, CardPickController cardPickController, SoUniversalInputEvents soUniversalInputEvents) : base(stateMachine)
+        public PlayerTurnState(StateMachine<GameStateEnum> stateMachine, SoAnimationEvents soAnimationEvents, SoGameStateEvents soGameStateEvents, SoTimerEvents soTimerEvents, SoContainerEvents soContainerEvents, SoCardEvents soCardEvents, CardPickController cardPickController, SoUniversalInputEvents soUniversalInputEvents) : base(stateMachine)
         {
             _soAnimationEvents = soAnimationEvents;
             _soGameStateEvents = soGameStateEvents;
