@@ -40,7 +40,7 @@ public class HandContainer : CardContainerBase
 
     private void UpdateCardPositions()
     {
-        int count = cardsDictionary.Count;
+        int count = CardsDictionary.Count;
         if (count == 0) return;
 
         float totalSpacing = initialSpacing * (count - 1);
@@ -48,7 +48,7 @@ public class HandContainer : CardContainerBase
         float scaleFactor = (totalSpacing > splineLength) ? (splineLength / totalSpacing) : 1f;
 
         int i = 0;
-        foreach(var cardEntry in cardsDictionary.Values)
+        foreach(var cardEntry in CardsDictionary.Values)
         {
             Transform cardTransform = cardEntry.transform;
             float offset = i - (count - 1) / 2f;
@@ -58,6 +58,18 @@ public class HandContainer : CardContainerBase
             cardTransform.localPosition = position;
             cardTransform.LookAt(_centerPosition);
             i++;
+        }
+    }
+
+    protected override void HandleCardData(ContainersData data)
+    {
+        if (SelfContainerKey.OwnerType == OwnerType.Enemy)
+        {
+            data.enemyHand = CardsDictionary;
+        }
+        else if (SelfContainerKey.OwnerType == OwnerType.Player)
+        {
+            
         }
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -15,6 +16,9 @@ public class SoContainerEvents : ScriptableObject
     
     public delegate void MergeCardsHandler();
     public event MergeCardsHandler OnMergeCards;
+
+    public delegate void GetCardDataHandler(ContainersData data);
+    public event GetCardDataHandler OnGetCardData;
 
     public void RaiseChangeCardsState(CardData.CardState newState)
     {
@@ -42,5 +46,12 @@ public class SoContainerEvents : ScriptableObject
     public void RaiseValidateCardPlacement()
     {
         OnValidateCardPlacement?.Invoke();
+    }
+
+    public ContainersData RaiseGetCardData()
+    {
+        ContainersData containersData = new ContainersData();
+        OnGetCardData?.Invoke(containersData);
+        return containersData;
     }
 }

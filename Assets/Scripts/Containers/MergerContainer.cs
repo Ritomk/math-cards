@@ -8,7 +8,6 @@ public class MergerContainer : CardContainerBase
 {
     [SerializeField] private SoAnimationEvents soAnimationEvents;
     [SerializeField] private SoCardEvents soCardEvents;
-    [SerializeField] private SoContainerEvents soContainerEvents;
     [SerializeField] private ChestAnimation chestAnimation;
     [SerializeField] private Transform cardPositionTransform;
     
@@ -17,8 +16,10 @@ public class MergerContainer : CardContainerBase
         Application.targetFrameRate = 0;
     }
 
-    private void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
+        
         soAnimationEvents.OnToggleChestAnimation += HandleToggleCardsVisibility;
         soContainerEvents.OnMergeCards += HandleMergeCards;
         soContainerEvents.OnChangeCardsState += HandleChangeCardsState;
@@ -26,8 +27,10 @@ public class MergerContainer : CardContainerBase
     }
 
 
-    private void OnDisable()
+    protected override void OnDisable()
     {
+        base.OnDisable();
+        
         soAnimationEvents.OnToggleChestAnimation -= HandleToggleCardsVisibility;
         soContainerEvents.OnMergeCards -= HandleMergeCards;
         soContainerEvents.OnChangeCardsState -= HandleChangeCardsState;
@@ -47,7 +50,7 @@ public class MergerContainer : CardContainerBase
 
     protected override void ValidateCardPlacement()
     {
-        var lastCard = cardsDictionary.LastOrDefault().Value;
+        var lastCard = CardsDictionary.LastOrDefault().Value;
         if (lastCard != null && lastCard.TokenType != CardData.TokenType.SingleDigit)
         {
             BurnCard(lastCard.CardId);
@@ -57,11 +60,11 @@ public class MergerContainer : CardContainerBase
 
     private void UpdateCardPositions()
     {
-        int cardCount = cardsDictionary.Count;
+        int cardCount = CardsDictionary.Count;
         
         if (cardCount == 1)
         {
-            var singleCard = cardsDictionary.Values.FirstOrDefault();
+            var singleCard = CardsDictionary.Values.FirstOrDefault();
             if (singleCard != null)
             {
                 singleCard.transform.localPosition = cardPositionTransform.localPosition;
@@ -70,8 +73,8 @@ public class MergerContainer : CardContainerBase
         }
         else if (cardCount == 2)
         {
-            var firstCard = cardsDictionary.Values.ElementAt(0);
-            var secondCard = cardsDictionary.Values.ElementAt(1);
+            var firstCard = CardsDictionary.Values.ElementAt(0);
+            var secondCard = CardsDictionary.Values.ElementAt(1);
 
             var baseRotation = cardPositionTransform.localRotation;
             
@@ -92,7 +95,7 @@ public class MergerContainer : CardContainerBase
 
     private void HandleToggleCardsVisibility(bool isVisible)
     {
-        cardsDictionary.Values
+        CardsDictionary.Values
             .Where(card => card != null)
             .ToList()
             .ForEach(card => card.gameObject.SetActive(isVisible));
@@ -106,7 +109,7 @@ public class MergerContainer : CardContainerBase
     
     private void HandleChangeCardsState(CardData.CardState newState)
     {
-        foreach (var card in cardsDictionary.Values)
+        foreach (var card in CardsDictionary.Values)
         {
             card.State = newState;
         }
@@ -114,7 +117,7 @@ public class MergerContainer : CardContainerBase
 
     private IEnumerator MergeCards()
     {
-        if (cardsDictionary.Count != 2)
+        if (CardsDictionary.Count != 2)
         {
             yield break;
         }
@@ -122,8 +125,8 @@ public class MergerContainer : CardContainerBase
         soAnimationEvents.RaiseToggleChestAnimation(false);
         yield return new WaitWhile(() => chestAnimation!.IsMoving);
         
-        var firstCard = cardsDictionary.Values.ElementAt(0);
-        var secondCard = cardsDictionary.Values.ElementAt(1);
+        var firstCard = CardsDictionary.Values.ElementAt(0);
+        var secondCard = CardsDictionary.Values.ElementAt(1);
         
         firstCard.State = CardData.CardState.Normal;
         firstCard.Token += secondCard.Token;

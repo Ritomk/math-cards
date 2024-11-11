@@ -239,7 +239,7 @@ public static class CoroutineHelper
 
         while (_coroutineMapping.Count > 0)
         {
-            DebugRunningCoroutines(DebugType.Normal);
+            //DebugRunningCoroutines(DebugType.Normal);
             if (hasTimeout)
             {
                 if (elapsedTime >= exitTime)

@@ -1,10 +1,7 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
+using NodeCanvas.BehaviourTrees;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 
 public class GameManager : MonoBehaviour
@@ -40,6 +37,7 @@ public class GameManager : MonoBehaviour
     [Space] 
     [Header("Enemy Scriptable Objects")] 
     [SerializeField] private SoCardEvents enemySoCardEvents;
+    [SerializeField] private BehaviourTreeOwner enemyBehaviourTreeOwner;
     
     #endregion
 
@@ -60,9 +58,10 @@ public class GameManager : MonoBehaviour
         {
             new GameStates.SetupState(_gameStateMachine, inputManager, soGameStateEvents),
             new GameStates.BeginRoundState(_gameStateMachine, soGameStateEvents, soCardEvents, enemySoCardEvents),
-            new GameStates.PlayerTurnState(_gameStateMachine, soAnimationEvents, soGameStateEvents, soTimerEvents,
-                soContainerEvents, soCardEvents, cardPickController, soUniversalInputEvents),
-            new GameStates.OpponentTurnState(_gameStateMachine, soGameStateEvents)
+            new GameStates.PlayerTurnState(_gameStateMachine, soGameStateEvents, soAnimationEvents, soTimerEvents,
+                soContainerEvents, cardPickController, soUniversalInputEvents),
+            new GameStates.OpponentTurnState(_gameStateMachine, soGameStateEvents, soAnimationEvents, soTimerEvents,
+                soContainerEvents, enemyBehaviourTreeOwner)
         };
 
         _gameStates = gameStateInstances.ToDictionary(state => state.StateType, state => state);

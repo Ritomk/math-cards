@@ -1,17 +1,28 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public abstract class CardContainerBase : MonoBehaviour, ICardContainer
 {
-    protected Dictionary<int, Card> cardsDictionary = new Dictionary<int, Card>();
+    [SerializeField] protected SoContainerEvents soContainerEvents;
+    
+    public Dictionary<int, Card> CardsDictionary { get; protected set; } = new Dictionary<int, Card>();
 
     [field: SerializeField] public ContainerKey SelfContainerKey { get; protected set; }
 
     [SerializeField] protected int maxCardCount = 10;
     protected int currentCardCount = 0;
+
+    protected virtual void OnEnable()
+    {
+        soContainerEvents.OnGetCardData += HandleCardData;
+    }
+
+    protected virtual void OnDisable()
+    {
+        soContainerEvents.OnGetCardData -= HandleCardData;
+    }
+
+    protected virtual void HandleCardData(ContainersData data) { }
 
     public virtual bool AddCard(Card card)
     {
@@ -28,7 +39,7 @@ public abstract class CardContainerBase : MonoBehaviour, ICardContainer
         }
         
         var cardId = card.CardId;
-        if (cardsDictionary.TryAdd(cardId, card))
+        if (CardsDictionary.TryAdd(cardId, card))
         {
             card.transform.parent = transform;
             card.ContainerKey = SelfContainerKey;
@@ -44,7 +55,7 @@ public abstract class CardContainerBase : MonoBehaviour, ICardContainer
 
     public virtual bool RemoveCard(int cardId)
     {
-        if (cardsDictionary.Remove(cardId, out var card))
+        if (CardsDictionary.Remove(cardId, out var card))
         {
             currentCardCount--;
             return true;
@@ -58,7 +69,7 @@ public abstract class CardContainerBase : MonoBehaviour, ICardContainer
 
     public virtual bool BurnCard(int cardId)
     {
-        if (cardsDictionary.Remove(cardId, out var card))
+        if (CardsDictionary.Remove(cardId, out var card))
         {
             card.DestroyCard();
             currentCardCount--;
@@ -73,7 +84,7 @@ public abstract class CardContainerBase : MonoBehaviour, ICardContainer
 
     public virtual List<Card> GetCards()
     {
-        return new List<Card>(cardsDictionary.Values);
+        return new List<Card>(CardsDictionary.Values);
     }
 
     public virtual Transform GetContainerTransform()

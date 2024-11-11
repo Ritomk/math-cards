@@ -44,13 +44,13 @@ public class DeckContainer : CardContainerBase
 
     public Card DrawCard()
     {
-        if (cardsDictionary.Count == 0)
+        if (CardsDictionary.Count == 0)
         {
             Debug.LogWarning("No cards left to draw.");
             return null;
         }
 
-        var card = cardsDictionary.Last();
+        var card = CardsDictionary.Last();
         RemoveCard(card.Key);
         card.Value.IsTokenVisible = true;
         card.Value.State = CardData.CardState.Normal;
@@ -65,7 +65,7 @@ public class DeckContainer : CardContainerBase
     private void UpdateCardsPositions()
     {
         int index = 0;
-        foreach (var card in cardsDictionary.Values)
+        foreach (var card in CardsDictionary.Values)
         {
             card.transform.position = CalculateCardPosition(index);
             index++;

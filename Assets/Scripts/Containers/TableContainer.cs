@@ -5,26 +5,20 @@ using UnityEngine;
 
 public class TableContainer : CardContainerBase
 {
-    [SerializeField] private SoContainerEvents soContainerEvents;
-
-    private void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
+        
         soContainerEvents.OnChangeCardsState += HandleChangeCardsState;
         soContainerEvents.OnValidateCardPlacement += ValidateCardPlacement;
     }
 
-    private void OnDisable()
+    protected override void OnDisable()
     {
+        base.OnDisable();
+        
         soContainerEvents.OnChangeCardsState -= HandleChangeCardsState;
         soContainerEvents.OnValidateCardPlacement -= ValidateCardPlacement;
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            Debug.Log(EvaluateExpression());
-        }
     }
 
     public override bool AddCard(Card card)
@@ -41,7 +35,7 @@ public class TableContainer : CardContainerBase
     protected override void ValidateCardPlacement()
     {
         var cos = 0;
-        foreach (var card in cardsDictionary.Values)
+        foreach (var card in CardsDictionary.Values)
         {
             switch (card.TokenType)
             {
@@ -56,7 +50,7 @@ public class TableContainer : CardContainerBase
 
             if (cos <= 0)
             {
-                BurnCard(cardsDictionary.Last().Value.CardId);
+                BurnCard(CardsDictionary.Last().Value.CardId);
                 return;
             }
         }
@@ -66,7 +60,7 @@ public class TableContainer : CardContainerBase
     {
         float spacing = -5.5f;
         int index = 1;
-        foreach (var card in cardsDictionary.Values)
+        foreach (var card in CardsDictionary.Values)
         {
             card.transform.localPosition = new Vector3(spacing * index, 0.2f, 0);
             card.transform.rotation = Quaternion.Euler(0, 0, 0);
@@ -76,7 +70,7 @@ public class TableContainer : CardContainerBase
 
     private void HandleChangeCardsState(CardData.CardState newState)
     {
-        foreach (var card in cardsDictionary.Values)
+        foreach (var card in CardsDictionary.Values)
         {
             card.State = newState;
         }
@@ -85,7 +79,7 @@ public class TableContainer : CardContainerBase
     public float EvaluateExpression()
     {
         List <string> tokens = new List<string> ();
-        foreach (var card in cardsDictionary.Values)
+        foreach (var card in CardsDictionary.Values)
         {
             tokens.Add(card.Token);
         }
