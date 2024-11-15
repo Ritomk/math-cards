@@ -71,4 +71,17 @@ public class DeckContainer : CardContainerBase
             index++;
         }
     }
+
+    protected override void HandleCardData(EnemyKnowledgeData data)
+    {
+        switch (SelfContainerKey.OwnerType)
+        {
+            case OwnerType.Enemy:
+                data.selfDeckCardsCount = CardsDictionary.Count;
+                break;
+            case OwnerType.Player:
+                data.playerDeckCardsCount = CardsDictionary.Count;
+                break;
+        }
+    }
 }

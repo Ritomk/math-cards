@@ -140,4 +140,17 @@ public class MergerContainer : CardContainerBase
         var toKey = new ContainerKey(SelfContainerKey.OwnerType, CardContainerType.Hand);
         soCardEvents.RaiseCardMove(firstCard, SelfContainerKey, toKey);
     }
+
+    protected override void HandleCardData(EnemyKnowledgeData data)
+    {
+        switch (SelfContainerKey.OwnerType)
+        {
+            case OwnerType.Enemy:
+                data.selfMergerList = CardsDictionary.Select(x => x.Value.Token).ToList();
+                break;
+            case OwnerType.Player:
+                data.playerMergerCardsCount = CardsDictionary.Count;
+                break;
+        }
+    }
 }

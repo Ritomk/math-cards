@@ -30,8 +30,9 @@ namespace NodeCanvas.Tasks.Actions
 				return;
 			}
 
-			var containerData = containerEvents.value.RaiseGetCardData();
-			cardsDictonary.value = containerData.enemyHand;
+			var enemyKnowledgeData = containerEvents.value.RaiseGetCardData();
+			
+			Debug.Log(enemyKnowledgeData);
 			
 			EndAction(true);
 		}

@@ -113,4 +113,24 @@ public class TableContainer : CardContainerBase
         }
         return stack.Pop();
     }
+
+    protected override void HandleCardData(EnemyKnowledgeData data)
+    {
+        if (SelfContainerKey.Equals(new ContainerKey(OwnerType.Enemy, CardContainerType.AttackTable)))
+        {
+            data.selfAttackTableList = CardsDictionary.Select(x => x.Value.Token).ToList();
+        }
+        else if (SelfContainerKey.Equals(new ContainerKey(OwnerType.Enemy, CardContainerType.DefenceTable)))
+        {
+            data.selfDefenceTableList = CardsDictionary.Select(x => x.Value.Token).ToList();
+        }
+        else if (SelfContainerKey.Equals(new ContainerKey(OwnerType.Player, CardContainerType.AttackTable)))
+        {
+            data.playerAttackTableList = CardsDictionary.Select(x => x.Value.Token).ToList();
+        }
+        else if (SelfContainerKey.Equals(new ContainerKey(OwnerType.Player, CardContainerType.DefenceTable)))
+        {
+            data.playerDefenceTableList = CardsDictionary.Select(x => x.Value.Token).ToList();
+        }
+    }
 }

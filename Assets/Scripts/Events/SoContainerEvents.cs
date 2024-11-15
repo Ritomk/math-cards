@@ -17,7 +17,7 @@ public class SoContainerEvents : ScriptableObject
     public delegate void MergeCardsHandler();
     public event MergeCardsHandler OnMergeCards;
 
-    public delegate void GetCardDataHandler(ContainersData data);
+    public delegate void GetCardDataHandler(EnemyKnowledgeData data);
     public event GetCardDataHandler OnGetCardData;
 
     public void RaiseChangeCardsState(CardData.CardState newState)
@@ -48,9 +48,9 @@ public class SoContainerEvents : ScriptableObject
         OnValidateCardPlacement?.Invoke();
     }
 
-    public ContainersData RaiseGetCardData()
+    public EnemyKnowledgeData RaiseGetCardData()
     {
-        ContainersData containersData = new ContainersData();
+        EnemyKnowledgeData containersData = new EnemyKnowledgeData();
         OnGetCardData?.Invoke(containersData);
         return containersData;
     }

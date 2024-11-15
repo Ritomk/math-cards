@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.Splines;
 
 public class HandContainer : CardContainerBase
@@ -61,15 +63,16 @@ public class HandContainer : CardContainerBase
         }
     }
 
-    protected override void HandleCardData(ContainersData data)
+    protected override void HandleCardData(EnemyKnowledgeData data)
     {
-        if (SelfContainerKey.OwnerType == OwnerType.Enemy)
+        switch (SelfContainerKey.OwnerType)
         {
-            data.enemyHand = CardsDictionary;
-        }
-        else if (SelfContainerKey.OwnerType == OwnerType.Player)
-        {
-            
+            case OwnerType.Enemy:
+                data.selfHandCardsDictionary = new Dictionary<int, Card>(CardsDictionary);
+                break;
+            case OwnerType.Player:
+                data.playerHandCardsCount = currentCardCount;
+                break;
         }
     }
 }

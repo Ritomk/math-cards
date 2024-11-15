@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class CardContainerBase : MonoBehaviour, ICardContainer
+public abstract class CardContainerBase : MonoBehaviour
 {
     [SerializeField] protected SoContainerEvents soContainerEvents;
     
@@ -22,7 +22,7 @@ public abstract class CardContainerBase : MonoBehaviour, ICardContainer
         soContainerEvents.OnGetCardData -= HandleCardData;
     }
 
-    protected virtual void HandleCardData(ContainersData data) { }
+    protected virtual void HandleCardData(EnemyKnowledgeData data) { }
 
     public virtual bool AddCard(Card card)
     {
