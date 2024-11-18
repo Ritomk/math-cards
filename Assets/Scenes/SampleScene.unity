@@ -2950,6 +2950,7 @@ GameObject:
   - component: {fileID: 1488327234}
   - component: {fileID: 1488327236}
   - component: {fileID: 1488327235}
+  - component: {fileID: 1488327237}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -3022,12 +3023,14 @@ MonoBehaviour:
     Hand Cards Count":{"_name":"Self Hand Cards Count","_id":"3c6a4a89-ead2-4d2b-b75f-6dec166633b6","$type":"NodeCanvas.Framework.Variable`1[[System.Int32,
     mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"Wait
     Time":{"_name":"Wait Time","_id":"a193a648-8af7-4196-be01-15fcb555688b","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
-    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}}}'
+    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"Generator":{"_value":4,"_name":"Generator","_id":"135c9e50-4968-4e34-b1a3-6b730d9b4cc6","$type":"NodeCanvas.Framework.Variable`1[[RpnExpressionGenerator,
+    Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"}}}'
   _objectReferences:
   - {fileID: 0}
   - {fileID: 11400000, guid: 5caf5ab15d635cb47935b7fc5d417b6a, type: 2}
   - {fileID: 11400000, guid: 6e71cc9daf3642c4c8aff564782847dc, type: 2}
   - {fileID: 11400000, guid: 4517320ae0c4c8a49b163426720e9e6f, type: 2}
+  - {fileID: 1488327237}
   _serializedVariables:
   - _json: '{"_value":1,"_name":"Container Events","_id":"1ea3ac94-ba00-4a14-beb3-c6d648193fc0","$type":"NodeCanvas.Framework.Variable`1[[SoContainerEvents,
       Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"}'
@@ -3053,6 +3056,11 @@ MonoBehaviour:
   - _json: '{"_name":"Wait Time","_id":"a193a648-8af7-4196-be01-15fcb555688b","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
       mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}'
     _references: []
+  - _json: '{"_value":1,"_name":"Generator","_id":"135c9e50-4968-4e34-b1a3-6b730d9b4cc6","$type":"NodeCanvas.Framework.Variable`1[[RpnExpressionGenerator,
+      Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"}'
+    _references:
+    - {fileID: 0}
+    - {fileID: 1488327237}
 --- !u!114 &1488327236
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3071,15 +3079,16 @@ MonoBehaviour:
     Knowledge Data","_targetVariableID":"7d9675a7-e931-42b7-b654-6c49f94c9990"},"SelfHandCardsCount":{"_name":"Self
     Hand Cards Count","_targetVariableID":"3c6a4a89-ead2-4d2b-b75f-6dec166633b6"},"overrideAgent":{"_type":"CardContainerBase","_value":1},"$type":"NodeCanvas.Tasks.Actions.GetCardsDataFromContainer"},"_position":{"x":181.9113,"y":239.5331},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"1"},{"_position":{"x":529.9128,"y":250.1989},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"2"},{"_action":{"minValue":{"_value":1.0},"maxValue":{"_value":3.0},"floatVariable":{"_name":"Wait
     Time","_targetVariableID":"a193a648-8af7-4196-be01-15fcb555688b"},"$type":"NodeCanvas.Tasks.Actions.SetFloatRandom"},"_position":{"x":393.0213,"y":330.6086},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"3"},{"_action":{"waitTime":{"_name":"Wait
-    Time","_targetVariableID":"a193a648-8af7-4196-be01-15fcb555688b"},"$type":"NodeCanvas.Tasks.Actions.Wait"},"_position":{"x":592.9128,"y":330.1989},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"4"},{"_position":{"x":838.5402,"y":243.2896},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"5"},{"_position":{"x":768.7499,"y":411.1141},"$type":"NodeCanvas.BehaviourTrees.Selector","$id":"6"},{"_condition":{"valueA":{"_name":"Self
-    Hand Cards Count","_targetVariableID":"3c6a4a89-ead2-4d2b-b75f-6dec166633b6"},"valueB":{},"$type":"NodeCanvas.Tasks.Conditions.CheckInt"},"_position":{"x":513.0527,"y":526.5002},"$type":"NodeCanvas.BehaviourTrees.ConditionNode","$id":"7"},{"childWeights":[{"_value":1.0},{"_value":0.66}],"failChance":{},"_position":{"x":826.0958,"y":530.5673},"$type":"NodeCanvas.BehaviourTrees.ProbabilitySelector","$id":"8"},{"_action":{"knowledgeData":{"_name":"Enemy
+    Time","_targetVariableID":"a193a648-8af7-4196-be01-15fcb555688b"},"$type":"NodeCanvas.Tasks.Actions.Wait"},"_position":{"x":592.9128,"y":330.1989},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"4"},{"_action":{"knowledgeData":{"_name":"Enemy
+    Knowledge Data","_targetVariableID":"7d9675a7-e931-42b7-b654-6c49f94c9990"},"generator":{"_name":"Generator","_targetVariableID":"135c9e50-4968-4e34-b1a3-6b730d9b4cc6"},"$type":"NodeCanvas.Tasks.Actions.GenerateMoves"},"_position":{"x":685.171,"y":230.9263},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"5"},{"_position":{"x":838.5402,"y":243.2896},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"6"},{"_position":{"x":768.7499,"y":411.1141},"$type":"NodeCanvas.BehaviourTrees.Selector","$id":"7"},{"_condition":{"valueA":{"_name":"Self
+    Hand Cards Count","_targetVariableID":"3c6a4a89-ead2-4d2b-b75f-6dec166633b6"},"valueB":{},"$type":"NodeCanvas.Tasks.Conditions.CheckInt"},"_position":{"x":513.0527,"y":526.5002},"$type":"NodeCanvas.BehaviourTrees.ConditionNode","$id":"8"},{"childWeights":[{"_value":1.0},{"_value":0.66}],"failChance":{},"_position":{"x":826.0958,"y":530.5673},"$type":"NodeCanvas.BehaviourTrees.ProbabilitySelector","$id":"9"},{"_action":{"knowledgeData":{"_name":"Enemy
     Knowledge Data","_targetVariableID":"7d9675a7-e931-42b7-b654-6c49f94c9990"},"soCardEvents":{"_name":"So
-    Card Events","_targetVariableID":"cf5f2bf5-51d0-40a2-aa41-ba6c6e6769fe"},"targetContainer":{"OwnerType":1,"ContainerType":2},"$type":"NodeCanvas.Tasks.Actions.PlaceCard"},"_position":{"x":748.0957,"y":633.5674},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"9"},{"_action":{"knowledgeData":{"_name":"Enemy
+    Card Events","_targetVariableID":"cf5f2bf5-51d0-40a2-aa41-ba6c6e6769fe"},"targetContainer":{"OwnerType":1,"ContainerType":2},"$type":"NodeCanvas.Tasks.Actions.PlaceCard"},"_position":{"x":748.0957,"y":633.5674},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"10"},{"_action":{"knowledgeData":{"_name":"Enemy
     Knowledge Data","_targetVariableID":"7d9675a7-e931-42b7-b654-6c49f94c9990"},"soCardEvents":{"_name":"So
-    Card Events","_targetVariableID":"cf5f2bf5-51d0-40a2-aa41-ba6c6e6769fe"},"targetContainer":{"OwnerType":1,"ContainerType":3},"$type":"NodeCanvas.Tasks.Actions.PlaceCard"},"_position":{"x":883.8092,"y":628.9928},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"10"},{"_position":{"x":1199.689,"y":412.1198},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"11"},{"_action":{"minValue":{},"maxValue":{"_value":2.0},"floatVariable":{"_name":"Wait
-    Time","_targetVariableID":"a193a648-8af7-4196-be01-15fcb555688b"},"$type":"NodeCanvas.Tasks.Actions.SetFloatRandom"},"_position":{"x":969.797,"y":519.5295},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"12"},{"_action":{"waitTime":{"_name":"Wait
-    Time","_targetVariableID":"a193a648-8af7-4196-be01-15fcb555688b"},"$type":"NodeCanvas.Tasks.Actions.Wait"},"_position":{"x":1169.689,"y":519.1199},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"13"},{"_action":{"gameStateEvents":{"_name":"Game
-    State Event","_targetVariableID":"7f9f8d75-8dbf-4fa2-8ae0-574a88e91f5a"},"$type":"NodeCanvas.Tasks.Actions.EndTurn"},"_position":{"x":1339.0,"y":519.0},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"14"}],"connections":[{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"1"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"2"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"5"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"2"},"_targetNode":{"$ref":"3"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"2"},"_targetNode":{"$ref":"4"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"5"},"_targetNode":{"$ref":"6"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"5"},"_targetNode":{"$ref":"11"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"6"},"_targetNode":{"$ref":"7"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"6"},"_targetNode":{"$ref":"8"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"8"},"_targetNode":{"$ref":"9"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"8"},"_targetNode":{"$ref":"10"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"11"},"_targetNode":{"$ref":"12"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"11"},"_targetNode":{"$ref":"13"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"11"},"_targetNode":{"$ref":"14"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"}],"canvasGroups":[],"localBlackboard":{"_variables":{}},"derivedData":{"$type":"NodeCanvas.BehaviourTrees.BehaviourTree+DerivedSerializationData"}}'
+    Card Events","_targetVariableID":"cf5f2bf5-51d0-40a2-aa41-ba6c6e6769fe"},"targetContainer":{"OwnerType":1,"ContainerType":3},"$type":"NodeCanvas.Tasks.Actions.PlaceCard"},"_position":{"x":883.8092,"y":628.9928},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"11"},{"_position":{"x":1199.689,"y":412.1198},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"12"},{"_action":{"minValue":{},"maxValue":{"_value":2.0},"floatVariable":{"_name":"Wait
+    Time","_targetVariableID":"a193a648-8af7-4196-be01-15fcb555688b"},"$type":"NodeCanvas.Tasks.Actions.SetFloatRandom"},"_position":{"x":969.797,"y":519.5295},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"13"},{"_action":{"waitTime":{"_name":"Wait
+    Time","_targetVariableID":"a193a648-8af7-4196-be01-15fcb555688b"},"$type":"NodeCanvas.Tasks.Actions.Wait"},"_position":{"x":1169.689,"y":519.1199},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"14"},{"_action":{"gameStateEvents":{"_name":"Game
+    State Event","_targetVariableID":"7f9f8d75-8dbf-4fa2-8ae0-574a88e91f5a"},"$type":"NodeCanvas.Tasks.Actions.EndTurn"},"_position":{"x":1339.0,"y":519.0},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"15"}],"connections":[{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"1"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"2"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"5"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"6"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"2"},"_targetNode":{"$ref":"3"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"2"},"_targetNode":{"$ref":"4"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"6"},"_targetNode":{"$ref":"7"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"6"},"_targetNode":{"$ref":"12"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"7"},"_targetNode":{"$ref":"8"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"7"},"_targetNode":{"$ref":"9"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"9"},"_targetNode":{"$ref":"10"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"9"},"_targetNode":{"$ref":"11"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"12"},"_targetNode":{"$ref":"13"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"12"},"_targetNode":{"$ref":"14"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"12"},"_targetNode":{"$ref":"15"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"}],"canvasGroups":[],"localBlackboard":{"_variables":{}},"derivedData":{"$type":"NodeCanvas.BehaviourTrees.BehaviourTree+DerivedSerializationData"}}'
   _boundGraphObjectReferences:
   - {fileID: 0}
   - {fileID: 349244754}
@@ -3087,8 +3096,8 @@ MonoBehaviour:
     _version: 3.31
     _category: 
     _comments: 
-    _translation: {x: 576.43256, y: -57.33091}
-    _zoomFactor: 0.5982538
+    _translation: {x: 375.56943, y: 3.7353995}
+    _zoomFactor: 0.45400015
   _firstActivation: 0
   _enableAction: 0
   _disableAction: 0
@@ -3097,6 +3106,18 @@ MonoBehaviour:
   _updateMode: 0
   _graph: {fileID: 0}
   _blackboard: {fileID: 1488327235}
+--- !u!114 &1488327237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1488327232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ae84f10afb8481a8db7f46f10df8675, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1488900620
 GameObject:
   m_ObjectHideFlags: 0

@@ -151,7 +151,7 @@ public class RpnExpressionGenerator : MonoBehaviour
         }
     }
     
-    private static string ExpressionToString(List<int> expression)
+    public static string ExpressionToString(List<int> expression)
     {
         List<string> tokensAsString = new List<string>();
         foreach (int token in expression)
@@ -168,15 +168,13 @@ public class RpnExpressionGenerator : MonoBehaviour
         return string.Join(" ", tokensAsString);
     }
 
-    public void StartComputation(Dictionary<int, Card> cards, int maxLength)
+    public async Task<List<int>> StartComputation(Dictionary<int, Card> cards, int maxLength)
     {
         ConvertCardsToTokens(cards, out List<int> operands, out List<int> operators);
-        Debug.Log("Converted cards to RPN expression");
 
-        Task.Run(() =>
+        var expression = await Task.Run(() =>
         {
             List<List<int>> expressions = GenerateAllRpnExpressions(operands, operators, maxLength);
-            //Debug.Log($"Generated expressions {expressions.Count}");
             
             float maxResult = float.MinValue;
             List<int> maxExpression = null;
@@ -185,29 +183,18 @@ public class RpnExpressionGenerator : MonoBehaviour
             {
                 if (EvaluateRpnExpression(expr, out float result))
                 {
-                    //Debug.Log($"Expression: {ExpressionToString(expr)} = {result}");
                     if (result > maxResult)
                     {
                         maxResult = result;
                         maxExpression = expr;
                     }
                 }
-                else
-                {
-                    //Debug.Log($"Invalid expression: {ExpressionToString(expr)}");
-                }
-                
-                if (maxExpression != null)
-                {
-                    // UnityMainThreadDispatcher.Instance().Enqueue(() =>
-                    // {
-                    //     OnComputationComplete?.Invoke(maxExpression, maxResult);
-                    // });
-                    Debug.Log($"Expression with highest value: {ExpressionToString(maxExpression)} = {maxResult}");
-                }
             }
+
+            return maxExpression ?? new List<int>();
         });
-        //Debug.Log("Evaluated expressions");
+        
+        return expression;
     }
 }
 

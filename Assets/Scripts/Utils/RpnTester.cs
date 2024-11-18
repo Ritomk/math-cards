@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class RPNExampleUsage : MonoBehaviour
@@ -6,16 +8,17 @@ public class RPNExampleUsage : MonoBehaviour
     [SerializeField] private GameObject cardPrefab;
     private Dictionary<int,Card> cards = new Dictionary<int, Card>();
     private static int cardId = -1;
-    private void Start()
+
+    private async void Start()
     {
         for (int i = 0; i < 9; i++)
         {
             InstantiateCard(i.ToString());
         }
-
-        for (int i = 0; i < 4; i++)
+    
+        for (int i = 0; i < 7; i++)
         {
-
+    
             var randomIndex = UnityEngine.Random.Range(0, 4);
             var sign = randomIndex switch
             {
@@ -29,34 +32,22 @@ public class RPNExampleUsage : MonoBehaviour
         }
         
         RpnExpressionGenerator generator = gameObject.AddComponent<RpnExpressionGenerator>();
-        generator.OnComputationComplete += OnComputationComplete;
+        int maxLength = 7;
+        
+        float startTime = Time.realtimeSinceStartup;
+        var expression = await generator.StartComputation(cards, maxLength);
+        float endTime = Time.realtimeSinceStartup;
+        Debug.Log($"Calculation finished");
+        Debug.Log($"Elapsed time: {endTime - startTime}");
+        Debug.Log($"Expression: {RpnExpressionGenerator.ExpressionToString(expression)}");
+    }
 
-        int maxLength = 5;
-        generator.StartComputation(cards, maxLength);
-    }
-    
-    private void OnComputationComplete(List<int> maxExpression, float maxResult)
+    private void Awake()
     {
-        // This runs on the main thread
-        Debug.Log($"Expression with highest value: {ExpressionToString(maxExpression)} = {maxResult}");
+        Test();
     }
-    
-    private static string ExpressionToString(List<int> expression)
-    {
-        List<string> tokensAsString = new List<string>();
-        foreach (int token in expression)
-        {
-            if (TokenMapping.IntToStringMap.TryGetValue(token, out string opStr))
-            {
-                tokensAsString.Add(opStr);
-            }
-            else
-            {
-                tokensAsString.Add(token.ToString());
-            }
-        }
-        return string.Join(" ", tokensAsString);
-    }
+
+    private async void Test() => await Task.Delay(1000);
 
     private void InstantiateCard(string token)
     {
