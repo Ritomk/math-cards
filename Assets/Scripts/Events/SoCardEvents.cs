@@ -21,6 +21,7 @@ public class SoCardEvents : ScriptableObject
     {
         if (OnCardMove != null)
         {
+            Debug.Log("Twoj Stary");
             OnCardMove.Invoke(card, fromContainer, toContainer, out bool success);
             return success;
         }

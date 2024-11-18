@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NodeCanvas.Framework;
 using ParadoxNotion.Design;
+using UnityEngine;
 
 
 namespace NodeCanvas.Tasks.Actions {
@@ -9,9 +10,15 @@ namespace NodeCanvas.Tasks.Actions {
 	[Category("Card Tasks")]
 	public class PlaceCard : ActionTask
 	{
-		[BlackboardOnly] public BBParameter<Dictionary<int, Card>> _cards;
-		[BlackboardOnly] public BBParameter<SoCardEvents> _soCardEvents;
-		
+		[BlackboardOnly] public BBParameter<EnemyKnowledgeData> knowledgeData = new BBParameter<EnemyKnowledgeData>()
+			{ name = "Enemy Knowledge Data" };
+
+		[BlackboardOnly] public BBParameter<SoCardEvents> soCardEvents = new BBParameter<SoCardEvents>()
+			{ name = "Card Events" };
+
+		public ContainerKey targetContainer;
+
+		private static readonly ContainerKey handContainer = new ContainerKey(OwnerType.Enemy, CardContainerType.Hand);
 
 		//Use for initialization. This is called only once in the lifetime of the task.
 		//Return null if init was successfull. Return an error string otherwise
@@ -24,9 +31,11 @@ namespace NodeCanvas.Tasks.Actions {
 		//EndAction can be called from anywhere.
 		protected override void OnExecute()
 		{
-			var from = new ContainerKey(OwnerType.Enemy, CardContainerType.Hand);
-			var to = new ContainerKey(OwnerType.Enemy, CardContainerType.AttackTable);
-			_soCardEvents.value.RaiseCardMove(_cards.value.First().Value, from, to);
+			var randomIndex = Random.Range(0, knowledgeData.value.selfHandCardsDictionary.Count);
+			Debug.Log(knowledgeData.value.selfHandCardsDictionary.Count);
+			var pickedCard = knowledgeData.value.selfHandCardsDictionary.ElementAt(randomIndex).Value;
+			
+			soCardEvents.value.RaiseCardMove(pickedCard, handContainer, targetContainer);
 			
 			EndAction(true);
 		}

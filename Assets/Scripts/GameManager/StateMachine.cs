@@ -56,7 +56,6 @@ public class StateMachine<TStateEnum>
 
     public bool RevertToPreviousState()
     {
-        Debug.LogError(_previousState);
         if (_previousState != null && _previousState is not LookAroundState)
         {
             ChangeState(_previousState);

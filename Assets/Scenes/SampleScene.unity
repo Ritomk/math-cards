@@ -3014,15 +3014,20 @@ MonoBehaviour:
     Events","_id":"1ea3ac94-ba00-4a14-beb3-c6d648193fc0","$type":"NodeCanvas.Framework.Variable`1[[SoContainerEvents,
     Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"},"So
     Card Events":{"_value":2,"_name":"So Card Events","_id":"cf5f2bf5-51d0-40a2-aa41-ba6c6e6769fe","$type":"NodeCanvas.Framework.Variable`1[[SoCardEvents,
-    Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"},"Cards
-    Dictonary":{"_value":[{"Key":0,"Value":null}],"_name":"Cards Dictonary","_id":"db479fde-58a3-470f-99d1-ba2904cad6d2","$type":"NodeCanvas.Framework.Variable`1[[System.Collections.Generic.Dictionary`2[[System.Int32,
-    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Card,
-    Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]], mscorlib,
-    Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}}}'
+    Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"},"Game
+    State Event":{"_value":3,"_name":"Game State Event","_id":"7f9f8d75-8dbf-4fa2-8ae0-574a88e91f5a","$type":"NodeCanvas.Framework.Variable`1[[SoGameStateEvents,
+    Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"},"Enemy
+    Knowledge Data":{"_value":{},"_name":"Enemy Knowledge Data","_id":"7d9675a7-e931-42b7-b654-6c49f94c9990","$type":"NodeCanvas.Framework.Variable`1[[EnemyKnowledgeData,
+    Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"},"Self
+    Hand Cards Count":{"_name":"Self Hand Cards Count","_id":"3c6a4a89-ead2-4d2b-b75f-6dec166633b6","$type":"NodeCanvas.Framework.Variable`1[[System.Int32,
+    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"Wait
+    Time":{"_name":"Wait Time","_id":"a193a648-8af7-4196-be01-15fcb555688b","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
+    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}}}'
   _objectReferences:
   - {fileID: 0}
   - {fileID: 11400000, guid: 5caf5ab15d635cb47935b7fc5d417b6a, type: 2}
   - {fileID: 11400000, guid: 6e71cc9daf3642c4c8aff564782847dc, type: 2}
+  - {fileID: 11400000, guid: 4517320ae0c4c8a49b163426720e9e6f, type: 2}
   _serializedVariables:
   - _json: '{"_value":1,"_name":"Container Events","_id":"1ea3ac94-ba00-4a14-beb3-c6d648193fc0","$type":"NodeCanvas.Framework.Variable`1[[SoContainerEvents,
       Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"}'
@@ -3034,10 +3039,19 @@ MonoBehaviour:
     _references:
     - {fileID: 0}
     - {fileID: 11400000, guid: 6e71cc9daf3642c4c8aff564782847dc, type: 2}
-  - _json: '{"_value":[{"Key":0,"Value":null}],"_name":"Cards Dictonary","_id":"db479fde-58a3-470f-99d1-ba2904cad6d2","$type":"NodeCanvas.Framework.Variable`1[[System.Collections.Generic.Dictionary`2[[System.Int32,
-      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Card,
-      Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]], mscorlib,
-      Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}'
+  - _json: '{"_value":1,"_name":"Game State Event","_id":"7f9f8d75-8dbf-4fa2-8ae0-574a88e91f5a","$type":"NodeCanvas.Framework.Variable`1[[SoGameStateEvents,
+      Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"}'
+    _references:
+    - {fileID: 0}
+    - {fileID: 11400000, guid: 4517320ae0c4c8a49b163426720e9e6f, type: 2}
+  - _json: '{"_value":{},"_name":"Enemy Knowledge Data","_id":"7d9675a7-e931-42b7-b654-6c49f94c9990","$type":"NodeCanvas.Framework.Variable`1[[EnemyKnowledgeData,
+      Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"}'
+    _references: []
+  - _json: '{"_name":"Self Hand Cards Count","_id":"3c6a4a89-ead2-4d2b-b75f-6dec166633b6","$type":"NodeCanvas.Framework.Variable`1[[System.Int32,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}'
+    _references: []
+  - _json: '{"_name":"Wait Time","_id":"a193a648-8af7-4196-be01-15fcb555688b","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}'
     _references: []
 --- !u!114 &1488327236
 MonoBehaviour:
@@ -3052,11 +3066,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _serializedExposedParameters: []
-  _boundGraphSerialization: '{"type":"NodeCanvas.BehaviourTrees.BehaviourTree","nodes":[{"_position":{"x":547.0,"y":144.0},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"0"},{"_action":{"waitTime":{"_value":1.0},"$type":"NodeCanvas.Tasks.Actions.Wait"},"_position":{"x":235.0,"y":323.0},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"1"},{"_action":{"cardsDictonary":{"_name":"Cards
-    Dictonary","_targetVariableID":"db479fde-58a3-470f-99d1-ba2904cad6d2"},"containerEvents":{"_name":"Container
-    Events","_targetVariableID":"1ea3ac94-ba00-4a14-beb3-c6d648193fc0"},"overrideAgent":{"_type":"CardContainerBase","_value":1},"$type":"NodeCanvas.Tasks.Actions.GetCardsDataFromContainer"},"_position":{"x":370.0,"y":321.0},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"2"},{"_action":{"waitTime":{"_value":1.0},"$type":"NodeCanvas.Tasks.Actions.Wait"},"_position":{"x":632.0,"y":328.0},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"3"},{"_action":{"_cards":{"_name":"Cards
-    Dictonary","_targetVariableID":"db479fde-58a3-470f-99d1-ba2904cad6d2"},"_soCardEvents":{"_name":"So
-    Card Events","_targetVariableID":"cf5f2bf5-51d0-40a2-aa41-ba6c6e6769fe"},"$type":"NodeCanvas.Tasks.Actions.PlaceCard"},"_position":{"x":807.0,"y":328.0},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"4"}],"connections":[{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"1"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"2"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"3"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"4"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"}],"canvasGroups":[],"localBlackboard":{"_variables":{}},"derivedData":{"$type":"NodeCanvas.BehaviourTrees.BehaviourTree+DerivedSerializationData"}}'
+  _boundGraphSerialization: '{"type":"NodeCanvas.BehaviourTrees.BehaviourTree","nodes":[{"_position":{"x":533.9128,"y":121.1991},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"0"},{"_action":{"ContainerEvents":{"_name":"Container
+    Events","_targetVariableID":"1ea3ac94-ba00-4a14-beb3-c6d648193fc0"},"EnemyKnowledgeData":{"_name":"Enemy
+    Knowledge Data","_targetVariableID":"7d9675a7-e931-42b7-b654-6c49f94c9990"},"SelfHandCardsCount":{"_name":"Self
+    Hand Cards Count","_targetVariableID":"3c6a4a89-ead2-4d2b-b75f-6dec166633b6"},"overrideAgent":{"_type":"CardContainerBase","_value":1},"$type":"NodeCanvas.Tasks.Actions.GetCardsDataFromContainer"},"_position":{"x":181.9113,"y":239.5331},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"1"},{"_position":{"x":529.9128,"y":250.1989},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"2"},{"_action":{"minValue":{"_value":1.0},"maxValue":{"_value":3.0},"floatVariable":{"_name":"Wait
+    Time","_targetVariableID":"a193a648-8af7-4196-be01-15fcb555688b"},"$type":"NodeCanvas.Tasks.Actions.SetFloatRandom"},"_position":{"x":393.0213,"y":330.6086},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"3"},{"_action":{"waitTime":{"_name":"Wait
+    Time","_targetVariableID":"a193a648-8af7-4196-be01-15fcb555688b"},"$type":"NodeCanvas.Tasks.Actions.Wait"},"_position":{"x":592.9128,"y":330.1989},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"4"},{"_position":{"x":838.5402,"y":243.2896},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"5"},{"_position":{"x":768.7499,"y":411.1141},"$type":"NodeCanvas.BehaviourTrees.Selector","$id":"6"},{"_condition":{"valueA":{"_name":"Self
+    Hand Cards Count","_targetVariableID":"3c6a4a89-ead2-4d2b-b75f-6dec166633b6"},"valueB":{},"$type":"NodeCanvas.Tasks.Conditions.CheckInt"},"_position":{"x":513.0527,"y":526.5002},"$type":"NodeCanvas.BehaviourTrees.ConditionNode","$id":"7"},{"childWeights":[{"_value":1.0},{"_value":0.66}],"failChance":{},"_position":{"x":826.0958,"y":530.5673},"$type":"NodeCanvas.BehaviourTrees.ProbabilitySelector","$id":"8"},{"_action":{"knowledgeData":{"_name":"Enemy
+    Knowledge Data","_targetVariableID":"7d9675a7-e931-42b7-b654-6c49f94c9990"},"soCardEvents":{"_name":"So
+    Card Events","_targetVariableID":"cf5f2bf5-51d0-40a2-aa41-ba6c6e6769fe"},"targetContainer":{"OwnerType":1,"ContainerType":2},"$type":"NodeCanvas.Tasks.Actions.PlaceCard"},"_position":{"x":748.0957,"y":633.5674},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"9"},{"_action":{"knowledgeData":{"_name":"Enemy
+    Knowledge Data","_targetVariableID":"7d9675a7-e931-42b7-b654-6c49f94c9990"},"soCardEvents":{"_name":"So
+    Card Events","_targetVariableID":"cf5f2bf5-51d0-40a2-aa41-ba6c6e6769fe"},"targetContainer":{"OwnerType":1,"ContainerType":3},"$type":"NodeCanvas.Tasks.Actions.PlaceCard"},"_position":{"x":883.8092,"y":628.9928},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"10"},{"_position":{"x":1199.689,"y":412.1198},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"11"},{"_action":{"minValue":{},"maxValue":{"_value":2.0},"floatVariable":{"_name":"Wait
+    Time","_targetVariableID":"a193a648-8af7-4196-be01-15fcb555688b"},"$type":"NodeCanvas.Tasks.Actions.SetFloatRandom"},"_position":{"x":969.797,"y":519.5295},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"12"},{"_action":{"waitTime":{"_name":"Wait
+    Time","_targetVariableID":"a193a648-8af7-4196-be01-15fcb555688b"},"$type":"NodeCanvas.Tasks.Actions.Wait"},"_position":{"x":1169.689,"y":519.1199},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"13"},{"_action":{"gameStateEvents":{"_name":"Game
+    State Event","_targetVariableID":"7f9f8d75-8dbf-4fa2-8ae0-574a88e91f5a"},"$type":"NodeCanvas.Tasks.Actions.EndTurn"},"_position":{"x":1339.0,"y":519.0},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"14"}],"connections":[{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"1"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"2"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"5"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"2"},"_targetNode":{"$ref":"3"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"2"},"_targetNode":{"$ref":"4"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"5"},"_targetNode":{"$ref":"6"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"5"},"_targetNode":{"$ref":"11"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"6"},"_targetNode":{"$ref":"7"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"6"},"_targetNode":{"$ref":"8"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"8"},"_targetNode":{"$ref":"9"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"8"},"_targetNode":{"$ref":"10"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"11"},"_targetNode":{"$ref":"12"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"11"},"_targetNode":{"$ref":"13"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"11"},"_targetNode":{"$ref":"14"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"}],"canvasGroups":[],"localBlackboard":{"_variables":{}},"derivedData":{"$type":"NodeCanvas.BehaviourTrees.BehaviourTree+DerivedSerializationData"}}'
   _boundGraphObjectReferences:
   - {fileID: 0}
   - {fileID: 349244754}
@@ -3064,8 +3087,8 @@ MonoBehaviour:
     _version: 3.31
     _category: 
     _comments: 
-    _translation: {x: 441.36252, y: 79.05536}
-    _zoomFactor: 0.32521608
+    _translation: {x: 576.43256, y: -57.33091}
+    _zoomFactor: 0.5982538
   _firstActivation: 0
   _enableAction: 0
   _disableAction: 0

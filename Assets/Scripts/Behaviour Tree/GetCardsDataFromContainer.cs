@@ -10,8 +10,15 @@ namespace NodeCanvas.Tasks.Actions
 	[Category("Card Tasks")]
 	public class GetCardsDataFromContainer : ActionTask<CardContainerBase>
 	{
-		[BlackboardOnly] public BBParameter<Dictionary<int, Card>> cardsDictonary;
-		[BlackboardOnly] public BBParameter<SoContainerEvents> containerEvents;
+		[BlackboardOnly] public readonly BBParameter<SoContainerEvents> ContainerEvents =
+			new BBParameter<SoContainerEvents>() { name = "Container Events" };
+
+		[BlackboardOnly] public BBParameter<EnemyKnowledgeData> EnemyKnowledgeData =
+			new BBParameter<EnemyKnowledgeData>() { name = "Enemy Knowledge Data" };
+
+		[BlackboardOnly] public BBParameter<int> SelfHandCardsCount =
+			new BBParameter<int>() { name = "Self Hand Cards Count" };
+
 
 		//Use for initialization. This is called only once in the lifetime of the task.
 		//Return null if init was successfull. Return an error string otherwise
@@ -30,9 +37,8 @@ namespace NodeCanvas.Tasks.Actions
 				return;
 			}
 
-			var enemyKnowledgeData = containerEvents.value.RaiseGetCardData();
-			
-			Debug.Log(enemyKnowledgeData);
+			EnemyKnowledgeData.value = ContainerEvents.value.RaiseGetCardData();
+			SelfHandCardsCount.value = EnemyKnowledgeData.value.selfHandCardsDictionary.Count;
 			
 			EndAction(true);
 		}
