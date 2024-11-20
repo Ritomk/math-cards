@@ -12,7 +12,7 @@ namespace GameStates
         private SoCardEvents _soCardEvents;
         private SoCardEvents _enemySoCardEvents;
 
-        private int _numberOfCards = 5;
+        private int _numberOfCards = 20;
         private float _timeBetweenDraws = 0.3f;
 
 

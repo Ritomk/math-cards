@@ -1,14 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
-using NodeCanvas.Framework;
 using UnityEngine;
-using Task = System.Threading.Tasks.Task;
 
 public class RpnExpressionGenerator : MonoBehaviour
 {
-    public event Action<List<int>, float> OnComputationComplete;
-    
     private static void ConvertCardsToTokens(Dictionary<int, Card> cards, out List<int> operands,
         out List<int> operators)
     {
@@ -29,23 +28,52 @@ public class RpnExpressionGenerator : MonoBehaviour
             }
             else
             {
-                Debug.LogError($"Invalid token: {tokenStr}");
+                UnityEngine.Debug.LogError($"Invalid token: {tokenStr}");
             }
         }
     }
-    
-    private static List<List<int>> GenerateAllRpnExpressions(List<int> operands, List<int> operators, int maxLength)
+
+    private static (List<int>, float) GenerateAndEvaluateExpressions(List<int> initialExpression,
+        List<int> initialGroup, List<int> operands, List<int> operators, int maxLength)
     {
         List<List<int>> expressions = new List<List<int>>();
-        GenerateExpressionsRecursive(new List<int>(), operands, operators, 0, expressions, 
-            maxLength);
-        return expressions;
+
+        int initialStackHeight = CalculateInitialStackHeight(initialExpression);
+
+        foreach (var initialToken in initialGroup)
+        {
+            var remainingOperands = new List<int>(operands);
+            remainingOperands.Remove(initialToken);
+
+            var groupExpression = new List<int>(initialExpression) { initialToken };
+
+            var stackChange = IsOperator(initialToken) ? -1 : 1;
+            
+            GenerateExpressionsRecursive(groupExpression, remainingOperands, operators,
+                 initialStackHeight + stackChange, expressions, maxLength);
+        }
+
+        float maxResult = float.MinValue;
+        List<int> maxExpression = null;
+
+        foreach (var expression in expressions)
+        {
+            if (EvaluateRpnExpression(expression, out float result))
+            {
+                if (result > maxResult)
+                {
+                    maxResult = result;
+                    maxExpression = expression;
+                }
+            }
+        }
+
+        return (maxExpression ?? new List<int>(), maxResult);
     }
 
     private static void GenerateExpressionsRecursive(List<int> currentExpression, List<int> operandsRemaining,
         List<int> operatorsRemaining, int stackHeight, List<List<int>> expressions, int maxLength)
     {
-        
         if (currentExpression.Count == maxLength)
         {
             // Check if we have a valid expression (stackHeight == 1)
@@ -90,6 +118,30 @@ public class RpnExpressionGenerator : MonoBehaviour
             }
         }
     }
+    
+    private static int CalculateInitialStackHeight(List<int> initialExpression)
+    {
+        int stackHeight = 0;
+
+        foreach (var token in initialExpression)
+        {
+            if (IsOperator(token))
+            {
+                stackHeight -= 1;
+            }
+            else
+            {
+                stackHeight += 1;
+            }
+
+            if (stackHeight < 0)
+            {
+                throw new InvalidOperationException("Invalid initial expression: stackHeight became negative.");
+            }
+        }
+        
+        return stackHeight;
+    }
 
     private static float ApplyOperator(float a, float b, int opToken)
     {
@@ -115,7 +167,7 @@ public class RpnExpressionGenerator : MonoBehaviour
     }
  
     
-    private static bool EvaluateRpnExpression(List<int> expression, out float result)
+    public static bool EvaluateRpnExpression(List<int> expression, out float result)
     {
         Stack<float> stack = new Stack<float>();
 
@@ -151,68 +203,47 @@ public class RpnExpressionGenerator : MonoBehaviour
         }
     }
     
-    public static string ExpressionToString(List<int> expression)
+    private static void PrepareGroups(List<int> initialExpression, List<int> operands, List<int> operators,
+        out List<int> group1, out List<int> group2)
     {
-        List<string> tokensAsString = new List<string>();
-        foreach (int token in expression)
+        group1 = new List<int>();
+        group2 = new List<int>();
+        
+        int initialStackHeight = CalculateInitialStackHeight(initialExpression);
+        
+        int groupSize = operands.Count / 2;
+        int remainder = operands.Count % 2;
+        
+        group1 = operands.GetRange(0, groupSize + (remainder > 0 ? 1 : 0));
+        group2 = operands.GetRange(group1.Count, operands.Count - group1.Count);
+
+        if (initialExpression.Count > 2 && initialStackHeight > 1)
         {
-            if (TokenMapping.IntToStringMap.TryGetValue(token, out string opStr))
-            {
-                tokensAsString.Add(opStr);
-            }
-            else
-            {
-                tokensAsString.Add(token.ToString());
-            }
+            var groupOperators1 = operators.GetRange(0, groupSize + (remainder > 0 ? 1 : 0));
+            var groupOperators2 = operators.GetRange(group1.Count, groupSize + (remainder > 0 ? 1 : 0));
+            
+            group1.AddRange(groupOperators1);
+            group1.AddRange(groupOperators2);
         }
-        return string.Join(" ", tokensAsString);
     }
 
-    public async Task<List<int>> StartComputation(Dictionary<int, Card> cards, int maxLength)
+    public async Task<List<int>> StartComputation(List<int> initialGroup, Dictionary<int, Card> cards, int maxLength)
     {
         ConvertCardsToTokens(cards, out List<int> operands, out List<int> operators);
-
-        var expression = await Task.Run(() =>
-        {
-            List<List<int>> expressions = GenerateAllRpnExpressions(operands, operators, maxLength);
-            
-            float maxResult = float.MinValue;
-            List<int> maxExpression = null;
-            
-            foreach (var expr in expressions)
-            {
-                if (EvaluateRpnExpression(expr, out float result))
-                {
-                    if (result > maxResult)
-                    {
-                        maxResult = result;
-                        maxExpression = expr;
-                    }
-                }
-            }
-
-            return maxExpression ?? new List<int>();
-        });
         
-        return expression;
-    }
-}
+        PrepareGroups(new List<int>(), operands, operators, out List<int> group1, out List<int> group2);
+        
+        var task1 = Task.Run(() => GenerateAndEvaluateExpressions(initialGroup, group1, operands,
+            new List<int>(operators), maxLength));
+        var task2 = Task.Run(() => GenerateAndEvaluateExpressions(initialGroup, group2, operands,
+            new List<int>(operators), maxLength));
+        
+        var results = await Task.WhenAll(task1, task2);
 
-public static class TokenMapping
-{
-    public static readonly Dictionary<string, int> StringToIntMap = new Dictionary<string, int>
-    {
-        { "+", 101 },
-        { "-", 102 },
-        { "\u00d7", 103 },
-        { "\u00f7", 104 }
-    };
-    
-    public static readonly Dictionary<int, string> IntToStringMap = new Dictionary<int, string>
-    {
-        { 101, "+" },
-        { 102, "-" },
-        { 103, "\u00d7" },
-        { 104, "\u00f7" },
-    };
+        var bestExpression = results
+            .OrderByDescending(result => result.Item2)
+            .First().Item1;
+        
+        return bestExpression;
+    }
 }

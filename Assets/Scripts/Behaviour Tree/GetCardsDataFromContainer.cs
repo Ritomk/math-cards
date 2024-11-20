@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using NodeCanvas.Framework;
 using ParadoxNotion.Design;
 using UnityEngine;
@@ -10,52 +11,81 @@ namespace NodeCanvas.Tasks.Actions
 	[Category("Card Tasks")]
 	public class GetCardsDataFromContainer : ActionTask<CardContainerBase>
 	{
-		[BlackboardOnly] public readonly BBParameter<SoContainerEvents> ContainerEvents =
+		[BlackboardOnly] public readonly BBParameter<SoContainerEvents> containerEvents =
 			new BBParameter<SoContainerEvents>() { name = "Container Events" };
 
-		[BlackboardOnly] public BBParameter<EnemyKnowledgeData> EnemyKnowledgeData =
+		[BlackboardOnly] public BBParameter<EnemyKnowledgeData> enemyKnowledgeData =
 			new BBParameter<EnemyKnowledgeData>() { name = "Enemy Knowledge Data" };
+		
+		[BlackboardOnly] public BBParameter<Dictionary<int, Card>> availableCardsPool =
+			new BBParameter<Dictionary<int, Card>>() { name = "Available Cards Pool" };
 
-		[BlackboardOnly] public BBParameter<int> SelfHandCardsCount =
+		[BlackboardOnly] public BBParameter<int> selfHandCardsCount =
 			new BBParameter<int>() { name = "Self Hand Cards Count" };
+		
+		[BlackboardOnly] public BBParameter<List<string>> selfAttackTableList =
+			new BBParameter<List<string>>() { name = "Self Attack Table List" };
+		[BlackboardOnly] public BBParameter<List<string>> selfDefenceTableList =
+			new BBParameter<List<string>>() { name = "Self Defence Table List" };
 
-
-		//Use for initialization. This is called only once in the lifetime of the task.
-		//Return null if init was successfull. Return an error string otherwise
-		protected override string OnInit() {
-			return null;
-		}
-
-		//This is called once each time the task is enabled.
-		//Call EndAction() to mark the action as finished, either in success or failure.
-		//EndAction can be called from anywhere.
+		[BlackboardOnly] public BBParameter<bool> generateMovesAttack = new BBParameter<bool>()
+			{name = "Generate Moves Attack"};
+		[BlackboardOnly] public BBParameter<bool> generateMovesDefence = new BBParameter<bool>()
+			{name = "Generate Moves Defence"};
+		[BlackboardOnly] public BBParameter<bool> generateCardsPool = new BBParameter<bool>()
+			{name = "Generate Cards Pool"};
+		
 		protected override void OnExecute() {
 			if (agent == null)
 			{
-				Debug.LogError("Ageint is null in GetCardsDataFromContainer task.");
+				Debug.LogError("Agent is null in GetCardsDataFromContainer task.");
 				EndAction(false);
 				return;
 			}
 
-			EnemyKnowledgeData.value = ContainerEvents.value.RaiseGetCardData();
-			SelfHandCardsCount.value = EnemyKnowledgeData.value.selfHandCardsDictionary.Count;
+			var newData = FetchCardData();
+			HasTablesChanged(newData.selfAttackTableList, newData.selfDefenceTableList);
+			UpdateKnowledgeData(newData);
+			CreateCardsPool();
 			
 			EndAction(true);
 		}
 
-		//Called once per frame while the action is active.
-		protected override void OnUpdate() {
-			
+		private EnemyKnowledgeData FetchCardData()
+		{
+			return containerEvents.value.RaiseGetCardData();
 		}
 
-		//Called when the task is disabled.
-		protected override void OnStop() {
-			
+		private void HasTablesChanged(List<string> oldAttackTable, List<string> oldDefenceTable)
+		{
+			if (selfAttackTableList.value == null ||
+			    !selfAttackTableList.value.SequenceEqual(oldAttackTable))
+			{
+				generateMovesAttack.value = true;
+			}
+
+			if (selfDefenceTableList.value == null ||
+			    !selfDefenceTableList.value.SequenceEqual(oldDefenceTable))
+			{
+				generateMovesDefence.value = true;
+			}
 		}
 
-		//Called when the task is paused.
-		protected override void OnPause() {
+		private void UpdateKnowledgeData(EnemyKnowledgeData newData)
+		{
+			enemyKnowledgeData.value = newData;
+			selfHandCardsCount.value = newData.selfHandCardsDictionary.Count;
 			
+			selfAttackTableList.value = newData.selfAttackTableList;
+			selfDefenceTableList.value = newData.selfDefenceTableList;
+		}
+		
+		private void CreateCardsPool()
+		{
+			if(generateCardsPool.value == false) return;
+
+			availableCardsPool.value?.Clear();
+			availableCardsPool.value = new Dictionary<int, Card>(enemyKnowledgeData.value.selfHandCardsDictionary);
 		}
 	}
 }

@@ -356,7 +356,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 1, z: 0.8}
+  m_LocalScale: {x: 0.4, y: 0.8, z: 0.64000005}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8214243165232191953}
@@ -451,7 +451,10 @@ MonoBehaviour:
   cardRenderer: {fileID: 9149121091734387786}
   dissolveShader: {fileID: 7208932981080965578}
   highlightShader: {fileID: 7287615145838377543}
-  <ContainerType>k__BackingField: 0
+  <ContainerKey>k__BackingField:
+    OwnerType: 0
+    ContainerType: 0
+  _currentState: 0
 --- !u!114 &7208932981080965578
 MonoBehaviour:
   m_ObjectHideFlags: 0
