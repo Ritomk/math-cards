@@ -20,7 +20,7 @@ public class MergerContainer : CardContainerBase
     {
         base.OnEnable();
         
-        soAnimationEvents.OnToggleChestAnimation += HandleToggleCardsVisibility;
+        soAnimationEvents.OnToggleChestAnimation += HandleToggleChestAnimation;
         soContainerEvents.OnMergeCards += HandleMergeCards;
         soContainerEvents.OnChangeCardsState += HandleChangeCardsState;
         soContainerEvents.OnValidateCardPlacement += ValidateCardPlacement;
@@ -31,7 +31,7 @@ public class MergerContainer : CardContainerBase
     {
         base.OnDisable();
         
-        soAnimationEvents.OnToggleChestAnimation -= HandleToggleCardsVisibility;
+        soAnimationEvents.OnToggleChestAnimation -= HandleToggleChestAnimation;
         soContainerEvents.OnMergeCards -= HandleMergeCards;
         soContainerEvents.OnChangeCardsState -= HandleChangeCardsState;
         soContainerEvents.OnValidateCardPlacement -= ValidateCardPlacement;
@@ -64,7 +64,7 @@ public class MergerContainer : CardContainerBase
     private IEnumerator CloseLidAfterBurn(float burnDuration)
     {
         yield return new WaitForSeconds(burnDuration);
-        chestAnimation.ToggleLead(false);
+        HandleToggleChestAnimation(SelfContainerKey.OwnerType, false);
     }
 
     private void UpdateCardPositions()
@@ -102,19 +102,20 @@ public class MergerContainer : CardContainerBase
         card.transform.rotation = rotation;
     }
 
-    private void HandleToggleCardsVisibility(bool isVisible)
+    private void HandleToggleChestAnimation(OwnerType ownerType, bool isOpen)
     {
+        if(SelfContainerKey.OwnerType is not OwnerType.Any &&
+           SelfContainerKey.OwnerType != ownerType) return;
+        
+        chestAnimation.ToggleLead(isOpen);
+        
         CardsDictionary.Values
             .Where(card => card != null)
             .ToList()
-            .ForEach(card => card.gameObject.SetActive(isVisible));
+            .ForEach(card => card.gameObject.SetActive(isOpen));
     }
 
-    private void HandleMergeCards()
-    {
-        Debug.Log("MergeCall");
-        CoroutineHelper.Start(MergeCards());
-    }
+    private void HandleMergeCards() => CoroutineHelper.Start(MergeCards());
     
     private void HandleChangeCardsState(CardData.CardState newState)
     {
@@ -131,7 +132,7 @@ public class MergerContainer : CardContainerBase
             yield break;
         }
         
-        soAnimationEvents.RaiseToggleChestAnimation(false);
+        HandleToggleChestAnimation(SelfContainerKey.OwnerType, false);
         yield return new WaitWhile(() => chestAnimation!.IsMoving);
         
         var firstCard = CardsDictionary.Values.ElementAt(0);
@@ -143,7 +144,7 @@ public class MergerContainer : CardContainerBase
         
         UpdateCardPositions();
         
-        soAnimationEvents.RaiseToggleChestAnimation(true);
+        HandleToggleChestAnimation(SelfContainerKey.OwnerType, true);
         yield return new WaitWhile(() => chestAnimation!.IsMoving);
         
         var toKey = new ContainerKey(SelfContainerKey.OwnerType, CardContainerType.Hand);

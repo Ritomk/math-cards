@@ -23,6 +23,8 @@ namespace GameStates
         {
             yield return base.Enter();
 
+            _soAnimationEvents.RaiseToggleChestAnimation(OwnerType.Enemy,true);
+            
             _behaviourTreeOwner.enabled = true;
             _soGameStateEvents.RaiseOnPlayerStateChange(PlayerStateEnum.OpponentTurnIdle);
 

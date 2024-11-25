@@ -2,7 +2,7 @@
 
 namespace PlayerStates
 {
-    public class PlayerTurnIdleState : PlayerStateBase
+    public class TurnIdleState : PlayerStateBase
     {
         public override PlayerStateEnum StateType => PlayerStateEnum.PlayerTurnIdle;
 
@@ -10,7 +10,7 @@ namespace PlayerStates
         private CardPickController _cardPickController;
 
 
-        public PlayerTurnIdleState(StateMachine<PlayerStateEnum> stateMachine, CardHighlightController cardHighlightController, CardPickController cardPickController) : base(stateMachine)
+        public TurnIdleState(StateMachine<PlayerStateEnum> stateMachine, CardHighlightController cardHighlightController, CardPickController cardPickController) : base(stateMachine)
         {
             _cardHighlightController = cardHighlightController;
             _cardPickController = cardPickController;

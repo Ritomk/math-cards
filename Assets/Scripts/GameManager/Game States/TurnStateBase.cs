@@ -26,8 +26,6 @@ namespace GameStates
             
             _soTimerEvents.RaiseStartTimer(GetTurnDuration());
             
-            _soAnimationEvents.RaiseToggleChestAnimation(true);
-            
             yield return null;
         }
         

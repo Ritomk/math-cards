@@ -72,7 +72,7 @@ public class CardPickController : MonoBehaviour
                             PerformCardSelection(selectedCard);
                         }
                         break;
-                    case PlayerStateEnum.CardPlaced:
+                    case PlayerStateEnum.CardsPlaced:
                         if (selectedCard.ContainerKey.ContainerType is CardContainerType.AttackTable
                             or CardContainerType.DefenceTable or CardContainerType.Merger)
                         {
@@ -119,7 +119,7 @@ public class CardPickController : MonoBehaviour
             Debug.Log(temp);
             if (soCardEvents.RaiseCardMove(pickedCard, pickedCard.ContainerKey, targetContainer.SelfContainerKey))
             {
-                soGameStateEvents.RaiseOnPlayerStateChange(PlayerStateEnum.CardPlaced);
+                soGameStateEvents.RaiseOnPlayerStateChange(PlayerStateEnum.CardsPlaced);
             }
             else
             {

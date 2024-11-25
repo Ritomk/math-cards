@@ -68,9 +68,9 @@ public class GameManager : MonoBehaviour
 
         List<PlayerStateBase> playerStates = new List<PlayerStateBase>()
         {
-            new PlayerStates.PlayerTurnIdleState(_playerStateMachine, cardHighlightController, cardPickController),
-            new PlayerStates.PlayerPickedCardState(_playerStateMachine, cardHighlightController),
-            new PlayerStates.PlayerPlacedCardState(_playerStateMachine, cardHighlightController),
+            new PlayerStates.TurnIdleState(_playerStateMachine, cardHighlightController, cardPickController),
+            new PlayerStates.PickedCardState(_playerStateMachine, cardHighlightController),
+            new PlayerStates.AllPlacedCardsState(_playerStateMachine, cardHighlightController),
             new PlayerStates.OpponentTurnIdleState(_playerStateMachine, soCardEvents, cardPickController),
             new PlayerStates.LookAroundState(_playerStateMachine, cardSelectionController),
             new PlayerStates.PauseState(_playerStateMachine, inputManager, inputUIManager, soUniversalInputEvents,

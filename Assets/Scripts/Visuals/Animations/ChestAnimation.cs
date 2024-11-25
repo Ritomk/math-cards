@@ -3,18 +3,15 @@ using System.Collections;
 
 public class ChestAnimation : MonoBehaviour
 {
+    [SerializeField] private MergerContainer mergerContainer;
     [SerializeField] private SoAnimationEvents soAnimationEvents;
     [SerializeField] private float animationDuration = 1.0f;
 
-    private Quaternion _openRotation = Quaternion.Euler(45, 90, -90);
-    private Quaternion _closedRotation = Quaternion.Euler(-90, 90, -90);
+    private readonly Quaternion _openRotation = Quaternion.Euler(45, 90, -90);
+    private readonly Quaternion _closedRotation = Quaternion.Euler(-90, 90, -90);
 
     private bool _isOpen = true;
     public bool IsMoving { get; private set; } = false;
-
-    private void OnEnable() => soAnimationEvents.OnToggleChestAnimation += ToggleLead;
-
-    private void OnDisable() => soAnimationEvents.OnToggleChestAnimation -= ToggleLead;
 
     public void ToggleLead(bool isOpen)
     {

@@ -12,12 +12,13 @@ public class SoAnimationEvents : ScriptableObject
     public delegate void TimerAnimationHandler(float t);
     public event TimerAnimationHandler OnTimerAnimation;
     
-    public delegate void ToggleChestAnimationHandler(bool state);
+    public delegate void ToggleChestAnimationHandler(OwnerType owner, bool state);
     public event ToggleChestAnimationHandler OnToggleChestAnimation;
     
     public void RaiseCoinFlipAnimation() => OnCoinFlipAnimation?.Invoke();
 
     public void RaiseTimerAnimation(float t) => OnTimerAnimation?.Invoke(t);
-    
-    public void RaiseToggleChestAnimation(bool isOpen) => OnToggleChestAnimation?.Invoke(isOpen);
+
+    public void RaiseToggleChestAnimation(OwnerType owner, bool isOpen) =>
+        OnToggleChestAnimation?.Invoke(owner, isOpen);
 }

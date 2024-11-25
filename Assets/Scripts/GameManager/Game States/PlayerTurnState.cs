@@ -26,6 +26,8 @@ namespace GameStates
         {
             yield return base.Enter();
             
+            _soAnimationEvents.RaiseToggleChestAnimation(OwnerType.Player,true);
+            
             _cardPickController.enabled = true;
             _soGameStateEvents.RaiseOnPlayerStateChange(PlayerStateEnum.PlayerTurnIdle);
             _soUniversalInputEvents.RaiseMouseMove();

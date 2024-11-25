@@ -5,7 +5,8 @@ using UnityEngine;
 public enum OwnerType
 {
     Player,
-    Enemy
+    Enemy,
+    Any
 }
 
 public enum CardContainerType
