@@ -82,12 +82,12 @@ public class RPNExampleUsage : MonoBehaviour
             // Find the first matching card
             foreach (var entry in usedCards)
             {
-                if (entry.Value.Token == strToken)
-                {
-                    usedCards.Remove(entry.Key);
-                    //Debug.Log($"Removed card: {entry.Value.Token}");
-                    break;
-                }
+                // if (entry.Value.Token == strToken)
+                // {
+                //     usedCards.Remove(entry.Key);
+                //     //Debug.Log($"Removed card: {entry.Value.Token}");
+                //     break;
+                // }
             }
         }
         return usedCards;
@@ -165,7 +165,7 @@ public class RPNExampleUsage : MonoBehaviour
         GameObject cardObject = Instantiate(cardPrefab, transform);
         var card = cardObject.GetComponent<Card>();
         cardObject.name = $"Card {token}";
-        card.Initialize(token, false, CardData.CardState.NonPickable);
+        // card.Initialize(token, false, CardData.CardState.NonPickable);
         cards.Add(cardId, card);
         ++cardId;
     }

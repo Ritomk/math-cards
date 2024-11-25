@@ -23,10 +23,10 @@ namespace NodeCanvas.Tasks.Actions
 		[BlackboardOnly] public BBParameter<int> selfHandCardsCount =
 			new BBParameter<int>() { name = "Self Hand Cards Count" };
 		
-		[BlackboardOnly] public BBParameter<List<string>> selfAttackTableList =
-			new BBParameter<List<string>>() { name = "Self Attack Table List" };
-		[BlackboardOnly] public BBParameter<List<string>> selfDefenceTableList =
-			new BBParameter<List<string>>() { name = "Self Defence Table List" };
+		[BlackboardOnly] public BBParameter<List<int>> selfAttackTableList =
+			new BBParameter<List<int>>() { name = "Self Attack Table List" };
+		[BlackboardOnly] public BBParameter<List<int>> selfDefenceTableList =
+			new BBParameter<List<int>>() { name = "Self Defence Table List" };
 
 		[BlackboardOnly] public BBParameter<bool> generateMovesAttack = new BBParameter<bool>()
 			{name = "Generate Moves Attack"};
@@ -56,7 +56,7 @@ namespace NodeCanvas.Tasks.Actions
 			return containerEvents.value.RaiseGetCardData();
 		}
 
-		private void HasTablesChanged(List<string> oldAttackTable, List<string> oldDefenceTable)
+		private void HasTablesChanged(List<int> oldAttackTable, List<int> oldDefenceTable)
 		{
 			if (selfAttackTableList.value == null ||
 			    !selfAttackTableList.value.SequenceEqual(oldAttackTable))

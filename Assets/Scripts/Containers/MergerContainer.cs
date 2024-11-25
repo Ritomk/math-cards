@@ -50,12 +50,21 @@ public class MergerContainer : CardContainerBase
 
     protected override void ValidateCardPlacement()
     {
+        var burnDuration = 0f;
         var lastCard = CardsDictionary.LastOrDefault().Value;
         if (lastCard != null && lastCard.TokenType != CardData.TokenType.SingleDigit)
         {
+            burnDuration = 1f;
             BurnCard(lastCard.CardId);
         }
-        soAnimationEvents.RaiseToggleChestAnimation(false);
+        
+        CoroutineHelper.Start(CloseLidAfterBurn(burnDuration));
+    }
+
+    private IEnumerator CloseLidAfterBurn(float burnDuration)
+    {
+        yield return new WaitForSeconds(burnDuration);
+        chestAnimation.ToggleLead(false);
     }
 
     private void UpdateCardPositions()

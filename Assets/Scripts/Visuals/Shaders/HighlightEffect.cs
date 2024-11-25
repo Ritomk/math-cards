@@ -17,6 +17,7 @@ public class HighlightEffect : MonoBehaviour
     
     private int _outlineCoroutineId = -1;
     private int _highlightCoroutineId = -1;
+    private int _addCardCoroutineId = -1;
 
     private void Awake()
     {
@@ -76,6 +77,45 @@ public class HighlightEffect : MonoBehaviour
             _highlightCoroutineId = -1;
         }
         _highlightCoroutineId = CoroutineHelper.Start(SmoothChangeHighlightColorCoroutine(targetColor, duration));
+    }
+
+    public void AddCardToHand(Color baseOutlineColor, Color baseHighlightColor, Color changeOutlineColor,
+        Color changeHighlightColor, float duration)
+    {
+        if(_addCardCoroutineId != -1) return;
+
+        _addCardCoroutineId = CoroutineHelper.Start(AddCardToHandCoroutine(baseOutlineColor, baseHighlightColor,
+            changeOutlineColor, changeHighlightColor, duration));
+    }
+
+    private IEnumerator AddCardToHandCoroutine(Color baseOutlineColor, Color baseHighlightColor, Color changeOutlineColor,
+        Color changeHighlightColor, float duration)
+    {
+        float halfDuration = duration / 2f;
+
+        if (_outlineCoroutineId != -1)
+        {
+            CoroutineHelper.Stop(_outlineCoroutineId);
+            _outlineCoroutineId = -1;
+        }
+        
+        if (_highlightCoroutineId != -1)
+        {
+            CoroutineHelper.Stop(_highlightCoroutineId);
+            _highlightCoroutineId = -1;
+        }
+        
+        CoroutineHelper.Start(SmoothChangeOutlineColorCoroutine(changeHighlightColor, halfDuration));
+        CoroutineHelper.Start(SmoothChangeHighlightColorCoroutine(changeHighlightColor, halfDuration));
+        
+        yield return new WaitForSecondsPauseable(halfDuration);
+        
+        CoroutineHelper.Start(SmoothChangeOutlineColorCoroutine(baseOutlineColor, halfDuration));
+        CoroutineHelper.Start(SmoothChangeHighlightColorCoroutine(baseHighlightColor, halfDuration));
+        
+        yield return new WaitForSecondsPauseable(halfDuration);
+        
+        _addCardCoroutineId = -1;
     }
 
     private IEnumerator SmoothChangeOutlineColorCoroutine(Color targetColor, float duration)

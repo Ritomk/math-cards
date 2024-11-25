@@ -16,7 +16,7 @@ public class ChestAnimation : MonoBehaviour
 
     private void OnDisable() => soAnimationEvents.OnToggleChestAnimation -= ToggleLead;
 
-    private void ToggleLead(bool isOpen)
+    public void ToggleLead(bool isOpen)
     {
         if (isOpen != _isOpen && !IsMoving)
         {

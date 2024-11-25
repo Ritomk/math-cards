@@ -98,6 +98,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _Accumulated_Time: 0
     - _AlphaClip: 0
     - _AlphaToMask: 0
     - _Amplitude: 5
@@ -148,9 +149,9 @@ Material:
     - _Color: {r: 0, g: 1, b: 0.5171318, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Flame_Color: {r: 16, g: 3.1832461, b: 0, a: 0}
-    - _Outline_Color: {r: 1.4980392, g: 1.0628103, b: 0, a: 0}
+    - _Outline_Color: {r: 0, g: 0, b: 0, a: 0}
     - _PanSpeed: {r: 5, g: 5, b: 0, a: 0}
-    - _Rain_Color: {r: 4.066435, g: 3.6176648, b: 0.6812874, a: 0}
+    - _Rain_Color: {r: 0, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &7263075667981265699

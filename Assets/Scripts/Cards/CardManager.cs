@@ -89,7 +89,7 @@ public class CardManager : MonoBehaviour
 
                 if (handContainer.AddCard(drawnCard))
                 {
-                    Debug.Log($"Card {drawnCard.name} drawn and added to hand.");
+                    //Debug.Log($"Card {drawnCard.name} drawn and added to hand.");
                 }
                 else
                 {

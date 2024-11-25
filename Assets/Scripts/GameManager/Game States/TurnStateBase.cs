@@ -43,8 +43,6 @@ namespace GameStates
             _soAnimationEvents.RaiseCoinFlipAnimation();
             _soTimerEvents.RaiseStopTimer();
             
-            CoroutineHelper.DebugRunningCoroutines(CoroutineHelper.DebugType.Both);
-
             yield return CoroutineHelper.WaitForAllCoroutines(5f);
         }
 

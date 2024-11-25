@@ -67,6 +67,6 @@ public class CardData : ScriptableObject
 
     public StateColorSet GetColorSetForState(CardState state)
     {
-        return _stateColorMap.TryGetValue(state, out var colorSet) ? colorSet : default;
+        return _stateColorMap.GetValueOrDefault(state);
     }
 }

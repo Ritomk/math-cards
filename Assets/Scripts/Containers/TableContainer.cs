@@ -76,13 +76,14 @@ public class TableContainer : CardContainerBase
         }
     }
 
+    //DELETE
     public float EvaluateExpression()
     {
         List <string> tokens = new List<string> ();
-        foreach (var card in CardsDictionary.Values)
-        {
-            tokens.Add(card.Token);
-        }
+        // foreach (var card in CardsDictionary.Values)
+        // {
+        //     tokens.Add(card.Token);
+        // }
 
         return EvaluateRpn(tokens);
     }

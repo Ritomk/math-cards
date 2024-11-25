@@ -20,14 +20,14 @@ namespace NodeCanvas.Tasks.Actions
         [BlackboardOnly] public BBParameter<Stack<Card>> tableMoves = new BBParameter<Stack<Card>>()
             { name = "Attack Table Moves" };
         
-        [BlackboardOnly] public BBParameter<List<string>> tableList =
-            new BBParameter<List<string>>() { name = "Self Attack Table List" };
+        [BlackboardOnly] public BBParameter<List<int>> tableList =
+            new BBParameter<List<int>>() { name = "Self Attack Table List" };
 
         [BlackboardOnly] public BBParameter<Dictionary<int, Card>> availableCardsPool =
             new BBParameter<Dictionary<int, Card>>() { name = "Available Cards Pool" };
 
         public int maxExpressionLength = 5;
-        private int partitionSize = 3;
+        public int partitionSize = 3;
         
         
         protected override void OnExecute()
@@ -44,23 +44,27 @@ namespace NodeCanvas.Tasks.Actions
             float startTime = Time.realtimeSinceStartup;
             
             var cards = availableCardsPool.value;
-            var initialCards = RpnExpressionHelper.ExpressionToIntList(tableList.value);
+            var initialCards = new List<int>(tableList.value);
             
-            var expression = await generator.value.StartComputation( initialCards ,cards, maxExpressionLength);
-            var strExpression = RpnExpressionHelper.ExpressionToStringList(expression);
+            var expression1 = await generator.value.StartComputation( initialCards ,cards, partitionSize);
 
-            tableMoves.value = GetUniqueCardsMatchingTokens(strExpression, knowledgeData.value.selfHandCardsDictionary);
+            GetUniqueCardsMatchingTokens(new List<int>(expression1), knowledgeData.value.selfHandCardsDictionary);
             
+            cards = availableCardsPool.value;
+            var expression2 = await generator.value.StartComputation(expression1, cards, maxExpressionLength);
+            
+            tableMoves.value = GetUniqueCardsMatchingTokens(expression2, knowledgeData.value.selfHandCardsDictionary);
+
             float endTime = Time.realtimeSinceStartup;
             
             Debug.Log("AI: Calculation finished");
             Debug.Log($"AI: Elapsed time: {endTime - startTime}");
-            Debug.Log($"AI: Expression: {RpnExpressionHelper.ExpressionToString(expression)}");
+            Debug.Log($"AI: Expression: {RpnExpressionHelper.ExpressionToString(expression2)}");
             
             Debug.Log($"AI: Cards in Pool: {string.Join(" ", availableCardsPool.value.Values.Select(card => card.Token))}");
             Debug.Log($"AI: Cards in Hand: {string.Join(" ", knowledgeData.value.selfHandCardsDictionary.Values.Select(card => card.Token))}");
 
-            EndAction(expression.Count > 0);
+            EndAction(expression2.Count > 0);
         }
 
         private void ReturnCardsToPool()
@@ -80,12 +84,15 @@ namespace NodeCanvas.Tasks.Actions
             Debug.Log($"AI: Cards in Hand: {string.Join(" ", knowledgeData.value.selfHandCardsDictionary.Values)}");
         }
 
-        private Stack<Card> GetUniqueCardsMatchingTokens(List<string> tokens, Dictionary<int, Card> cards)
+        private Stack<Card> GetUniqueCardsMatchingTokens(List<int> tokens, Dictionary<int, Card> cards)
         {
             HashSet<int> usedCardIds = new HashSet<int>();
             
             Stack<Card> resultStack = new Stack<Card>();
 
+            tokens.Reverse();
+
+            
             foreach (var token in tokens)
             {
                 var card = cards.Values.FirstOrDefault(c => c.Token == token && !usedCardIds.Contains(c.CardId));

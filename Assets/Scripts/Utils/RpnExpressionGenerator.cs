@@ -16,19 +16,15 @@ public class RpnExpressionGenerator : MonoBehaviour
 
         foreach (var card in cards)
         {
-            string tokenStr = card.Value.Token;
+            int token = card.Value.Token;
 
-            if (TokenMapping.StringToIntMap.TryGetValue(tokenStr, out int tokenInt))
+            if (IsOperator(token))
             {
-                operators.Add(tokenInt);
-            }
-            else if (int.TryParse(tokenStr, out int operand))
-            {
-                operands.Add(operand);
+                operators.Add(token);
             }
             else
             {
-                UnityEngine.Debug.LogError($"Invalid token: {tokenStr}");
+                operands.Add(token);
             }
         }
     }

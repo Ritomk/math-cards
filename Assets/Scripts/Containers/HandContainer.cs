@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Splines;
@@ -23,7 +24,23 @@ public class HandContainer : CardContainerBase
         bool result = base.AddCard(card);
         if (result)
         {
+            card.transform.position = _centerPosition;
             UpdateCardPositions();
+            
+            if (SelfContainerKey.OwnerType == OwnerType.Player)
+            {
+                var existingActiveCard = CardsDictionary.Values
+                    .FirstOrDefault(c => c.Token == card.Token && c.gameObject.activeSelf && c != card);
+
+                if (existingActiveCard != null)
+                {
+                    existingActiveCard.AddCardToHand();
+                }
+                else
+                {
+                    card.AddCardToHand();
+                }
+            }
         }
         
         return result;
@@ -31,10 +48,19 @@ public class HandContainer : CardContainerBase
 
     public override bool RemoveCard(int cardId)
     {
+        CardsDictionary.TryGetValue(cardId, out Card card);
+        
         bool result = base.RemoveCard(cardId);
+        
         if (result)
         {
             UpdateCardPositions();
+
+            if (card != null)
+            {
+                card.gameObject.SetActive(true);
+                card.Duplicates = 0;
+            }
         }
         
         return result;
@@ -42,17 +68,40 @@ public class HandContainer : CardContainerBase
 
     private void UpdateCardPositions()
     {
-        int count = CardsDictionary.Count;
-        if (count == 0) return;
+        if (CardsDictionary.Count == 0) return;
 
+        var groupedCards = CardsDictionary.Values
+            .GroupBy(card => card.Token)
+            .Select(group => new
+            {
+                Token = group.Key,
+                Card = group.First(),
+                Count = group.Count()
+            })
+            .OrderBy(card => card.Card.Token)
+            .ToList();
+        
+        var activeCardSet = new HashSet<Card>(groupedCards.Select(card => card.Card));
+        
+        foreach (var cardEntry in CardsDictionary.Values)
+        {
+            cardEntry.gameObject.SetActive(activeCardSet.Contains(cardEntry));
+        }
+
+        int count = groupedCards.Count;
+        
         float totalSpacing = initialSpacing * (count - 1);
         float splineLength = splineContainer.Spline.GetLength();
         float scaleFactor = (totalSpacing > splineLength) ? (splineLength / totalSpacing) : 1f;
 
         int i = 0;
-        foreach(var cardEntry in CardsDictionary.Values)
+        foreach(var cardEntry in groupedCards)
         {
-            Transform cardTransform = cardEntry.transform;
+            if(!cardEntry.Card.gameObject.activeSelf) cardEntry.Card.gameObject.SetActive(true);
+
+            cardEntry.Card.Duplicates = cardEntry.Count;
+            
+            Transform cardTransform = cardEntry.Card.transform;
             float offset = i - (count - 1) / 2f;
             float t = 0.5f + (offset * initialSpacing * scaleFactor) / splineLength;
             t = Mathf.Clamp01(t);

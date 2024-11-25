@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using TMPro;
 using System.Collections;
@@ -6,8 +7,9 @@ using UnityEngine.Serialization;
 public class Card : MonoBehaviour
 {
     [SerializeField] private CardData cardData;
-    [SerializeField] private TextMeshPro textMesh;
-    [SerializeField] private Renderer cardRenderer;
+    [SerializeField] private Texture2D[] textures;
+    [SerializeField] private TextMeshPro tokenText;
+    [SerializeField] private TextMeshPro duplicatesText;
     [SerializeField] private DissolveEffect dissolveShader;
     [SerializeField] private HighlightEffect highlightShader;
     
@@ -22,27 +24,31 @@ public class Card : MonoBehaviour
     
     public bool IsTokenVisible
     {
-        get => textMesh.gameObject.activeSelf;
-        set => textMesh.gameObject.SetActive(value);
+        get => tokenText.gameObject.activeSelf;
+        set => tokenText.gameObject.SetActive(value);
     }
 
     public CardData.TokenType TokenType { get; private set; } = CardData.TokenType.IllegalToken;
-    public string Token
+    
+    public int Token
     {
-        get => textMesh.text;
+        get => _token;
         set
         {
             if (DetermineTokenType(value))
             {
-                textMesh.text = value;
+                _token = value;
+                UpdateTextMesh();
             }
             else
             {
-                textMesh.text = "Error"; 
+                tokenText.text = "Error"; 
                 Debug.LogError($"Invalid token type: {value}", gameObject);
             }
         }
     }
+
+    private int _token;
     
     public CardData.CardState State
     {
@@ -55,13 +61,26 @@ public class Card : MonoBehaviour
         }
     }
 
-    public void Initialize(string token = "0", bool isTokenVisible = true,
-        CardData.CardState state = CardData.CardState.Normal)
+    public int Duplicates
+    {
+        get => _duplicates;
+        set
+        {
+            _duplicates = value;
+            var texture = value > 1 ? textures[1] : textures[0];
+            UpdateTexture(texture);
+        }
+    }
+    private int _duplicates;
+
+    public void Initialize(int token = 0, bool isTokenVisible = true,
+        CardData.CardState state = CardData.CardState.Normal,int duplicates = 0)
     {
         CardId = GenerateUniqueID();
         Token = token;
         IsTokenVisible = isTokenVisible;
         State = state;
+        Duplicates = duplicates;
     }
     
     public void DestroyCard() => StartCoroutine(DissolveAndDestroy());
@@ -70,6 +89,20 @@ public class Card : MonoBehaviour
     {
         yield return CoroutineHelper.StartAndWait(dissolveShader.StartDissolve());
         Destroy(gameObject);
+    }
+
+    public void AddCardToHand()
+    {
+        var baseColorSet = cardData.GetColorSetForState(CardData.CardState.Normal);
+        var changeColorSet = cardData.GetColorSetForState(CardData.CardState.Highlighted);
+
+        highlightShader.AddCardToHand(baseColorSet.outlineColor, baseColorSet.highlightColor,
+            changeColorSet.outlineColor, changeColorSet.highlightColor, 0.6f);
+    } 
+
+    private void UpdateTextMesh()
+    {
+        tokenText.text = IsOperator(_token) ? OperatorToString(_token) : _token.ToString();
     }
     
     private void UpdateCardColor()
@@ -88,6 +121,20 @@ public class Card : MonoBehaviour
         }
     }
 
+    private void UpdateTexture(Texture2D texture)
+    {
+        dissolveShader.ChangeTexture(texture);
+        if (Duplicates > 1)
+        {
+            duplicatesText.text = ArabicToRoman(Duplicates);
+            duplicatesText.gameObject.SetActive(true);
+        }
+        else
+        {
+            duplicatesText.gameObject.SetActive(false);
+        }
+    }
+
     private void UpdateCardTag()
     {
         transform.tag = State == CardData.CardState.NonPickable ? "NonPickableCard" : "Card";
@@ -98,33 +145,56 @@ public class Card : MonoBehaviour
         return ++_globalCardId;
     }
 
-    private bool DetermineTokenType(string token)
+    private bool DetermineTokenType(int token)
     {
-        if (int.TryParse(token, out var numericValue))
+        if (!IsOperator(token))
         {
-            switch (token.Length)
+            if (token is >= -99 and <= 99)
             {
-                case 1:
-                    TokenType = CardData.TokenType.SingleDigit;
-                    break;
-                case 2:
-                    TokenType = CardData.TokenType.DoubleDigit;
-                    break;
-                default:
-                    TokenType = CardData.TokenType.IllegalToken;
-                    return false;
+                TokenType = token / 10 == 0 ? CardData.TokenType.SingleDigit : CardData.TokenType.DoubleDigit;
             }
-        }
-        else if (token is "+" or "-" or "\u00d7" or "\u00f7")
-        {
-            TokenType = CardData.TokenType.Symbol;
+            else
+            {
+                TokenType = CardData.TokenType.IllegalToken;
+                return false;
+            }
         }
         else
         {
-            TokenType = CardData.TokenType.IllegalToken;
-            return false;
+            TokenType = CardData.TokenType.Symbol;
         }
-        
         return true;
+    }
+
+    private static bool IsOperator(int token)
+    {
+        return token is >= 101 and <= 104;
+    }
+
+    private static string OperatorToString(int token)
+    {
+        return token switch
+        {
+            101 => "+",
+            102 => "-",
+            103 => "\u00d7",
+            104 => "\u00f7",
+            _ => throw new ArgumentOutOfRangeException(nameof(token), token, null)
+        };
+    }
+
+    private string ArabicToRoman(int arabic)
+    {
+        return arabic switch
+        {
+            1 => "I",
+            2 => "II",
+            3 => "III",
+            4 => "IV",
+            5 => "V",
+            6 => "VI",
+            7 => "VII",
+            _ => throw new ArgumentOutOfRangeException(nameof(arabic), arabic, null)
+        };
     }
 }

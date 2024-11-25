@@ -8,6 +8,7 @@ public class DissolveEffect  : MonoBehaviour
     private static readonly int DissolveValueID = Shader.PropertyToID("_Dissolve_Value");
     private static readonly int SeedValueID = Shader.PropertyToID("_Seed");
     private static readonly int ObjectColorID = Shader.PropertyToID("_Object_Color");
+    private static readonly int TextureID = Shader.PropertyToID("_Texture");
     private Material _dissolveMaterial;
     
     [SerializeField] private GameObject additionalDisable;
@@ -49,5 +50,10 @@ public class DissolveEffect  : MonoBehaviour
     {
         _dissolveMaterial.SetColor(ObjectColorID, color);
 
+    }
+
+    public void ChangeTexture(Texture2D texture)
+    {
+        _dissolveMaterial.SetTexture(TextureID, texture);
     }
 }

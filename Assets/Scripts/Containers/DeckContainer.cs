@@ -13,32 +13,24 @@ public class DeckContainer : CardContainerBase
 
     private void Start()
     {
-        for (int i = 0; i < maxCardCount - 5; i++)
+        for (int i = 0; i < maxCardCount - (maxCardCount / 2); i++)
         {
-            InstantiateCard(i.ToString());
+            InstantiateCard(i % 9);
             if (i % 2 == 0)
             {
-                var randomIndex = UnityEngine.Random.Range(0, 4);
-                var sign = randomIndex switch
-                {
-                    0 => "+",
-                    1 => "-",
-                    2 => "\u00d7",
-                    3 => "\u00f7",
-                    _ => "0"
-                };
-                InstantiateCard(sign);
+                var randomIndex = UnityEngine.Random.Range(101, 104);
+                InstantiateCard(randomIndex);
             }
         }
         UpdateCardsPositions();
     }
 
-    public void InstantiateCard(string token)
+    public void InstantiateCard(int token)
     {
         GameObject cardObject = Instantiate(cardPrefab, transform);
         var card = cardObject.GetComponent<Card>();
         cardObject.name = $"Card {token}";
-        card.Initialize(token, false, CardData.CardState.NonPickable);
+        card.Initialize(token, false, CardData.CardState.NonPickable, 0);
         AddCard(card);
     }
 
