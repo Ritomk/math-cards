@@ -6,7 +6,7 @@ namespace PlayerStates
 {
     public class AllPlacedCardsState : PlayerStateBase
     {
-        public override PlayerStateEnum StateType => PlayerStateEnum.CardsPlaced;
+        public override PlayerStateEnum StateType => PlayerStateEnum.AllCardsPlaced;
 
         private CardHighlightController _cardHighlightController;
 

@@ -70,6 +70,8 @@ public class GameManager : MonoBehaviour
         {
             new PlayerStates.TurnIdleState(_playerStateMachine, cardHighlightController, cardPickController),
             new PlayerStates.PickedCardState(_playerStateMachine, cardHighlightController),
+            new PlayerStates.PlacedCardMergerState(_playerStateMachine),
+            new PlayerStates.PlacedCardTableState(_playerStateMachine),
             new PlayerStates.AllPlacedCardsState(_playerStateMachine, cardHighlightController),
             new PlayerStates.OpponentTurnIdleState(_playerStateMachine, soCardEvents, cardPickController),
             new PlayerStates.LookAroundState(_playerStateMachine, cardSelectionController),

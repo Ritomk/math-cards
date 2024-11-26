@@ -121,6 +121,7 @@ public class SoGameStateEvents : ScriptableObject
 
 public enum GameStateEnum
 {
+    Default,
     Setup,
     BeginRound,
     PlayerTurn,
@@ -130,11 +131,12 @@ public enum GameStateEnum
 
 public enum PlayerStateEnum
 {
+    Default,
     PlayerTurnIdle,
     CardPicked,
     CardPlacedTable,
     CardPlacedMerger,
-    CardsPlaced,
+    AllCardsPlaced,
     OpponentTurnIdle,
     LookAround,
     PauseGame

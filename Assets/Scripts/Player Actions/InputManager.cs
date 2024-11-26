@@ -107,7 +107,7 @@ public class InputManager : MonoBehaviour
     
     private void HandleEndTurn(InputAction.CallbackContext obj)
     {
-        if (gameStateEvents.CurrentPlayerState == PlayerStateEnum.CardsPlaced)
+        if (gameStateEvents.CurrentPlayerState == PlayerStateEnum.AllCardsPlaced)
         {
             gameStateEvents.RaiseGameStateChange(GameStateEnum.OpponentTurn);
         }
