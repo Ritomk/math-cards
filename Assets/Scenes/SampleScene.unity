@@ -1002,6 +1002,7 @@ MonoBehaviour:
     OwnerType: 1
     ContainerType: 0
   maxCardCount: 25
+  soGameStateEvents: {fileID: 11400000, guid: 4517320ae0c4c8a49b163426720e9e6f, type: 2}
   splineContainer: {fileID: 349244755}
   cardPrefab: {fileID: 6504372016689131239, guid: 89a2f4734eb2da14ca059f1a334db8a1,
     type: 3}
@@ -2784,6 +2785,7 @@ MonoBehaviour:
     OwnerType: 0
     ContainerType: 0
   maxCardCount: 25
+  soGameStateEvents: {fileID: 11400000, guid: 4517320ae0c4c8a49b163426720e9e6f, type: 2}
   splineContainer: {fileID: 1402517904}
   cardPrefab: {fileID: 6504372016689131239, guid: 89a2f4734eb2da14ca059f1a334db8a1,
     type: 3}
@@ -3897,7 +3899,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1621601718}
   - component: {fileID: 1621601720}
-  - component: {fileID: 1621601719}
   - component: {fileID: 1621601721}
   m_Layer: 0
   m_Name: TimerTest
@@ -3924,23 +3925,6 @@ Transform:
   - {fileID: 39795724}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1621601719
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1621601717}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb33d39bd0ae904196a788dbb1dad5b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  soAnimationEvents: {fileID: 11400000, guid: 15e605dc297ff674b8e8d81515d021e8, type: 2}
-  timerTransform: {fileID: 0}
-  startPoint: {fileID: 288884465}
-  endPoint: {fileID: 1478529733}
-  length: 1
 --- !u!114 &1621601720
 MonoBehaviour:
   m_ObjectHideFlags: 0

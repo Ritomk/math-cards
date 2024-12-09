@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -6,17 +7,70 @@ using UnityEngine.Splines;
 
 public class HandContainer : CardContainerBase
 {
+    [SerializeField] private SoGameStateEvents soGameStateEvents;
     [SerializeField] private SplineContainer splineContainer;
     [SerializeField] private GameObject cardPrefab;
     [SerializeField] private float initialSpacing = 1f;
     private Vector3 _centerPosition;
-
+    
+    
     private void Start()
     {
         Vector3 firstPoint = splineContainer.transform.TransformPoint(splineContainer.Spline[0].Position);
         Vector3 lastPoint = splineContainer.transform.TransformPoint(splineContainer.Spline[splineContainer.Spline.Count - 1].Position);
         _centerPosition = (firstPoint + lastPoint) / 2;
         _centerPosition -= new Vector3(0, 3, 0);
+    }
+
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+
+        soContainerEvents.OnValidateCardPlacement += ValidateCards;
+    }
+
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        
+        soContainerEvents.OnValidateCardPlacement -= ValidateCards;
+    }
+
+    private void ValidateCards()
+    {
+        if (SelfContainerKey.OwnerType is OwnerType.Player &&
+            soGameStateEvents.CurrentPlayerState is PlayerStateEnum.CardPlacedMerger
+                or PlayerStateEnum.PlayerTurnIdle)
+        {
+            var totalWeight = CardsDictionary.Values.Sum(card => card.TokenWeight);
+
+            var randomValue = Random.Range(0, totalWeight);
+
+            var cumulativeWeight = 0;
+            var selectedCard = CardsDictionary.Values.FirstOrDefault(
+                card =>
+                {
+                    cumulativeWeight += card.TokenWeight;
+                    return randomValue < cumulativeWeight;
+                });
+
+
+            if (selectedCard)
+            {
+                Debug.Log($"Selected card: {selectedCard.Token}, card weight: {selectedCard.TokenWeight}");
+                CoroutineHelper.Start(BurnCard(selectedCard.CardId));
+            }
+            else
+            {
+                Debug.Log($"Selected card: None");
+            }
+        }
+    }
+
+    public override IEnumerator BurnCard(int cardId)
+    {
+        yield return base.BurnCard(cardId);
+        UpdateCardPositions();
     }
 
     public override bool AddCard(Card card)
@@ -54,9 +108,10 @@ public class HandContainer : CardContainerBase
         
         if (result)
         {
+            
             UpdateCardPositions();
 
-            if (card != null)
+            if (card)
             {
                 card.gameObject.SetActive(true);
                 card.Duplicates = 0;
@@ -65,6 +120,7 @@ public class HandContainer : CardContainerBase
         
         return result;
     }
+
 
     private void UpdateCardPositions()
     {

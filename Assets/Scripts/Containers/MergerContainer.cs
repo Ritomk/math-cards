@@ -55,7 +55,7 @@ public class MergerContainer : CardContainerBase
         if (lastCard != null && lastCard.TokenType != CardData.TokenType.SingleDigit)
         {
             burnDuration = 1f;
-            BurnCard(lastCard.CardId);
+            CoroutineHelper.Start(BurnCard(lastCard.CardId));
         }
         
         CoroutineHelper.Start(CloseLidAfterBurn(burnDuration));
@@ -140,7 +140,7 @@ public class MergerContainer : CardContainerBase
         
         firstCard.State = CardData.CardState.Normal;
         firstCard.Token += secondCard.Token;
-        BurnCard(secondCard.CardId);
+        CoroutineHelper.Start(BurnCard(secondCard.CardId));
         
         UpdateCardPositions();
         

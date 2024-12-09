@@ -50,7 +50,7 @@ public class TableContainer : CardContainerBase
 
             if (cos <= 0)
             {
-                BurnCard(CardsDictionary.Last().Value.CardId);
+                CoroutineHelper.Start(BurnCard(CardsDictionary.Last().Value.CardId));
                 return;
             }
         }

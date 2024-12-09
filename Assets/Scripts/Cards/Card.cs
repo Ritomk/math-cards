@@ -2,7 +2,6 @@ using System;
 using UnityEngine;
 using TMPro;
 using System.Collections;
-using UnityEngine.Serialization;
 
 public class Card : MonoBehaviour
 {
@@ -29,6 +28,8 @@ public class Card : MonoBehaviour
     }
 
     public CardData.TokenType TokenType { get; private set; } = CardData.TokenType.IllegalToken;
+
+    private int _token;
     
     public int Token
     {
@@ -37,6 +38,7 @@ public class Card : MonoBehaviour
         {
             if (DetermineTokenType(value))
             {
+                DetermineTokenWeight(value);
                 _token = value;
                 UpdateTextMesh();
             }
@@ -48,7 +50,7 @@ public class Card : MonoBehaviour
         }
     }
 
-    private int _token;
+    public int TokenWeight { get; private set; } = 1; 
     
     public CardData.CardState State
     {
@@ -83,9 +85,7 @@ public class Card : MonoBehaviour
         Duplicates = duplicates;
     }
     
-    public void DestroyCard() => StartCoroutine(DissolveAndDestroy());
-
-    private IEnumerator DissolveAndDestroy()
+    public IEnumerator DissolveAndDestroy()
     {
         yield return CoroutineHelper.StartAndWait(dissolveShader.StartDissolve());
         Destroy(gameObject);
@@ -165,6 +165,19 @@ public class Card : MonoBehaviour
         }
         return true;
     }
+    
+    
+    private void DetermineTokenWeight(int token)
+    {
+        if (IsOperator(token))
+        {
+            TokenWeight = OperatorToWeight(token);
+        }
+        else
+        {
+            TokenWeight = token == 0 ? 7 : Mathf.Abs(token);
+        }
+    }
 
     private static bool IsOperator(int token)
     {
@@ -183,7 +196,19 @@ public class Card : MonoBehaviour
         };
     }
 
-    private string ArabicToRoman(int arabic)
+    private static int OperatorToWeight(int token)
+    {
+        return token switch
+        {
+            101 => 6,
+            102 => 4,
+            103 => 8,
+            104 => 8,
+            _ => throw new ArgumentOutOfRangeException(nameof(token), token, null)
+        };
+    }
+
+    private static string ArabicToRoman(int arabic)
     {
         return arabic switch
         {

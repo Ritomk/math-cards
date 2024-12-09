@@ -1,4 +1,6 @@
+using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class CardContainerBase : MonoBehaviour
@@ -67,19 +69,21 @@ public abstract class CardContainerBase : MonoBehaviour
         }
     }
 
-    public virtual bool BurnCard(int cardId)
+    public virtual IEnumerator BurnCard(int cardId)
     {
         if (CardsDictionary.Remove(cardId, out var card))
         {
-            card.DestroyCard();
+            if(!card.gameObject.activeSelf)
+                card.gameObject.SetActive(true);
+            
+            yield return card.DissolveAndDestroy();
             currentCardCount--;
-            return true;
         }
         else
         {
             Debug.LogWarning($"Card with ID {cardId} does not exist in the container {gameObject.name}.", gameObject);
-            return false;
         }
+        yield return null;
     }
 
     public virtual List<Card> GetCards()
