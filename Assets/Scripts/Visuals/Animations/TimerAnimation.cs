@@ -60,8 +60,8 @@ public class TimerAnimation : MonoBehaviour
             _isTransformVisible = true;
             timerTransform.gameObject.SetActive(_isTransformVisible);
         }
-        
         length = Mathf.Clamp01(t);
+        Debug.Log($"Update length: {length}, t: {t}");
         
         float currentLength = _initialLength * length;
         timerTransform.localScale = new Vector3(_originalScale.x, _originalScale.y, currentLength);

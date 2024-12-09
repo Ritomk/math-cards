@@ -3,18 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(TimerDissolveEffect))]
 public class TimerController : MonoBehaviour
 {
-    [SerializeField] private SoAnimationEvents soAnimationEvents;
     [SerializeField] private SoTimerEvents soTimerEvents;
+    [SerializeField] private SoGameStateEvents soGameStateEvents;
+    [SerializeField] private TimerDissolveEffect timerDissolveEffect;
     
     [SerializeField] private float timerDuration;
+    [SerializeField] private float coyoteTimeDuration = 1f;
     
     private int _timerCoroutineId = -1;
 
     private void Awake()
     {
-        if (soAnimationEvents == null || soTimerEvents == null)
+        if (timerDissolveEffect == null || soTimerEvents == null)
         {
             Debug.LogError("Scriptable Objects not assigned", gameObject);
             this.enabled = false;
@@ -58,7 +61,7 @@ public class TimerController : MonoBehaviour
             CoroutineHelper.Stop(_timerCoroutineId);
             _timerCoroutineId = -1;
             
-            soAnimationEvents.RaiseTimerAnimation(0f);
+            timerDissolveEffect.UpdateLength(0f);
         }
     }
 
@@ -73,9 +76,13 @@ public class TimerController : MonoBehaviour
             timeRemaining -= Time.deltaTime;
             if (timeRemaining < halfTime)
             {
-                soAnimationEvents.RaiseTimerAnimation(timeRemaining / halfTime);
+                timerDissolveEffect.UpdateLength(timeRemaining / halfTime);
             }
         }
+        
+        if(soGameStateEvents.CurrentPlayerState == PlayerStateEnum.CardPicked)
+            yield return new WaitForSecondsPauseable(coyoteTimeDuration);
+        
         soTimerEvents.RaiseCompleteTimer();
     }
 }
