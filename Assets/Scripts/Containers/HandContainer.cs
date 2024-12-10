@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using NodeCanvas.Tasks.Conditions;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Splines;
@@ -13,6 +14,7 @@ public class HandContainer : CardContainerBase
     [SerializeField] private float initialSpacing = 1f;
     private Vector3 _centerPosition;
     
+    private System.Random _random = new System.Random();
     
     private void Start()
     {
@@ -42,27 +44,53 @@ public class HandContainer : CardContainerBase
             soGameStateEvents.CurrentPlayerState is PlayerStateEnum.CardPlacedMerger
                 or PlayerStateEnum.PlayerTurnIdle)
         {
-            var totalWeight = CardsDictionary.Values.Sum(card => card.TokenWeight);
-
-            var randomValue = Random.Range(0, totalWeight);
-
-            var cumulativeWeight = 0;
-            var selectedCard = CardsDictionary.Values.FirstOrDefault(
-                card =>
+            var groupedCards = CardsDictionary.Values
+                .GroupBy(card => card.Token)
+                .Select(group => new
                 {
-                    cumulativeWeight += card.TokenWeight;
+                    Token = group.Key,
+                    ActiveCard = group.FirstOrDefault(card => card.gameObject.activeSelf),
+                    TotalWeight = group.Sum(card => card.TokenWeight)
+                })
+                .Where(group => group.ActiveCard)
+                .OrderBy(group => group.Token)
+                .ToList();
+            
+            var totalWeight = groupedCards.Sum(card => card.TotalWeight);
+            
+            var randomValue = _random.Next(totalWeight);
+            var cumulativeWeight = 0;
+            
+            // var rangesDebugInfo = new List<string>();
+            // int cumulativeStart = 0;
+            //
+            // foreach (var group in groupedCards)
+            // {
+            //     int rangeEnd = cumulativeStart + group.TotalWeight - 1;
+            //     rangesDebugInfo.Add($"Token {group.Token}: {cumulativeStart}-{rangeEnd}");
+            //     cumulativeStart += group.TotalWeight;
+            // }
+            //
+            // Debug.Log("Selected card: " + string.Join(" ", rangesDebugInfo));
+            
+            var selectedCard = groupedCards
+                .FirstOrDefault(group =>
+                {
+                    cumulativeWeight += group.TotalWeight;
                     return randomValue < cumulativeWeight;
-                });
-
-
+                })
+                ?.ActiveCard;
+            
             if (selectedCard)
             {
-                Debug.Log($"Selected card: {selectedCard.Token}, card weight: {selectedCard.TokenWeight}");
+                // Debug.Log($"Selected card: {selectedCard.Token}, card weight: {selectedCard.TokenWeight}");
+                // Debug.Log($"Selected card total weight: {totalWeight}, cumulative weight: {randomValue}");
                 CoroutineHelper.Start(BurnCard(selectedCard.CardId));
             }
             else
             {
-                Debug.Log($"Selected card: None");
+                Debug.LogError($"Selected card: None");
+                Debug.LogError($"Selected card total weight: {totalWeight}, cumulative weight: {randomValue}");
             }
         }
     }

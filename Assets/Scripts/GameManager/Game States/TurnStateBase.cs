@@ -46,6 +46,6 @@ namespace GameStates
 
         protected abstract void TurnEnded();
 
-        protected virtual float GetTurnDuration() => 20f;
+        protected virtual float GetTurnDuration() => 5f;
     }
 }
