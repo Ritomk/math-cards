@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class MergerContainer : CardContainerBase
 {
+    [Header("Merger Container Settings")]
     [SerializeField] private SoAnimationEvents soAnimationEvents;
     [SerializeField] private SoCardEvents soCardEvents;
     [SerializeField] private ChestAnimation chestAnimation;

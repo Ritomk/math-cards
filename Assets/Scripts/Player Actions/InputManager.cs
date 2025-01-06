@@ -107,20 +107,6 @@ public class InputManager : MonoBehaviour
     
     private void HandleEndTurn(InputAction.CallbackContext context)
     {
-        if (context.interaction is HoldInteraction holdInteraction)
-        {
-            var pressTime = holdInteraction.duration;
-            Debug.Log($"Hold Time: {pressTime}");
-            if (Mathf.Approximately(pressTime, 0.4f))
-            {
-                Debug.Log("Start Animation");
-            }
-            else if (Mathf.Approximately(pressTime, 1f))
-            {
-                Debug.Log("End Turn");
-            }
-        }
-        
         if (gameStateEvents.CurrentPlayerState is PlayerStateEnum.AllCardsPlaced
             or PlayerStateEnum.CardPlacedTable)
         {

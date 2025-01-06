@@ -1,17 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using NodeCanvas.Tasks.Conditions;
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.Splines;
 
 public class HandContainer : CardContainerBase
 {
+    [Header("Hand Container Settings")]
     [SerializeField] private SoGameStateEvents soGameStateEvents;
     [SerializeField] private SplineContainer splineContainer;
-    [SerializeField] private GameObject cardPrefab;
     [SerializeField] private float initialSpacing = 1f;
+    [SerializeField] private Transform lookAtObject;
     private Vector3 _centerPosition;
     
     private System.Random _random = new System.Random();
@@ -19,15 +18,13 @@ public class HandContainer : CardContainerBase
     private void Start()
     {
         Vector3 firstPoint = splineContainer.transform.TransformPoint(splineContainer.Spline[0].Position);
-        Vector3 lastPoint = splineContainer.transform.TransformPoint(splineContainer.Spline[splineContainer.Spline.Count - 1].Position);
-        _centerPosition = (firstPoint + lastPoint) / 2;
-        _centerPosition -= new Vector3(0, 3, 0);
+        Vector3 lastPoint = splineContainer.transform.TransformPoint(splineContainer.Spline[^1].Position);
     }
 
     protected override void OnEnable()
     {
         base.OnEnable();
-
+        Application.targetFrameRate = 0;
         soContainerEvents.OnValidateCardPlacement += ValidateCards;
     }
 
@@ -61,18 +58,6 @@ public class HandContainer : CardContainerBase
             var randomValue = _random.Next(totalWeight);
             var cumulativeWeight = 0;
             
-            // var rangesDebugInfo = new List<string>();
-            // int cumulativeStart = 0;
-            //
-            // foreach (var group in groupedCards)
-            // {
-            //     int rangeEnd = cumulativeStart + group.TotalWeight - 1;
-            //     rangesDebugInfo.Add($"Token {group.Token}: {cumulativeStart}-{rangeEnd}");
-            //     cumulativeStart += group.TotalWeight;
-            // }
-            //
-            // Debug.Log("Selected card: " + string.Join(" ", rangesDebugInfo));
-            
             var selectedCard = groupedCards
                 .FirstOrDefault(group =>
                 {
@@ -83,8 +68,6 @@ public class HandContainer : CardContainerBase
             
             if (selectedCard)
             {
-                // Debug.Log($"Selected card: {selectedCard.Token}, card weight: {selectedCard.TokenWeight}");
-                // Debug.Log($"Selected card total weight: {totalWeight}, cumulative weight: {randomValue}");
                 CoroutineHelper.Start(BurnCard(selectedCard.CardId));
             }
             else
@@ -123,6 +106,12 @@ public class HandContainer : CardContainerBase
                     card.AddCardToHand();
                 }
             }
+            else if (SelfContainerKey.OwnerType == OwnerType.Enemy)
+            {
+                card.IsTokenVisible = false;
+                card.DrawFrontCard = false;
+                card.State = CardData.CardState.NonPickable;
+            }
         }
         
         return result;
@@ -143,6 +132,12 @@ public class HandContainer : CardContainerBase
             {
                 card.gameObject.SetActive(true);
                 card.Duplicates = 0;
+                
+                if (SelfContainerKey.OwnerType == OwnerType.Enemy)
+                {
+                    card.IsTokenVisible = true;
+                    card.DrawFrontCard = true;
+                }
             }
         }
         
@@ -191,7 +186,7 @@ public class HandContainer : CardContainerBase
             t = Mathf.Clamp01(t);
             Vector3 position = splineContainer.Spline.EvaluatePosition(t);
             cardTransform.localPosition = position;
-            cardTransform.LookAt(_centerPosition);
+            cardTransform.LookAt(lookAtObject.position + new Vector3(0, -2, 0));
             i++;
         }
     }

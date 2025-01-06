@@ -34,14 +34,6 @@ public class CardPickController : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            soCardEvents.RaiseCardSelectionReset();
-        }
-    }
-
     private void OnDisable()
     {
         if (inputEvents != null)
@@ -58,39 +50,38 @@ public class CardPickController : MonoBehaviour
 
     private void PickCard(bool isPicking)
     {
-        if (isPicking)
-        {
-            if (selectedCard != null && pickedCard == null)
-            {
-                PlayerStateEnum currentState = soGameStateEvents.CurrentPlayerState;
-
-                switch (currentState)
-                {
-                    case PlayerStateEnum.PlayerTurnIdle:
-                    case PlayerStateEnum.CardPlacedMerger:
-                    case PlayerStateEnum.CardPlacedTable:
-                        if (selectedCard.ContainerKey.ContainerType is CardContainerType.Hand
-                            or CardContainerType.AttackTable
-                            or CardContainerType.DefenceTable
-                            or CardContainerType.Merger)
-                        {
-                            PerformCardSelection(selectedCard);
-                        }
-                        break;
-                    case PlayerStateEnum.AllCardsPlaced:
-                        if (selectedCard.ContainerKey.ContainerType is CardContainerType.AttackTable
-                            or CardContainerType.DefenceTable
-                            or CardContainerType.Merger)
-                        {
-                            PerformCardSelection(selectedCard);
-                        }
-                        break;
-                }
-            }
-        }
-        else
+        if (!isPicking)
         {
             ReleaseCard();
+            return;
+        }
+        
+        if (selectedCard != null && pickedCard == null)
+        {
+            PlayerStateEnum currentState = soGameStateEvents.CurrentPlayerState;
+
+            switch (currentState)
+            {
+                case PlayerStateEnum.PlayerTurnIdle:
+                case PlayerStateEnum.CardPlacedMerger:
+                case PlayerStateEnum.CardPlacedTable:
+                    if (selectedCard.ContainerKey.ContainerType is CardContainerType.Hand
+                        or CardContainerType.AttackTable
+                        or CardContainerType.DefenceTable
+                        or CardContainerType.Merger)
+                    {
+                        PerformCardSelection(selectedCard);
+                    }
+                    break;
+                case PlayerStateEnum.AllCardsPlaced:
+                    if (selectedCard.ContainerKey.ContainerType is CardContainerType.AttackTable
+                        or CardContainerType.DefenceTable
+                        or CardContainerType.Merger)
+                    {
+                        PerformCardSelection(selectedCard);
+                    }
+                    break;
+            }
         }
     }
     
@@ -112,12 +103,14 @@ public class CardPickController : MonoBehaviour
     
     private void ReleaseCard()
     {
-        if (pickedCard == null) return;
+        if (pickedCard == null)
+        {
+            return;
+        }
         
         Debug.Log($"Card released: {pickedCard.name}");
         pickedCard.State = CardData.CardState.Normal;
         
-        var currentState = soGameStateEvents.CurrentPlayerState;
         var previousState = soGameStateEvents.PreviousPlayerState;
 
         if (IsCardOverContainer(out CardContainerBase targetContainer))
@@ -130,7 +123,7 @@ public class CardPickController : MonoBehaviour
             }
             else
             {
-                HandleCardReturnToHand(previousState);
+                soGameStateEvents.RaiseOnRevertPlayerState();
                 Debug.Log("Invalid container for the current state.");
             }
         }
@@ -169,22 +162,28 @@ public class CardPickController : MonoBehaviour
                     or CardContainerType.DefenceTable
                     ? PlayerStateEnum.CardPlacedMerger
                     : PlayerStateEnum.AllCardsPlaced;
-                
-            case TableContainer when state == PlayerStateEnum.CardPlacedMerger:
-                return pickedCard.ContainerKey.ContainerType is CardContainerType.Merger
-                    ? PlayerStateEnum.CardPlacedTable
-                    : PlayerStateEnum.AllCardsPlaced;
-            
-            case MergerContainer when state == PlayerStateEnum.CardPlacedMerger:
-                return pickedCard.ContainerKey.ContainerType is CardContainerType.Merger
-                    ? PlayerStateEnum.CardPlacedMerger
-                    : PlayerStateEnum.Default;
             
             case TableContainer when state == PlayerStateEnum.CardPlacedTable:
                 return pickedCard.ContainerKey.ContainerType is CardContainerType.AttackTable
                     or CardContainerType.DefenceTable
                     ? PlayerStateEnum.CardPlacedTable
                     : PlayerStateEnum.Default;
+            
+            case MergerContainer when state == PlayerStateEnum.CardPlacedMerger:
+                return pickedCard.ContainerKey.ContainerType is CardContainerType.Merger
+                    ? PlayerStateEnum.CardPlacedMerger
+                    : PlayerStateEnum.Default;
+                
+            case TableContainer when state == PlayerStateEnum.CardPlacedMerger:
+                return pickedCard.ContainerKey.ContainerType is CardContainerType.Merger
+                    ? PlayerStateEnum.CardPlacedTable
+                    : PlayerStateEnum.AllCardsPlaced;
+            
+            case TableContainer when state == PlayerStateEnum.AllCardsPlaced:
+                return pickedCard.ContainerKey.ContainerType is CardContainerType.AttackTable
+            or CardContainerType.DefenceTable
+            ? PlayerStateEnum.AllCardsPlaced
+            : PlayerStateEnum.Default;
         }
 
         return PlayerStateEnum.Default;

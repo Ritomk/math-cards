@@ -1,10 +1,17 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class TableContainer : CardContainerBase
 {
+    [SerializeField] private float initialSpacing = -5.5f;
+    [SerializeField] private float maxWidth = 18f;
+    [SerializeField] private float yIncrement = 0.01f;
+    [SerializeField] private float baseXOffset = -2f;
+    [SerializeField] private float baseYOffset = 0.5f;
+
+    
     protected override void OnEnable()
     {
         base.OnEnable();
@@ -58,12 +65,23 @@ public class TableContainer : CardContainerBase
 
     private void UpdateCardPositions()
     {
-        float spacing = -5.5f;
-        int index = 1;
+        if(currentCardCount == 0) return;
+        
+        float spacing = initialSpacing;
+        float totalWidth = Math.Abs(spacing) * (currentCardCount - 1);
+
+        if (totalWidth > maxWidth)
+        {
+            spacing = -maxWidth / (currentCardCount - 1);
+        }
+
+        var index = 0;
         foreach (var card in CardsDictionary.Values)
         {
-            card.transform.localPosition = new Vector3(spacing * index, 0.2f, 0);
-            card.transform.rotation = Quaternion.Euler(0, 0, 0);
+            float xPosition = baseXOffset + (spacing * index);
+            float yPosition = baseYOffset + (yIncrement * index);
+            card.transform.localPosition = new Vector3(xPosition, yPosition, 0);
+            card.transform.rotation = transform.rotation;
             ++index;
         }
     }
@@ -74,45 +92,6 @@ public class TableContainer : CardContainerBase
         {
             card.State = newState;
         }
-    }
-
-    //DELETE
-    public float EvaluateExpression()
-    {
-        List <string> tokens = new List<string> ();
-        // foreach (var card in CardsDictionary.Values)
-        // {
-        //     tokens.Add(card.Token);
-        // }
-
-        return EvaluateRpn(tokens);
-    }
-
-    private float EvaluateRpn(List<string> tokens)
-    {
-        Stack<float> stack = new Stack<float>();
-        foreach (var token in tokens)
-        {
-            if (float.TryParse(token, out float number))
-            {
-                stack.Push(number);
-            }
-            else
-            {
-                float b = stack.Pop();
-                float a = stack.Pop();
-
-                switch (token)
-                {
-                    case "+": stack.Push(a + b); break;
-                    case "-": stack.Push(a - b); break;
-                    case "*": stack.Push(a * b); break;
-                    case "/": stack.Push(a / b); break;
-                    default: throw new InvalidOperationException($"Invalid operator {token}");
-                }
-            }
-        }
-        return stack.Pop();
     }
 
     protected override void HandleCardData(EnemyKnowledgeData data)

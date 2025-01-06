@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using NodeCanvas.Framework;
 using ParadoxNotion.Design;
 using Unity.VisualScripting;
@@ -34,37 +35,66 @@ namespace NodeCanvas.Tasks.Actions
         {
             ReturnCardsToPool();
             
-            partitionSize = Random.Range(0, 1) == 0 ? 3 : 5;
+            var initialCards = new List<int>(tableList.value);
+            partitionSize = CalculatePartitionSize(initialCards);
             
-            GenerateExpression();
+            GenerateExpressions(initialCards);
         }
 
-        private async void GenerateExpression()
+        private int CalculatePartitionSize(List<int> initialCards)
+        {
+            var chosenPartitionSize = Random.Range(0, 2) == 0 ? 3 : 5;
+
+            return initialCards.Count >= chosenPartitionSize ? 0 : chosenPartitionSize;
+        }
+
+        private async void GenerateExpressions(List<int> initialCards)
         {
             float startTime = Time.realtimeSinceStartup;
-            
-            var cards = availableCardsPool.value;
-            var initialCards = new List<int>(tableList.value);
-            
-            var expression1 = await generator.value.StartComputation( initialCards ,cards, partitionSize);
 
-            GetUniqueCardsMatchingTokens(new List<int>(expression1), knowledgeData.value.selfHandCardsDictionary);
-            
-            cards = availableCardsPool.value;
-            var expression2 = await generator.value.StartComputation(expression1, cards, maxExpressionLength);
+            var expression1 = await GenerateFirstExpression(initialCards);
+            var expression2 = await GenerateSecondExpression(expression1);
             
             tableMoves.value = GetUniqueCardsMatchingTokens(expression2, knowledgeData.value.selfHandCardsDictionary);
-
-            float endTime = Time.realtimeSinceStartup;
             
+            float endTime = Time.realtimeSinceStartup;
+
             Debug.Log("AI: Calculation finished");
             Debug.Log($"AI: Elapsed time: {endTime - startTime}");
             Debug.Log($"AI: Expression: {RpnExpressionHelper.ExpressionToString(expression2)}");
-            
+
             Debug.Log($"AI: Cards in Pool: {string.Join(" ", availableCardsPool.value.Values.Select(card => card.Token))}");
             Debug.Log($"AI: Cards in Hand: {string.Join(" ", knowledgeData.value.selfHandCardsDictionary.Values.Select(card => card.Token))}");
-
             EndAction(expression2.Count > 0);
+        }
+
+        private async Task<List<int>> GenerateFirstExpression(List<int> initialCards)
+        {
+            if (partitionSize <= 0)
+            {
+                // No partition size means skipping expression1
+                return new List<int>(initialCards);
+            }
+            
+            var cards = availableCardsPool.value;
+            var expression = await generator.value.StartComputation(initialCards, cards, partitionSize);
+            
+            if (expression == null || expression.Count == 0)
+            {
+                Debug.Log("AI: Expression1 generation failed or returned nothing. Using initialCards for expression2.");
+                return new List<int>(initialCards);
+            }
+
+            GetUniqueCardsMatchingTokens(new List<int>(expression), knowledgeData.value.selfHandCardsDictionary);
+            return expression;
+        }
+
+        private async Task<List<int>> GenerateSecondExpression(List<int> initialCards)
+        {
+            var cards = availableCardsPool.value;
+            var expression = await generator.value.StartComputation(initialCards, cards, maxExpressionLength);
+            
+            return expression;
         }
 
         private void ReturnCardsToPool()
@@ -91,7 +121,7 @@ namespace NodeCanvas.Tasks.Actions
             Stack<Card> resultStack = new Stack<Card>();
 
             tokens.Reverse();
-
+            
             
             foreach (var token in tokens)
             {

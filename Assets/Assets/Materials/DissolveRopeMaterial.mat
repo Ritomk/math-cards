@@ -97,7 +97,7 @@ Material:
     - _BumpScale: 1
     - _BurnPercent: 1
     - _BurnPercetn: 1
-    - _BurnScale: 5
+    - _BurnScale: 0.1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _Cull: 2

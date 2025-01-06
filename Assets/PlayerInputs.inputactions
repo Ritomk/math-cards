@@ -20,7 +20,7 @@
                     "id": "6c668a1e-d041-4a20-8dd7-39d346df448e",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Hold(duration=0.2)",
+                    "interactions": "Hold(duration=0.01)",
                     "initialStateCheck": false
                 },
                 {
@@ -48,6 +48,15 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "EndRound",
+                    "type": "Button",
+                    "id": "c54bb7fe-9fff-429e-aebc-dc119e3528eb",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Hold(duration=0.8)",
                     "initialStateCheck": false
                 }
             ],
@@ -89,7 +98,7 @@
                     "name": "",
                     "id": "609aa2ee-0b13-4682-83bd-784d5fb105a2",
                     "path": "<Keyboard>/space",
-                    "interactions": "Hold(duration=1)",
+                    "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "EndTurn",
@@ -104,6 +113,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "EscapePress",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6bbf82a1-e3e2-4c58-b54d-297504f399cf",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "EndRound",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

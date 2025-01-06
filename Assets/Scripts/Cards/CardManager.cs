@@ -52,6 +52,12 @@ public class CardManager : MonoBehaviour
     private void HandleCardMove(Card card, ContainerKey from, ContainerKey to, out bool success)
     {
         success = false;
+
+        if (from.Equals(to))
+        {
+            success = true;
+            return;
+        }
         
         if (_cardContainers.TryGetValue(from, out var fromContainer) &&
             _cardContainers.TryGetValue(to, out var toContainer))

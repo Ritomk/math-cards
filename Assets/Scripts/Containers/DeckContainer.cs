@@ -7,9 +7,9 @@ using Random = System.Random;
 
 public class DeckContainer : CardContainerBase
 {
+    [Header("Deck Container Settings")]
     [SerializeField] private GameObject cardPrefab;
     [SerializeField] private float spacing = 0.2f;
-    [SerializeField] private int deckSize = 50;
 
     private void Start()
     {

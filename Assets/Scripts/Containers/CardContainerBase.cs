@@ -5,6 +5,7 @@ using UnityEngine;
 
 public abstract class CardContainerBase : MonoBehaviour
 {
+    [Header("Container Base Settings")]
     [SerializeField] protected SoContainerEvents soContainerEvents;
     
     public Dictionary<int, Card> CardsDictionary { get; protected set; } = new Dictionary<int, Card>();

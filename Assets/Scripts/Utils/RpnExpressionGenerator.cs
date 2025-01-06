@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 public class RpnExpressionGenerator : MonoBehaviour
 {
@@ -36,7 +37,10 @@ public class RpnExpressionGenerator : MonoBehaviour
 
         int initialStackHeight = CalculateInitialStackHeight(initialExpression);
 
-        foreach (var initialToken in initialGroup)
+        GenerateExpressionsRecursive(new List<int>(initialExpression), operands, operators,
+            initialStackHeight, expressions, maxLength);
+        
+        /*foreach (var initialToken in initialGroup)
         {
             var remainingOperands = new List<int>(operands);
             remainingOperands.Remove(initialToken);
@@ -44,10 +48,12 @@ public class RpnExpressionGenerator : MonoBehaviour
             var groupExpression = new List<int>(initialExpression) { initialToken };
 
             var stackChange = IsOperator(initialToken) ? -1 : 1;
-            
+            Debug.Log($"Debug: Group expression {string.Join(" ", groupExpression)}");
+            Debug.Log($"Debug: Stack change {initialStackHeight + stackChange}");
+            Debug.Log($"Debug: Max length {maxLength}");
             GenerateExpressionsRecursive(groupExpression, remainingOperands, operators,
                  initialStackHeight + stackChange, expressions, maxLength);
-        }
+        }*/
 
         float maxResult = float.MinValue;
         List<int> maxExpression = null;
@@ -70,7 +76,7 @@ public class RpnExpressionGenerator : MonoBehaviour
     private static void GenerateExpressionsRecursive(List<int> currentExpression, List<int> operandsRemaining,
         List<int> operatorsRemaining, int stackHeight, List<List<int>> expressions, int maxLength)
     {
-        if (currentExpression.Count == maxLength)
+        if (currentExpression.Count >= maxLength)
         {
             // Check if we have a valid expression (stackHeight == 1)
             if (stackHeight == 1)
@@ -231,10 +237,10 @@ public class RpnExpressionGenerator : MonoBehaviour
         
         var task1 = Task.Run(() => GenerateAndEvaluateExpressions(initialGroup, group1, operands,
             new List<int>(operators), maxLength));
-        var task2 = Task.Run(() => GenerateAndEvaluateExpressions(initialGroup, group2, operands,
-            new List<int>(operators), maxLength));
+        //var task2 = Task.Run(() => GenerateAndEvaluateExpressions(initialGroup, group2, operands,
+        //    new List<int>(operators), maxLength));
         
-        var results = await Task.WhenAll(task1, task2);
+        var results = await Task.WhenAll(task1);
 
         var bestExpression = results
             .OrderByDescending(result => result.Item2)

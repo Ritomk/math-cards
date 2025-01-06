@@ -41,5 +41,7 @@ namespace GameStates
         {
             _soGameStateEvents.RaiseGameStateChange(GameStateEnum.PlayerTurn);
         }
+
+        protected override float GetTurnDuration() => 10f;
     }   
 }

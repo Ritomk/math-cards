@@ -6,14 +6,20 @@ using System.Collections;
 public class Card : MonoBehaviour
 {
     [SerializeField] private CardData cardData;
+
+    [Header("UI Elements")] 
+    [SerializeField] private GameObject frontCard;
+    [SerializeField] private GameObject backCard;
     [SerializeField] private Texture2D[] textures;
     [SerializeField] private TextMeshPro tokenText;
     [SerializeField] private TextMeshPro duplicatesText;
+    
+    [Header("Shader controllers")]
     [SerializeField] private DissolveEffect dissolveShader;
     [SerializeField] private HighlightEffect highlightShader;
     
-    [field: SerializeField]
-    public ContainerKey ContainerKey { get; set; }
+    [field: Header("Card data")]
+    [field: SerializeField] public ContainerKey ContainerKey { get; set; }
     
     [SerializeField] private CardData.CardState _currentState = CardData.CardState.Normal;
     
@@ -75,14 +81,27 @@ public class Card : MonoBehaviour
     }
     private int _duplicates;
 
+    public bool DrawFrontCard
+    {
+        get => _drawFrontCard;
+        set
+        {
+            _drawFrontCard = value;
+            frontCard.SetActive(_drawFrontCard);
+            backCard.SetActive(!_drawFrontCard);
+        }
+    }
+    private bool _drawFrontCard;
+
     public void Initialize(int token = 0, bool isTokenVisible = true,
-        CardData.CardState state = CardData.CardState.Normal,int duplicates = 0)
+        CardData.CardState state = CardData.CardState.Normal, int duplicates = 0, bool drawFrontCard = true)
     {
         CardId = GenerateUniqueID();
         Token = token;
         IsTokenVisible = isTokenVisible;
         State = state;
         Duplicates = duplicates;
+        DrawFrontCard = drawFrontCard;
     }
     
     public IEnumerator DissolveAndDestroy()
