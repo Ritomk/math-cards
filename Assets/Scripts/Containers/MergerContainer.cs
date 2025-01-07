@@ -140,7 +140,7 @@ public class MergerContainer : CardContainerBase
         var secondCard = CardsDictionary.Values.ElementAt(1);
         
         firstCard.State = CardData.CardState.Normal;
-        firstCard.Token += secondCard.Token;
+        firstCard.Token = (firstCard.Token * 10) + secondCard.Token;
         CoroutineHelper.Start(BurnCard(secondCard.CardId));
         
         UpdateCardPositions();
