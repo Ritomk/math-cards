@@ -45,11 +45,17 @@ public class SoGameStateEvents : ScriptableObject
     public delegate void PauseGameHandler(bool paused);
     public event PauseGameHandler OnPauseGame;
     
+    public delegate void EndRoundHandler(OwnerType owner);
+    public event EndRoundHandler OnEndRound;
+    
+    public delegate void PlayerWonRoundHandler(bool wonByPlayer);
+    public event PlayerWonRoundHandler OnPlayerWonRound;
+    
     #endregion
 
     
 
-    public void RaiseOnPlayerStateChange(PlayerStateEnum newState)
+    public void RaisePlayerStateChange(PlayerStateEnum newState)
     {
         _previousPlayerState = currentPlayerState;
         currentPlayerState = newState;
@@ -117,6 +123,16 @@ public class SoGameStateEvents : ScriptableObject
     {
         runningPlayerState = newState;
     }
+
+    public void RaiseEndRound(OwnerType owner)
+    {
+        OnEndRound?.Invoke(owner);
+    }
+
+    public void RaisePlayerWonRound(bool wonByPlayer)
+    {
+        OnPlayerWonRound?.Invoke(wonByPlayer);
+    }
 }
 
 public enum GameStateEnum
@@ -126,12 +142,16 @@ public enum GameStateEnum
     BeginRound,
     PlayerTurn,
     OpponentTurn,
+    SkipPlayerTurn,
+    SkipOpponentTurn,
     EndRound,
+    GameOver
 }
 
 public enum PlayerStateEnum
 {
     Default,
+    BeginRound,
     PlayerTurnIdle,
     CardPicked,
     CardPlacedTable,

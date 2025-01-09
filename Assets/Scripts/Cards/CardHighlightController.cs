@@ -79,8 +79,6 @@ public class CardHighlightController : MonoBehaviour
 
     private void HighlightCard(Card card, bool highlight)
     {
-        if(card.State == CardData.CardState.NonPickable) return;
-        
         card.State = highlight ? CardData.CardState.Highlighted : CardData.CardState.Normal;
     }
 }

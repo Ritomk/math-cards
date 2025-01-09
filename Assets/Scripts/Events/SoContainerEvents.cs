@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 
 
@@ -8,8 +9,11 @@ public class SoContainerEvents : ScriptableObject
     public delegate void ChangeCardsStateHandler(CardData.CardState newState);
     public event ChangeCardsStateHandler OnChangeCardsState;
 
-    public delegate float EvaluateExpressionHandler();
+    public delegate void EvaluateExpressionHandler();
     public event EvaluateExpressionHandler OnEvaluateExpression;
+    
+    public delegate void SendExpressionResultHandler(float result, ContainerKey containerKey);
+    public event SendExpressionResultHandler OnSendExpressionResult;
 
     public delegate void ValidateCardPlacementHandler();
     public event ValidateCardPlacementHandler OnValidateCardPlacement;
@@ -24,18 +28,15 @@ public class SoContainerEvents : ScriptableObject
     {
         OnChangeCardsState?.Invoke(newState);
     }
-
-    //TODO: Checking who's subscriber and what to do with value
+    
     public void RaiseEvaluateExpression()
     {
-        if (OnEvaluateExpression != null)
-        {
-            foreach (var @delegate in OnEvaluateExpression.GetInvocationList())
-            {
-                var handler = (EvaluateExpressionHandler)@delegate;
-                float expressionValue = handler();
-            }
-        }
+        OnEvaluateExpression?.Invoke();
+    }
+
+    public void RaiseSendExpressionResult(float result, ContainerKey containerKey)
+    {
+        OnSendExpressionResult?.Invoke(result, containerKey);
     }
 
     public void RaiseMergeCards()

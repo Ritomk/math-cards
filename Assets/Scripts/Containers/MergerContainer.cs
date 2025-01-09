@@ -105,9 +105,10 @@ public class MergerContainer : CardContainerBase
 
     private void HandleToggleChestAnimation(OwnerType ownerType, bool isOpen)
     {
-        if(SelfContainerKey.OwnerType is not OwnerType.Any &&
+        if(ownerType != OwnerType.Any &&
            SelfContainerKey.OwnerType != ownerType) return;
         
+        Debug.Log("ToggleChest Called");
         chestAnimation.ToggleLead(isOpen);
         
         CardsDictionary.Values
@@ -141,7 +142,10 @@ public class MergerContainer : CardContainerBase
         
         firstCard.State = CardData.CardState.Normal;
         firstCard.Token = (firstCard.Token * 10) + secondCard.Token;
-        CoroutineHelper.Start(BurnCard(secondCard.CardId));
+        
+        RemoveCard(secondCard.CardId);
+        Destroy(secondCard.gameObject);
+        //CoroutineHelper.Start(BurnCard(secondCard.CardId));
         
         UpdateCardPositions();
         

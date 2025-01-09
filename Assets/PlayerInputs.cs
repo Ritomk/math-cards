@@ -55,18 +55,18 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""EndTurn"",
+                    ""name"": ""EscapePress"",
                     ""type"": ""Button"",
-                    ""id"": ""6d0d4af1-2699-40bb-bcc9-14ddb219f48c"",
+                    ""id"": ""10dc509e-eb27-4899-bc2f-5d4558497b06"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""EscapePress"",
+                    ""name"": ""EndTurn"",
                     ""type"": ""Button"",
-                    ""id"": ""10dc509e-eb27-4899-bc2f-5d4558497b06"",
+                    ""id"": ""8e8e1892-ff60-440a-a467-ade58e4b4510"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -78,7 +78,16 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""id"": ""c54bb7fe-9fff-429e-aebc-dc119e3528eb"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Hold(duration=0.8)"",
+                    ""interactions"": ""Hold(duration=2)"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""EnableSlider"",
+                    ""type"": ""Button"",
+                    ""id"": ""d1131436-7280-474a-96bc-99661dfc208c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Hold(duration=0.5)"",
                     ""initialStateCheck"": false
                 }
             ],
@@ -118,12 +127,34 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""609aa2ee-0b13-4682-83bd-784d5fb105a2"",
+                    ""id"": ""6bbf82a1-e3e2-4c58-b54d-297504f399cf"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""EndRound"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""121ead93-2b8d-43b7-8c21-2160b9be6aa9"",
                     ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""EndTurn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9e69b137-dcbd-43c6-900e-737c73270d75"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""EnableSlider"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -135,17 +166,6 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""EscapePress"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""6bbf82a1-e3e2-4c58-b54d-297504f399cf"",
-                    ""path"": ""<Keyboard>/space"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""EndRound"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -207,9 +227,10 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         m_Gameplay_MouseMove = m_Gameplay.FindAction("MouseMove", throwIfNotFound: true);
         m_Gameplay_LeftClick = m_Gameplay.FindAction("LeftClick", throwIfNotFound: true);
         m_Gameplay_RightClick = m_Gameplay.FindAction("RightClick", throwIfNotFound: true);
-        m_Gameplay_EndTurn = m_Gameplay.FindAction("EndTurn", throwIfNotFound: true);
         m_Gameplay_EscapePress = m_Gameplay.FindAction("EscapePress", throwIfNotFound: true);
+        m_Gameplay_EndTurn = m_Gameplay.FindAction("EndTurn", throwIfNotFound: true);
         m_Gameplay_EndRound = m_Gameplay.FindAction("EndRound", throwIfNotFound: true);
+        m_Gameplay_EnableSlider = m_Gameplay.FindAction("EnableSlider", throwIfNotFound: true);
         // Menu
         m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
         m_Menu_SpacePress = m_Menu.FindAction("SpacePress", throwIfNotFound: true);
@@ -278,9 +299,10 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_MouseMove;
     private readonly InputAction m_Gameplay_LeftClick;
     private readonly InputAction m_Gameplay_RightClick;
-    private readonly InputAction m_Gameplay_EndTurn;
     private readonly InputAction m_Gameplay_EscapePress;
+    private readonly InputAction m_Gameplay_EndTurn;
     private readonly InputAction m_Gameplay_EndRound;
+    private readonly InputAction m_Gameplay_EnableSlider;
     public struct GameplayActions
     {
         private @PlayerInputs m_Wrapper;
@@ -288,9 +310,10 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         public InputAction @MouseMove => m_Wrapper.m_Gameplay_MouseMove;
         public InputAction @LeftClick => m_Wrapper.m_Gameplay_LeftClick;
         public InputAction @RightClick => m_Wrapper.m_Gameplay_RightClick;
-        public InputAction @EndTurn => m_Wrapper.m_Gameplay_EndTurn;
         public InputAction @EscapePress => m_Wrapper.m_Gameplay_EscapePress;
+        public InputAction @EndTurn => m_Wrapper.m_Gameplay_EndTurn;
         public InputAction @EndRound => m_Wrapper.m_Gameplay_EndRound;
+        public InputAction @EnableSlider => m_Wrapper.m_Gameplay_EnableSlider;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -309,15 +332,18 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @RightClick.started += instance.OnRightClick;
             @RightClick.performed += instance.OnRightClick;
             @RightClick.canceled += instance.OnRightClick;
-            @EndTurn.started += instance.OnEndTurn;
-            @EndTurn.performed += instance.OnEndTurn;
-            @EndTurn.canceled += instance.OnEndTurn;
             @EscapePress.started += instance.OnEscapePress;
             @EscapePress.performed += instance.OnEscapePress;
             @EscapePress.canceled += instance.OnEscapePress;
+            @EndTurn.started += instance.OnEndTurn;
+            @EndTurn.performed += instance.OnEndTurn;
+            @EndTurn.canceled += instance.OnEndTurn;
             @EndRound.started += instance.OnEndRound;
             @EndRound.performed += instance.OnEndRound;
             @EndRound.canceled += instance.OnEndRound;
+            @EnableSlider.started += instance.OnEnableSlider;
+            @EnableSlider.performed += instance.OnEnableSlider;
+            @EnableSlider.canceled += instance.OnEnableSlider;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -331,15 +357,18 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @RightClick.started -= instance.OnRightClick;
             @RightClick.performed -= instance.OnRightClick;
             @RightClick.canceled -= instance.OnRightClick;
-            @EndTurn.started -= instance.OnEndTurn;
-            @EndTurn.performed -= instance.OnEndTurn;
-            @EndTurn.canceled -= instance.OnEndTurn;
             @EscapePress.started -= instance.OnEscapePress;
             @EscapePress.performed -= instance.OnEscapePress;
             @EscapePress.canceled -= instance.OnEscapePress;
+            @EndTurn.started -= instance.OnEndTurn;
+            @EndTurn.performed -= instance.OnEndTurn;
+            @EndTurn.canceled -= instance.OnEndTurn;
             @EndRound.started -= instance.OnEndRound;
             @EndRound.performed -= instance.OnEndRound;
             @EndRound.canceled -= instance.OnEndRound;
+            @EnableSlider.started -= instance.OnEnableSlider;
+            @EnableSlider.performed -= instance.OnEnableSlider;
+            @EnableSlider.canceled -= instance.OnEnableSlider;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -416,9 +445,10 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         void OnMouseMove(InputAction.CallbackContext context);
         void OnLeftClick(InputAction.CallbackContext context);
         void OnRightClick(InputAction.CallbackContext context);
-        void OnEndTurn(InputAction.CallbackContext context);
         void OnEscapePress(InputAction.CallbackContext context);
+        void OnEndTurn(InputAction.CallbackContext context);
         void OnEndRound(InputAction.CallbackContext context);
+        void OnEnableSlider(InputAction.CallbackContext context);
     }
     public interface IMenuActions
     {

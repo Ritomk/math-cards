@@ -18,6 +18,7 @@ public class TableContainer : CardContainerBase
         
         soContainerEvents.OnChangeCardsState += HandleChangeCardsState;
         soContainerEvents.OnValidateCardPlacement += ValidateCardPlacement;
+        soContainerEvents.OnEvaluateExpression += HandleEvaluateRpn;
     }
 
     protected override void OnDisable()
@@ -26,6 +27,7 @@ public class TableContainer : CardContainerBase
         
         soContainerEvents.OnChangeCardsState -= HandleChangeCardsState;
         soContainerEvents.OnValidateCardPlacement -= ValidateCardPlacement;
+        soContainerEvents.OnEvaluateExpression -= HandleEvaluateRpn;
     }
 
     public override bool AddCard(Card card)
@@ -84,6 +86,17 @@ public class TableContainer : CardContainerBase
             card.transform.rotation = transform.rotation;
             ++index;
         }
+    }
+
+    private void HandleEvaluateRpn()
+    {
+        var expression = CardsDictionary
+            .Select(kvp => kvp.Value.Token)
+            .ToList();
+
+        RpnExpressionHelper.EvaluateRpnExpression(expression, out float result);
+        
+        soContainerEvents.RaiseSendExpressionResult(result, SelfContainerKey);
     }
 
     private void HandleChangeCardsState(CardData.CardState newState)

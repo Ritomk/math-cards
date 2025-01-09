@@ -1,11 +1,7 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using Random = System.Random;
 
-public class DeckContainer : CardContainerBase
+public class DeckContainer : CardContainerBase, IDrawableContainer
 {
     [Header("Deck Container Settings")]
     [SerializeField] private GameObject cardPrefab;
@@ -44,9 +40,21 @@ public class DeckContainer : CardContainerBase
 
         var card = CardsDictionary.Last();
         RemoveCard(card.Key);
-        card.Value.IsTokenVisible = true;
         card.Value.State = CardData.CardState.Normal;
         return card.Value;
+    }
+
+    public override bool AddCard(Card card)
+    {
+        bool result = base.AddCard(card);
+        if (result)
+        {
+            UpdateCardsPositions();
+            card.transform.rotation = Quaternion.Euler(0, 0, 0);
+            card.State = CardData.CardState.NonPickable;
+        }
+        
+        return result;
     }
 
     private Vector3 CalculateCardPosition(int cardIndex)

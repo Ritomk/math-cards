@@ -66,6 +66,9 @@ public class Card : MonoBehaviour
             _currentState = value;
             UpdateCardColor();
             UpdateCardTag();
+
+            IsTokenVisible = _currentState is not (CardData.CardState.NonPickable or CardData.CardState.EnemyHand);
+            DrawFrontCard = _currentState != CardData.CardState.EnemyHand;
         }
     }
 
@@ -75,8 +78,12 @@ public class Card : MonoBehaviour
         set
         {
             _duplicates = value;
-            var texture = value > 1 ? textures[1] : textures[0];
-            UpdateTexture(texture);
+
+            if (State != CardData.CardState.EnemyHand)
+            {
+                var texture = value > 1 ? textures[1] : textures[0];
+                UpdateTexture(texture);
+            }
         }
     }
     private int _duplicates;
@@ -156,7 +163,9 @@ public class Card : MonoBehaviour
 
     private void UpdateCardTag()
     {
-        transform.tag = State == CardData.CardState.NonPickable ? "NonPickableCard" : "Card";
+        transform.tag = State is CardData.CardState.NonPickable or CardData.CardState.Placed
+            ? "NonPickableCard"
+            : "Card";
     }
 
     private int GenerateUniqueID()

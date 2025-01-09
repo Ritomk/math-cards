@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using NodeCanvas.BehaviourTrees;
@@ -12,6 +13,11 @@ public class GameManager : MonoBehaviour
 
     private Dictionary<GameStateEnum, GameStateBase> _gameStates;
     private Dictionary<PlayerStateEnum, PlayerStateBase> _playerStates;
+    
+    private bool _playerHasEndedRound = false;
+    private bool _opponentHasEndedRound = false;
+    private int _playerScore = 0;
+    private int _opponentScore = 0;
     
     [Header("Player Scriptable Objects")]
     [SerializeField] private SoUniversalInputEvents soUniversalInputEvents;
@@ -53,15 +59,23 @@ public class GameManager : MonoBehaviour
         soGameStateEvents.OnPlayerStateChange += HandlePlayerStateChange;
         soGameStateEvents.OnRevertGameState += HandleRevertSoGameState;
         soGameStateEvents.OnRevertPlayerState += HandleRevertPlayerState;
+        
+        soGameStateEvents.OnEndRound += HandleEndRound;
+        soGameStateEvents.OnPlayerWonRound += HandleRoundWonByPlayer;
 
         List<GameStateBase> gameStateInstances = new List<GameStateBase>
         {
             new GameStates.SetupState(_gameStateMachine, inputManager, soGameStateEvents),
-            new GameStates.BeginRoundState(_gameStateMachine, soGameStateEvents, soCardEvents, enemySoCardEvents),
+            new GameStates.BeginRoundState(_gameStateMachine, soGameStateEvents, soCardEvents, enemySoCardEvents,
+                soAnimationEvents),
             new GameStates.PlayerTurnState(_gameStateMachine, soGameStateEvents, soAnimationEvents, soTimerEvents,
                 soContainerEvents, cardPickController, soUniversalInputEvents),
             new GameStates.OpponentTurnState(_gameStateMachine, soGameStateEvents, soAnimationEvents, soTimerEvents,
-                soContainerEvents, enemyBehaviourTreeOwner)
+                soContainerEvents, enemyBehaviourTreeOwner),
+            new GameStates.SkipPlayerTurnState(_gameStateMachine, soGameStateEvents),
+            new GameStates.SkipOpponentTurnState(_gameStateMachine, soGameStateEvents),
+            new GameStates.EndRoundState(_gameStateMachine, soGameStateEvents, soCardEvents, enemySoCardEvents,
+                soContainerEvents)
         };
 
         _gameStates = gameStateInstances.ToDictionary(state => state.StateType, state => state);
@@ -74,6 +88,7 @@ public class GameManager : MonoBehaviour
             new PlayerStates.PlacedCardTableState(_playerStateMachine),
             new PlayerStates.AllPlacedCardsState(_playerStateMachine, cardHighlightController),
             new PlayerStates.OpponentTurnIdleState(_playerStateMachine, soCardEvents, cardPickController),
+            new PlayerStates.BeginRoundState(_playerStateMachine, cardSelectionController),
             new PlayerStates.LookAroundState(_playerStateMachine, cardSelectionController),
             new PlayerStates.PauseState(_playerStateMachine, inputManager, inputUIManager, soUniversalInputEvents,
                 soCardEvents, soGameStateEvents)
@@ -91,6 +106,9 @@ public class GameManager : MonoBehaviour
         soGameStateEvents.OnPlayerStateChange -= HandlePlayerStateChange;
         soGameStateEvents.OnRevertGameState -= HandleRevertSoGameState;
         soGameStateEvents.OnRevertPlayerState -= HandleRevertPlayerState;
+        
+        soGameStateEvents.OnEndRound -= HandleEndRound;
+        soGameStateEvents.OnPlayerWonRound -= HandleRoundWonByPlayer;
     }
 
     private void Start()
@@ -110,6 +128,21 @@ public class GameManager : MonoBehaviour
 
     private void ChangeGameState(GameStateEnum newState)
     {
+        if (_playerHasEndedRound && _opponentHasEndedRound)
+        {
+            newState = GameStateEnum.EndRound;
+        }
+        
+        switch (newState)
+        {
+            case GameStateEnum.PlayerTurn when _playerHasEndedRound:
+                newState = GameStateEnum.SkipPlayerTurn;
+                break;
+            case GameStateEnum.OpponentTurn when _opponentHasEndedRound:
+                newState = GameStateEnum.SkipOpponentTurn;
+                break;
+        }
+
         if (_gameStates.TryGetValue(newState, out var gameState))
         {
             _gameStateMachine.ChangeState(gameState);
@@ -149,5 +182,34 @@ public class GameManager : MonoBehaviour
     private void HandlePlayerStateChanged(StateBase<PlayerStateEnum> newState)
     {
         soGameStateEvents.UpdateCurrentPlayerState(newState.StateType);
+    }
+
+    private void HandleEndRound(OwnerType owner)
+    {
+        switch (owner)
+        {
+            case OwnerType.Player:
+                _playerHasEndedRound = true;
+                break;
+            case OwnerType.Enemy:
+                _opponentHasEndedRound = true;
+                break;
+        }
+    }
+
+    private void HandleRoundWonByPlayer(bool wonByPlayer)
+    {
+        if (wonByPlayer)
+            _playerScore++;
+        else
+            _opponentScore++;
+        
+        _playerHasEndedRound = false;
+        _opponentHasEndedRound = false;
+        
+        if (_playerScore == 2 || _opponentScore == 2)
+        {
+            
+        }
     }
 }

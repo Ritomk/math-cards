@@ -33,7 +33,7 @@ namespace GameStates
         {
             _soTimerEvents.OnTimerComplete -= TurnEnded;
             
-            _soContainerEvents.RaiseChangeCardsState(CardData.CardState.NonPickable);
+            _soContainerEvents.RaiseChangeCardsState(CardData.CardState.Placed);
             
             _soContainerEvents.RaiseValidateCardPlacement();
             _soContainerEvents.RaiseMergeCards();

@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Splines;
 
-public class HandContainer : CardContainerBase
+public class HandContainer : CardContainerBase, IDrawableContainer
 {
     [Header("Hand Container Settings")]
     [SerializeField] private SoGameStateEvents soGameStateEvents;
@@ -78,6 +78,20 @@ public class HandContainer : CardContainerBase
         }
     }
 
+    public Card DrawCard()
+    {
+        if (CardsDictionary.Count == 0)
+        {
+            Debug.LogWarning("No cards left to draw.");
+            return null;
+        }
+
+        var card = CardsDictionary.Last();
+        RemoveCard(card.Key);
+        card.Value.State = CardData.CardState.Normal;
+        return card.Value;
+    }
+
     public override IEnumerator BurnCard(int cardId)
     {
         yield return base.BurnCard(cardId);
@@ -108,9 +122,7 @@ public class HandContainer : CardContainerBase
             }
             else if (SelfContainerKey.OwnerType == OwnerType.Enemy)
             {
-                card.IsTokenVisible = false;
-                card.DrawFrontCard = false;
-                card.State = CardData.CardState.NonPickable;
+                card.State = CardData.CardState.EnemyHand;
             }
         }
         
@@ -135,8 +147,7 @@ public class HandContainer : CardContainerBase
                 
                 if (SelfContainerKey.OwnerType == OwnerType.Enemy)
                 {
-                    card.IsTokenVisible = true;
-                    card.DrawFrontCard = true;
+                    card.State = CardData.CardState.Placed;
                 }
             }
         }

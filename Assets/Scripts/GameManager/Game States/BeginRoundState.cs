@@ -10,36 +10,50 @@ namespace GameStates
 
         private SoGameStateEvents _soGameStateEvents;
         private SoCardEvents _soCardEvents;
-        private SoCardEvents _enemySoCardEvents;
+        private SoCardEvents _opponentSoCardEvents;
+        private SoAnimationEvents _soAnimationEvents;
 
         private int _numberOfCards = 20;
         private float _timeBetweenDraws = 0.3f;
 
-
-        public BeginRoundState(StateMachine<GameStateEnum> stateMachine, SoGameStateEvents soGameStateEvents, SoCardEvents soCardEvents, SoCardEvents enemySoCardEvents) : base(stateMachine)
+        public BeginRoundState(StateMachine<GameStateEnum> stateMachine, SoGameStateEvents soGameStateEvents,
+            SoCardEvents soCardEvents, SoCardEvents opponentSoCardEvents,
+            SoAnimationEvents soAnimationEvents) : base(stateMachine)
         {
             _soGameStateEvents = soGameStateEvents;
             _soCardEvents = soCardEvents;
-            _enemySoCardEvents = enemySoCardEvents;
+            _opponentSoCardEvents = opponentSoCardEvents;
+            _soAnimationEvents = soAnimationEvents;
         }
 
         public override IEnumerator Enter()
         {
-            CoroutineHelper.Start(DrawCardsWithDelay());
+            _soAnimationEvents.RaiseToggleChestAnimation(OwnerType.Any, false);
+            _soGameStateEvents.RaisePlayerStateChange(PlayerStateEnum.BeginRound);
+            
+            yield return CoroutineHelper.StartAndWait(DrawCardsWithDelay());
             
             _soGameStateEvents.RaiseGameStateChange(GameStateEnum.PlayerTurn);
-
-            yield return null;
         }
 
         private IEnumerator DrawCardsWithDelay()
         {
+            var shouldContinuePlayer = true;
+            var shouldContinueOpponent = true;
+            
             for (int i = 0; i < _numberOfCards; i++)
             {
-                _soCardEvents.RaiseCardDraw();
-                _enemySoCardEvents.RaiseCardDraw();
+                shouldContinuePlayer = TryDrawCard(_soCardEvents, shouldContinuePlayer);
+                shouldContinueOpponent = TryDrawCard(_opponentSoCardEvents, shouldContinueOpponent);
+                
+                if(!shouldContinuePlayer && !shouldContinueOpponent)
+                    yield break;
+                
                 yield return new WaitForSecondsPauseable(_timeBetweenDraws);
             }
         }
+
+        private bool TryDrawCard(SoCardEvents soCardEvents, bool canStillDraw) =>
+            canStillDraw && soCardEvents.RaiseCardDraw(true);
     }
 }

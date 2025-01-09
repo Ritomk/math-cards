@@ -99,3 +99,8 @@ public abstract class CardContainerBase : MonoBehaviour
 
     protected virtual void ValidateCardPlacement() { }
 }
+
+public interface IDrawableContainer
+{
+    Card DrawCard();
+}

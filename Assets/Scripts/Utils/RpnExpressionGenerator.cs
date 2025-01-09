@@ -60,7 +60,7 @@ public class RpnExpressionGenerator : MonoBehaviour
 
         foreach (var expression in expressions)
         {
-            if (EvaluateRpnExpression(expression, out float result))
+            if (RpnExpressionHelper.EvaluateRpnExpression(expression, out float result))
             {
                 if (result > maxResult)
                 {
@@ -145,64 +145,9 @@ public class RpnExpressionGenerator : MonoBehaviour
         return stackHeight;
     }
 
-    private static float ApplyOperator(float a, float b, int opToken)
-    {
-        switch (opToken)
-        {
-            case 101:
-                return a + b;
-            case 102:
-                return a - b;
-            case 103:
-                return a * b;
-            case 104:
-                if (b == 0) return a / 0.1f;
-                return a / b;
-            default:
-                throw new ArgumentException($"Invalid operator token: {opToken}");
-        }
-    }
-
     private static bool IsOperator(int opToken)
     {
         return opToken >= 101;
-    }
- 
-    
-    public static bool EvaluateRpnExpression(List<int> expression, out float result)
-    {
-        Stack<float> stack = new Stack<float>();
-
-        foreach (var token in expression)
-        {
-            if (!IsOperator(token))
-            {
-                stack.Push(token);
-            }
-            else
-            {
-                if (stack.Count < 2)
-                {
-                    result = 0;
-                    return false;
-                }
-                float b = stack.Pop();
-                float a = stack.Pop();
-                float res = ApplyOperator(a, b, token);
-                stack.Push(res);
-            }
-        }
-
-        if (stack.Count == 1)
-        {
-            result = stack.Pop();
-            return true;
-        }
-        else
-        {
-            result = 0;
-            return false;
-        }
     }
     
     private static void PrepareGroups(List<int> initialExpression, List<int> operands, List<int> operators,

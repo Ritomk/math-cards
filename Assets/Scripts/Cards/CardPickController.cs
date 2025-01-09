@@ -97,7 +97,7 @@ public class CardPickController : MonoBehaviour
     {
         pickedCard = card;
         pickedCard.State = CardData.CardState.Picked;
-        soGameStateEvents.RaiseOnPlayerStateChange(PlayerStateEnum.CardPicked);
+        soGameStateEvents.RaisePlayerStateChange(PlayerStateEnum.CardPicked);
         Debug.Log($"Card picked: {pickedCard.name}");
     }
     
@@ -193,7 +193,7 @@ public class CardPickController : MonoBehaviour
     {
         if (soCardEvents.RaiseCardMove(pickedCard, pickedCard.ContainerKey, targetContainer.SelfContainerKey))
         {
-            soGameStateEvents.RaiseOnPlayerStateChange(changeState);
+            soGameStateEvents.RaisePlayerStateChange(changeState);
         }
         else
         {
@@ -215,14 +215,14 @@ public class CardPickController : MonoBehaviour
         switch (pickedCard.ContainerKey.ContainerType)
         {
             case CardContainerType.Merger:
-                soGameStateEvents.RaiseOnPlayerStateChange(state == PlayerStateEnum.AllCardsPlaced
+                soGameStateEvents.RaisePlayerStateChange(state == PlayerStateEnum.AllCardsPlaced
                     ? PlayerStateEnum.CardPlacedTable
                     : PlayerStateEnum.PlayerTurnIdle);
                 break;
         
             case CardContainerType.AttackTable:
             case CardContainerType.DefenceTable:
-                soGameStateEvents.RaiseOnPlayerStateChange(state == PlayerStateEnum.AllCardsPlaced
+                soGameStateEvents.RaisePlayerStateChange(state == PlayerStateEnum.AllCardsPlaced
                     ? PlayerStateEnum.CardPlacedMerger
                     : PlayerStateEnum.PlayerTurnIdle);
                 break;

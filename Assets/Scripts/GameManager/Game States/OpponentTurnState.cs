@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using NodeCanvas.BehaviourTrees;
 using UnityEngine;
 
@@ -26,7 +25,7 @@ namespace GameStates
             _soAnimationEvents.RaiseToggleChestAnimation(OwnerType.Enemy,true);
             
             _behaviourTreeOwner.enabled = true;
-            _soGameStateEvents.RaiseOnPlayerStateChange(PlayerStateEnum.OpponentTurnIdle);
+            _soGameStateEvents.RaisePlayerStateChange(PlayerStateEnum.OpponentTurnIdle);
 
             yield return null;
         }

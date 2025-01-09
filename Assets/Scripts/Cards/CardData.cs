@@ -14,6 +14,7 @@ public class CardData : ScriptableObject
         Highlighted,
         Picked,
         Placed,
+        EnemyHand,
         NonPickable
     }
 

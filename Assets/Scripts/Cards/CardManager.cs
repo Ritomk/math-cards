@@ -81,36 +81,48 @@ public class CardManager : MonoBehaviour
         }
     }
 
-    private void HandleCardDraw()
+    private void HandleCardDraw(bool toHand, out bool success)
     {
-        var deckKey = new ContainerKey(ownerType, CardContainerType.Deck);
-        var handKey = new ContainerKey(ownerType, CardContainerType.Hand);
+        success = false;
         
-        if (_cardContainers.TryGetValue(deckKey, out var deckContainer) &&
-            _cardContainers.TryGetValue(handKey, out var handContainer))
-        {
-            if (deckContainer is DeckContainer deck)
-            {
-                Card drawnCard = deck.DrawCard();
+        var fromKey = toHand
+            ? new ContainerKey(ownerType, CardContainerType.Deck)
+            : new ContainerKey(ownerType, CardContainerType.Hand);
 
-                if (handContainer.AddCard(drawnCard))
-                {
-                    //Debug.Log($"Card {drawnCard.name} drawn and added to hand.");
-                }
-                else
-                {
-                    deck.AddCard(drawnCard);
-                    Debug.LogError($"Failed to add card {drawnCard.name} to hand. Returned it to the deck.");
-                }
+        var toKey = toHand
+            ? new ContainerKey(ownerType, CardContainerType.Hand)
+            : new ContainerKey(ownerType, CardContainerType.Deck);
+        
+        if (_cardContainers.TryGetValue(fromKey, out var fromContainer) &&
+            _cardContainers.TryGetValue(toKey, out var toContainer))
+        {
+            Card drawnCard = null;
+
+            if (fromContainer is IDrawableContainer drawableContainer)
+            {
+                drawnCard = drawableContainer.DrawCard();
             }
             else
             {
-                Debug.LogWarning("Deck container is not of type 'Deck'. Cannot draw a card.");
+                Debug.LogWarning("Container does not implement IDrawableContainer, cannot draw a card.");
+            }
+
+            if (!drawnCard) return;
+
+            if (toContainer.AddCard(drawnCard))
+            {
+                success = true;
+            }
+            else
+            {
+                fromContainer.AddCard(drawnCard);
+                Debug.LogError($"Failed to add card {drawnCard.name} to {toContainer.name}. " +
+                               $"Returned it to {fromContainer.name}.");
             }
         }
         else
         {
-            Debug.LogWarning("Deck or hand container not found. Cannot draw a card.");
+            Debug.LogWarning("Either Deck or Hand container not found. Cannot draw a card.");
         }
     }
 }

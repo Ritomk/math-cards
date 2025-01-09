@@ -7,7 +7,6 @@ namespace GameStates
     {
         public override GameStateEnum StateType => GameStateEnum.PlayerTurn;
         
-        private SoGameStateEvents _soGameStateEvents;
         private CardPickController _cardPickController;
         private SoUniversalInputEvents _soUniversalInputEvents;
 
@@ -17,7 +16,6 @@ namespace GameStates
             CardPickController cardPickController, SoUniversalInputEvents soUniversalInputEvents)
             : base(stateMachine, soGameStateEvents, soAnimationEvents, soTimerEvents, soContainerEvents)
         {
-            _soGameStateEvents = soGameStateEvents;
             _cardPickController = cardPickController;
             _soUniversalInputEvents = soUniversalInputEvents;
         }
@@ -29,7 +27,7 @@ namespace GameStates
             _soAnimationEvents.RaiseToggleChestAnimation(OwnerType.Player,true);
             
             _cardPickController.enabled = true;
-            _soGameStateEvents.RaiseOnPlayerStateChange(PlayerStateEnum.PlayerTurnIdle);
+            _soGameStateEvents.RaisePlayerStateChange(PlayerStateEnum.PlayerTurnIdle);
             _soUniversalInputEvents.RaiseMouseMove();
             
             yield return null;

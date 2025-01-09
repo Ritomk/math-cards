@@ -28,7 +28,17 @@ MonoBehaviour:
     hasHighlight: 1
     outlineColor: {r: 1.4980392, g: 1.0628103, b: 0, a: 0}
     highlightColor: {r: 4.066435, g: 3.6176648, b: 0.6812874, a: 0}
+  - state: 3
+    color: {r: 0.81886786, g: 0.66590947, b: 0.66590947, a: 0}
+    hasHighlight: 0
+    outlineColor: {r: 0, g: 0, b: 0, a: 0}
+    highlightColor: {r: 0, g: 0, b: 0, a: 0}
   - state: 4
+    color: {r: 0.81886786, g: 0.66590947, b: 0.66590947, a: 0}
+    hasHighlight: 0
+    outlineColor: {r: 0, g: 0, b: 0, a: 0}
+    highlightColor: {r: 0, g: 0, b: 0, a: 0}
+  - state: 5
     color: {r: 0.81886786, g: 0.66590947, b: 0.66590947, a: 0}
     hasHighlight: 0
     outlineColor: {r: 0, g: 0, b: 0, a: 0}

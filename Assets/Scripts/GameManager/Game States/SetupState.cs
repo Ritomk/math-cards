@@ -19,9 +19,9 @@ namespace GameStates
 
         public override IEnumerator Enter()
         {
-            _soGameStateEvents.RaiseGameStateChange(GameStateEnum.BeginRound);
+            yield return new WaitForSeconds(0.1f);
             
-            yield return null;
+            _soGameStateEvents.RaiseGameStateChange(GameStateEnum.BeginRound);
         }
 
         public override IEnumerator Exit()

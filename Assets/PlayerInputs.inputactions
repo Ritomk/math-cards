@@ -33,18 +33,18 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "EndTurn",
+                    "name": "EscapePress",
                     "type": "Button",
-                    "id": "6d0d4af1-2699-40bb-bcc9-14ddb219f48c",
+                    "id": "10dc509e-eb27-4899-bc2f-5d4558497b06",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "EscapePress",
+                    "name": "EndTurn",
                     "type": "Button",
-                    "id": "10dc509e-eb27-4899-bc2f-5d4558497b06",
+                    "id": "8e8e1892-ff60-440a-a467-ade58e4b4510",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -56,7 +56,16 @@
                     "id": "c54bb7fe-9fff-429e-aebc-dc119e3528eb",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Hold(duration=0.8)",
+                    "interactions": "Hold(duration=2)",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "EnableSlider",
+                    "type": "Button",
+                    "id": "d1131436-7280-474a-96bc-99661dfc208c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Hold(duration=0.5)",
                     "initialStateCheck": false
                 }
             ],
@@ -96,12 +105,34 @@
                 },
                 {
                     "name": "",
-                    "id": "609aa2ee-0b13-4682-83bd-784d5fb105a2",
+                    "id": "6bbf82a1-e3e2-4c58-b54d-297504f399cf",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "EndRound",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "121ead93-2b8d-43b7-8c21-2160b9be6aa9",
                     "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "EndTurn",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9e69b137-dcbd-43c6-900e-737c73270d75",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "EnableSlider",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -113,17 +144,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "EscapePress",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "6bbf82a1-e3e2-4c58-b54d-297504f399cf",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "EndRound",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

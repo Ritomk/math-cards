@@ -8,6 +8,7 @@ public class InputManager : MonoBehaviour
 {
     [SerializeField] private SoUniversalInputEvents inputEvents;
     [SerializeField] private SoGameStateEvents gameStateEvents;
+    [SerializeField] private SoUIEvents uiEvents;
 
     private PlayerInput _playerInput;
     private InputActionMap _inputActionMap;
@@ -15,8 +16,12 @@ public class InputManager : MonoBehaviour
     private InputAction _mouseMovement;
     private InputAction _leftClick;
     private InputAction _rightClick;
-    private InputAction _endTurn;
     private InputAction _escapePress;
+    private InputAction _endTurn;
+    private InputAction _endRound;
+    private InputAction _enableSlider;
+    
+    private float _spacePressedTime;
 
 
     private void Awake()
@@ -27,8 +32,11 @@ public class InputManager : MonoBehaviour
         _mouseMovement = _inputActionMap.FindAction("MouseMove");
         _leftClick = _inputActionMap.FindAction("LeftClick");
         _rightClick = _inputActionMap.FindAction("RightClick");
-        _endTurn = _inputActionMap.FindAction("EndTurn");
         _escapePress = _inputActionMap.FindAction("EscapePress");
+        
+        _endTurn = _inputActionMap.FindAction("EndTurn");
+        _endRound = _inputActionMap.FindAction("EndRound");
+        _enableSlider = _inputActionMap.FindAction("EnableSlider");
     }
 
     private void Start()
@@ -44,8 +52,14 @@ public class InputManager : MonoBehaviour
         _leftClick.performed += HandleMouseLeftClick;
         _leftClick.canceled += HandleMouseLeftClick;
         _rightClick.performed += HandleMouseRightClick;
-        _endTurn.performed += HandleEndTurn;
         _escapePress.performed += HandleEscapePress;
+        
+        _endTurn.performed += HandleEndTurn;
+        _endTurn.canceled += HandleEndTurn;
+        _endRound.performed += HandleEndRound;
+        _enableSlider.performed += HandleEnableSlider;
+        _enableSlider.canceled += HandleEnableSlider;
+
 
         //Spaghetti Code
         inputEvents.RaiseCameraReset(_rightClick.ReadValue<float>() < 0.5f);
@@ -57,8 +71,13 @@ public class InputManager : MonoBehaviour
         _leftClick.performed -= HandleMouseLeftClick;
         _leftClick.canceled -= HandleMouseLeftClick;
         _rightClick.performed -= HandleMouseRightClick;
-        _endTurn.performed -= HandleEndTurn;
         _escapePress.performed -= HandleEscapePress;
+        
+        _endTurn.performed -= HandleEndTurn;
+        _endTurn.canceled -= HandleEndTurn;
+        _endRound.performed -= HandleEndRound;
+        _enableSlider.performed -= HandleEnableSlider;
+        _enableSlider.canceled -= HandleEnableSlider;
     }
 
     private void HandleMouseMove(InputAction.CallbackContext context)
@@ -73,7 +92,7 @@ public class InputManager : MonoBehaviour
                 {
                     gameStateEvents.RaiseOnRevertPlayerState();
                 }
-                gameStateEvents.RaiseOnPlayerStateChange(PlayerStateEnum.LookAround);
+                gameStateEvents.RaisePlayerStateChange(PlayerStateEnum.LookAround);
             }
         }
         else
@@ -105,19 +124,6 @@ public class InputManager : MonoBehaviour
 
     private void HandleMouseRightClick(InputAction.CallbackContext context) => inputEvents.RaiseCameraReset(!context.control.IsPressed());
     
-    private void HandleEndTurn(InputAction.CallbackContext context)
-    {
-        if (gameStateEvents.CurrentPlayerState is PlayerStateEnum.AllCardsPlaced
-            or PlayerStateEnum.CardPlacedTable)
-        {
-            gameStateEvents.RaiseGameStateChange(GameStateEnum.OpponentTurn);
-        }
-        else if (gameStateEvents.CurrentGameState == GameStateEnum.OpponentTurn)
-        {
-            gameStateEvents.RaiseGameStateChange(GameStateEnum.PlayerTurn);
-        }
-    }
-
     private void HandleEscapePress(InputAction.CallbackContext context)
     {
         if (gameStateEvents.CurrentPlayerState is PlayerStateEnum.CardPicked
@@ -126,6 +132,59 @@ public class InputManager : MonoBehaviour
             gameStateEvents.RaiseOnRevertPlayerState();
         }
         
-        gameStateEvents.RaiseOnPlayerStateChange(PlayerStateEnum.PauseGame);
+        gameStateEvents.RaisePlayerStateChange(PlayerStateEnum.PauseGame);
+    }
+    
+    private void HandleEndTurn(InputAction.CallbackContext context)
+    {
+        
+        if (context.performed)
+        {
+            _spacePressedTime = Time.timeSinceLevelLoad;
+        }
+        else if (context.canceled)
+        {
+            var spaceHoldTime = Time.timeSinceLevelLoad - _spacePressedTime;
+            
+            if (spaceHoldTime < 0.5f)
+            {
+                if (gameStateEvents.CurrentPlayerState is PlayerStateEnum.AllCardsPlaced
+                    or PlayerStateEnum.CardPlacedTable)
+                {
+                    gameStateEvents.RaiseGameStateChange(GameStateEnum.OpponentTurn);
+                }
+            }
+        }
+    }
+
+    private void HandleEndRound(InputAction.CallbackContext context)
+    {
+        if (context.interaction is not HoldInteraction) return;
+
+        if (gameStateEvents.CurrentPlayerState is PlayerStateEnum.AllCardsPlaced
+            or PlayerStateEnum.CardPlacedTable or PlayerStateEnum.PlayerTurnIdle)
+        {
+            gameStateEvents.RaiseEndRound(OwnerType.Player);
+            gameStateEvents.RaiseGameStateChange(GameStateEnum.OpponentTurn);
+            uiEvents.RaiseEndSlider();
+        }
+    }
+
+    private void HandleEnableSlider(InputAction.CallbackContext context)
+    {
+        if (context.interaction is not HoldInteraction) return;
+
+        if (gameStateEvents.CurrentPlayerState is PlayerStateEnum.AllCardsPlaced
+            or PlayerStateEnum.CardPlacedTable or PlayerStateEnum.PlayerTurnIdle)
+        {
+            if (context.performed)
+            {
+                uiEvents.RaiseStartSlider();
+            }
+            else if (context.canceled)
+            {
+                uiEvents.RaiseEndSlider();
+            }
+        }
     }
 }
