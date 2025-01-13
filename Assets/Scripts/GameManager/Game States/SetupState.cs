@@ -19,6 +19,9 @@ namespace GameStates
 
         public override IEnumerator Enter()
         {
+            _soGameStateEvents.playerHasEndedRound = false;
+            _soGameStateEvents.opponentHasEndedRound = false;
+            
             yield return new WaitForSeconds(0.1f);
             
             _soGameStateEvents.RaiseGameStateChange(GameStateEnum.BeginRound);

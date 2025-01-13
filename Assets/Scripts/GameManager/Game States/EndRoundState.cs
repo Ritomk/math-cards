@@ -28,21 +28,25 @@ namespace GameStates
 
         public override IEnumerator Enter()
         {
-            _soContainerEvents.OnSendExpressionResult += HandleReceiveRpnFromTables;
+            _soGameStateEvents.RaisePlayerStateChange(PlayerStateEnum.BeginRound);
             
-            yield return CoroutineHelper.StartAndWait(ReturnCardsToDeck());
+            _soContainerEvents.OnSendExpressionResult += HandleReceiveRpnFromTables;
             
             _soContainerEvents.RaiseEvaluateExpression();
             yield return new WaitUntil(() => _winnerDecided);
             
-            _soGameStateEvents.RaiseGameStateChange(GameStateEnum.BeginRound);
+            _soGameStateEvents.RaisePlayerStateChange(PlayerStateEnum.EndRound);
         }
 
         public override IEnumerator Exit()
         {
             _soContainerEvents.OnSendExpressionResult -= HandleReceiveRpnFromTables;
-            
             _winnerDecided = false;
+            
+            _soContainerEvents.RaiseClearTables();
+            
+            yield return CoroutineHelper.StartAndWait(ReturnCardsToDeck());
+            
             yield return null;
         }
 
@@ -93,30 +97,27 @@ namespace GameStates
                 DecideWinner(playerAttackValue, playerDefenceValue, enemyAttackValue, enemyDefenceValue);
             }
         }
-
-        private void DecideWinner(float playerAttack, float enemyDefence, float enemyAttack, float playerDefence)
+        
+        private void DecideWinner(float playerAttack, float playerDefence, float enemyAttack, float enemyDefence)
         {
-            float playerVsEnemy = playerAttack - enemyDefence;
-            float enemyVsPlayer = enemyAttack - playerDefence;
+            float playerVsEnemy = Mathf.Max(playerAttack - enemyDefence, 0);
+            float enemyVsPlayer = Mathf.Max(enemyAttack - playerDefence, 0);
 
             Debug.Log($"Player Attack - Enemy Defence = {playerVsEnemy};  Enemy Attack - Player Defence = {enemyVsPlayer}");
 
             var playerWon = false;
             if (playerVsEnemy > enemyVsPlayer)
             {
-                // Player has the stronger strike
                 playerWon = true;
                 Debug.Log("Player Wins the Attack Comparison!");
             }
             else if (enemyVsPlayer > playerVsEnemy)
             {
-                // Enemy has the stronger strike
                 playerWon = false;
                 Debug.Log("Enemy Wins the Attack Comparison!");
             }
             else
             {
-                // It's a tie
                 playerWon = false;
                 Debug.Log("Attack Comparison is a tie!");
             }

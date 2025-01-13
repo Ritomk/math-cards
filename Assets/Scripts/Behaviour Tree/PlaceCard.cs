@@ -1,8 +1,6 @@
 using System.Collections.Generic;
-using System.Linq;
 using NodeCanvas.Framework;
 using ParadoxNotion.Design;
-using UnityEngine;
 
 
 namespace NodeCanvas.Tasks.Actions {
@@ -18,6 +16,9 @@ namespace NodeCanvas.Tasks.Actions {
 		
 		[BlackboardOnly] public BBParameter<Stack<Card>> tableMoves = new BBParameter<Stack<Card>>()
 			{ name = "Attack Table Moves" };
+		
+		[BlackboardOnly] public BBParameter<int> selfHandCardsCount = new BBParameter<int>()
+			{ name = "Self Hand Cards Count" };
 
 		public ContainerKey targetContainer;
 
@@ -33,6 +34,16 @@ namespace NodeCanvas.Tasks.Actions {
 
 				if (soCardEvents.value.RaiseCardMove(card, handContainer, targetContainer) &&
 				    knowledgeData.value.selfHandCardsDictionary.Remove(card.CardId))
+					selfHandCardsCount.value--;
+					
+					if (targetContainer.Equals(new ContainerKey(OwnerType.Enemy, CardContainerType.AttackTable)))
+					{
+						knowledgeData.value.selfAttackTableList.Add(card.Token);
+					}
+					else if (targetContainer.Equals(new ContainerKey(OwnerType.Enemy, CardContainerType.DefenceTable)))
+					{
+						knowledgeData.value.selfDefenceTableList.Add(card.Token);
+					}
 				{
 					EndAction(true);
 				}

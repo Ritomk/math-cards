@@ -14,7 +14,7 @@ public class DeckContainer : CardContainerBase, IDrawableContainer
             InstantiateCard(i % 9);
             if (i % 2 == 0)
             {
-                var randomIndex = UnityEngine.Random.Range(101, 104);
+                var randomIndex = Random.Range(101, 105);
                 InstantiateCard(randomIndex);
             }
         }

@@ -12,4 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dac88657c3ec9d649b3fe4315325bc6e, type: 3}
   m_Name: GameStateEvents
   m_EditorClassIdentifier: 
-  currentState: 0
+  currentGameState: 3
+  runningGameState: 3
+  currentPlayerState: 3
+  runningPlayerState: 3
+  playerHasEndedRound: 0
+  opponentHasEndedRound: 0

@@ -22,6 +22,8 @@ public class CardPickController : MonoBehaviour
 
     private void OnEnable()
     {
+        ResetSelection();
+     
         if (inputEvents != null)
         {
             inputEvents.OnPickCard += PickCard;
@@ -50,11 +52,14 @@ public class CardPickController : MonoBehaviour
 
     private void PickCard(bool isPicking)
     {
+        Debug.Log($"Picking card {isPicking}");
+
         if (!isPicking)
         {
             ReleaseCard();
             return;
         }
+        Debug.Log($"Picking card went trough");
         
         if (selectedCard != null && pickedCard == null)
         {
@@ -155,17 +160,22 @@ public class CardPickController : MonoBehaviour
                 return PlayerStateEnum.CardPlacedMerger;
 
             case TableContainer when state == PlayerStateEnum.PlayerTurnIdle:
-                return PlayerStateEnum.CardPlacedTable;
+                return !(soGameStateEvents.opponentHasEndedRound 
+                         && targetContainer.SelfContainerKey.OwnerType == OwnerType.Enemy)
+                    ? PlayerStateEnum.CardPlacedTable
+                    : PlayerStateEnum.Default;
             
             case MergerContainer when state == PlayerStateEnum.CardPlacedTable:
                 return pickedCard.ContainerKey.ContainerType is CardContainerType.AttackTable
-                    or CardContainerType.DefenceTable
+                    or CardContainerType.DefenceTable 
                     ? PlayerStateEnum.CardPlacedMerger
                     : PlayerStateEnum.AllCardsPlaced;
             
             case TableContainer when state == PlayerStateEnum.CardPlacedTable:
                 return pickedCard.ContainerKey.ContainerType is CardContainerType.AttackTable
                     or CardContainerType.DefenceTable
+                       && !(soGameStateEvents.opponentHasEndedRound 
+                            && targetContainer.SelfContainerKey.OwnerType == OwnerType.Enemy)
                     ? PlayerStateEnum.CardPlacedTable
                     : PlayerStateEnum.Default;
             
@@ -175,13 +185,26 @@ public class CardPickController : MonoBehaviour
                     : PlayerStateEnum.Default;
                 
             case TableContainer when state == PlayerStateEnum.CardPlacedMerger:
-                return pickedCard.ContainerKey.ContainerType is CardContainerType.Merger
-                    ? PlayerStateEnum.CardPlacedTable
-                    : PlayerStateEnum.AllCardsPlaced;
+                
+                var isMergerTable = pickedCard.ContainerKey.ContainerType is CardContainerType.Merger;
+
+                var isNotEnemyTable = !(soGameStateEvents.opponentHasEndedRound 
+                                        && targetContainer.SelfContainerKey.OwnerType == OwnerType.Enemy);
+
+                if (isMergerTable)
+                {
+                    return isNotEnemyTable ? PlayerStateEnum.CardPlacedTable : PlayerStateEnum.Default;
+                }
+                else
+                {
+                    return isNotEnemyTable ? PlayerStateEnum.AllCardsPlaced : PlayerStateEnum.Default;
+                }
             
             case TableContainer when state == PlayerStateEnum.AllCardsPlaced:
                 return pickedCard.ContainerKey.ContainerType is CardContainerType.AttackTable
             or CardContainerType.DefenceTable
+                       && !(soGameStateEvents.opponentHasEndedRound 
+                            && targetContainer.SelfContainerKey.OwnerType == OwnerType.Enemy)
             ? PlayerStateEnum.AllCardsPlaced
             : PlayerStateEnum.Default;
         }

@@ -14,6 +14,7 @@ public class CardHighlightController : MonoBehaviour
         if (soCardEvents != null)
         {
             soCardEvents.OnCardSelected += HighlightCard;
+            soCardEvents.OnCardSelectionReset += ResetSelectedCard;
         }
     }
 
@@ -22,6 +23,7 @@ public class CardHighlightController : MonoBehaviour
         if(soCardEvents != null)
         {
             soCardEvents.OnCardSelected -= HighlightCard;
+            soCardEvents.OnCardSelectionReset += ResetSelectedCard;
         }
     }
 
@@ -79,6 +81,8 @@ public class CardHighlightController : MonoBehaviour
 
     private void HighlightCard(Card card, bool highlight)
     {
+        if(card.State is CardData.CardState.NonPickable or CardData.CardState.Placed) return;
+        
         card.State = highlight ? CardData.CardState.Highlighted : CardData.CardState.Normal;
     }
 }

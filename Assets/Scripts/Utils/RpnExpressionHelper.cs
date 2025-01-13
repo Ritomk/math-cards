@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 
 public static class RpnExpressionHelper
@@ -99,8 +101,80 @@ public static class RpnExpressionHelper
             return false;
         }
     }
-    
-    private static float ApplyOperator(float a, float b, int opToken)
+
+    public static bool EvaluateRpnExpressionOrder(
+        Dictionary<int, Card> cardsDictionary,
+        out float result,
+        out List<List<int>> operationOrder)
+    {
+        Stack<float> resultStack = new Stack<float>(); // Stack for calculation results
+        Stack<int> idStack = new Stack<int>(); // Stack for card IDs
+        operationOrder = new List<List<int>>();
+
+        foreach (var (cardId, card) in cardsDictionary)
+        {
+            if (!IsOperator(card.Token))
+            {
+                resultStack.Push(card.Token);
+                idStack.Push(cardId);
+            }
+            else
+            {
+                if (resultStack.Count < 2 || idStack.Count < 2)
+                {
+                    Debug.LogError("Not enough operands on the stack for the operation.");
+                    result = 0;
+                    return false;
+                }
+
+                float operand2 = resultStack.Pop();
+                float operand1 = resultStack.Pop();
+
+                int operand2Id = idStack.Pop();
+                int operand1Id = idStack.Pop();
+
+                float operationResult = ApplyOperator(operand1, operand2, card.Token);
+
+                resultStack.Push(operationResult);
+                idStack.Push(cardId);
+
+                var currentOperation = new List<int> { cardId, operand1Id, operand2Id };
+                operationOrder.Add(currentOperation);
+            }
+        }
+
+        
+        if (resultStack.Count > 0)
+        {
+            result = resultStack.Max();
+            Debug.Log($"Final Result: {result}");
+            return true;
+        }
+        else
+        {
+            result = 0;
+            return false;
+        }
+    }
+
+    public static int EncodeToken(float value)
+    {
+        if (!Mathf.Approximately(value, (int)value))
+        {
+            int sign = value < 0 ? -1 : 1;
+            int wholePart = Mathf.FloorToInt(Mathf.Abs(value));
+            int fractionalPart = Mathf.FloorToInt((Mathf.Abs(value) - wholePart) * 100);
+
+            int encodedValue = 10000 + (wholePart * 100) + fractionalPart;
+            return encodedValue * sign;
+        }
+        else
+        {
+            return (int)value;
+        }
+    }
+
+    public static float ApplyOperator(float a, float b, int opToken)
     {
         switch (opToken)
         {

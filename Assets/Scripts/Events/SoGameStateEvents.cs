@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [CreateAssetMenu(fileName = "GameStateEvents", menuName = "Events/GameStateEvents")]
 public class SoGameStateEvents : ScriptableObject
@@ -24,6 +25,9 @@ public class SoGameStateEvents : ScriptableObject
     
     [SerializeField] private PlayerStateEnum runningPlayerState;
     public PlayerStateEnum RunningPlayerState => runningPlayerState;
+    
+    public bool playerHasEndedRound = false;
+    public bool opponentHasEndedRound = false;
     
     #endregion
 
@@ -152,6 +156,7 @@ public enum PlayerStateEnum
 {
     Default,
     BeginRound,
+    EndRound,
     PlayerTurnIdle,
     CardPicked,
     CardPlacedTable,

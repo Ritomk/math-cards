@@ -14,8 +14,6 @@ public class GameManager : MonoBehaviour
     private Dictionary<GameStateEnum, GameStateBase> _gameStates;
     private Dictionary<PlayerStateEnum, PlayerStateBase> _playerStates;
     
-    private bool _playerHasEndedRound = false;
-    private bool _opponentHasEndedRound = false;
     private int _playerScore = 0;
     private int _opponentScore = 0;
     
@@ -39,6 +37,7 @@ public class GameManager : MonoBehaviour
     [Space]
     [Header("Player Menu Scripts")]
     [SerializeField] private InputUIManager inputUIManager;
+    [SerializeField] private SoUIEvents soUIEvents;
 
     [Space] 
     [Header("Enemy Scriptable Objects")] 
@@ -71,9 +70,10 @@ public class GameManager : MonoBehaviour
             new GameStates.PlayerTurnState(_gameStateMachine, soGameStateEvents, soAnimationEvents, soTimerEvents,
                 soContainerEvents, cardPickController, soUniversalInputEvents),
             new GameStates.OpponentTurnState(_gameStateMachine, soGameStateEvents, soAnimationEvents, soTimerEvents,
-                soContainerEvents, enemyBehaviourTreeOwner),
+                soContainerEvents, enemyBehaviourTreeOwner, soCardEvents, soUniversalInputEvents),
             new GameStates.SkipPlayerTurnState(_gameStateMachine, soGameStateEvents),
-            new GameStates.SkipOpponentTurnState(_gameStateMachine, soGameStateEvents),
+            new GameStates.SkipOpponentTurnState(_gameStateMachine, soGameStateEvents, soCardEvents,
+                soUniversalInputEvents),
             new GameStates.EndRoundState(_gameStateMachine, soGameStateEvents, soCardEvents, enemySoCardEvents,
                 soContainerEvents)
         };
@@ -89,6 +89,7 @@ public class GameManager : MonoBehaviour
             new PlayerStates.AllPlacedCardsState(_playerStateMachine, cardHighlightController),
             new PlayerStates.OpponentTurnIdleState(_playerStateMachine, soCardEvents, cardPickController),
             new PlayerStates.BeginRoundState(_playerStateMachine, cardSelectionController),
+            new PlayerStates.EndRoundState(_playerStateMachine, cardSelectionController),
             new PlayerStates.LookAroundState(_playerStateMachine, cardSelectionController),
             new PlayerStates.PauseState(_playerStateMachine, inputManager, inputUIManager, soUniversalInputEvents,
                 soCardEvents, soGameStateEvents)
@@ -128,17 +129,17 @@ public class GameManager : MonoBehaviour
 
     private void ChangeGameState(GameStateEnum newState)
     {
-        if (_playerHasEndedRound && _opponentHasEndedRound)
+        if (soGameStateEvents.playerHasEndedRound && soGameStateEvents.opponentHasEndedRound)
         {
             newState = GameStateEnum.EndRound;
         }
         
         switch (newState)
         {
-            case GameStateEnum.PlayerTurn when _playerHasEndedRound:
+            case GameStateEnum.PlayerTurn when soGameStateEvents.playerHasEndedRound:
                 newState = GameStateEnum.SkipPlayerTurn;
                 break;
-            case GameStateEnum.OpponentTurn when _opponentHasEndedRound:
+            case GameStateEnum.OpponentTurn when soGameStateEvents.opponentHasEndedRound:
                 newState = GameStateEnum.SkipOpponentTurn;
                 break;
         }
@@ -189,10 +190,10 @@ public class GameManager : MonoBehaviour
         switch (owner)
         {
             case OwnerType.Player:
-                _playerHasEndedRound = true;
+                soGameStateEvents.playerHasEndedRound = true;
                 break;
             case OwnerType.Enemy:
-                _opponentHasEndedRound = true;
+                soGameStateEvents.opponentHasEndedRound = true;
                 break;
         }
     }
@@ -204,8 +205,10 @@ public class GameManager : MonoBehaviour
         else
             _opponentScore++;
         
-        _playerHasEndedRound = false;
-        _opponentHasEndedRound = false;
+        soGameStateEvents.playerHasEndedRound = false;
+        soGameStateEvents.opponentHasEndedRound = false;
+        
+        soUIEvents.RaiseSetCrystalsAmount(_playerScore, _opponentScore);
         
         if (_playerScore == 2 || _opponentScore == 2)
         {

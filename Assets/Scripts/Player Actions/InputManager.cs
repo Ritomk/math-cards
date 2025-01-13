@@ -148,7 +148,11 @@ public class InputManager : MonoBehaviour
             
             if (spaceHoldTime < 0.5f)
             {
-                if (gameStateEvents.CurrentPlayerState is PlayerStateEnum.AllCardsPlaced
+                if (gameStateEvents.CurrentPlayerState == PlayerStateEnum.EndRound)
+                {
+                    gameStateEvents.RaiseGameStateChange(GameStateEnum.BeginRound);
+                }
+                else if (gameStateEvents.CurrentPlayerState is PlayerStateEnum.AllCardsPlaced
                     or PlayerStateEnum.CardPlacedTable)
                 {
                     gameStateEvents.RaiseGameStateChange(GameStateEnum.OpponentTurn);

@@ -3458,7 +3458,7 @@ MonoBehaviour:
   maxCardCount: 9
   initialSpacing: -5.5
   maxWidth: 18
-  yIncrement: 0.01
+  yIncrement: 0.02
   baseXOffset: -2
   baseYOffset: 0.5
 --- !u!1 &393732814
@@ -6477,7 +6477,7 @@ MonoBehaviour:
   maxCardCount: 9
   initialSpacing: -5.5
   maxWidth: 18
-  yIncrement: 0.01
+  yIncrement: 0.02
   baseXOffset: -2
   baseYOffset: 0.5
 --- !u!1001 &812173001
@@ -6624,7 +6624,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &825912781
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7458,7 +7458,7 @@ MonoBehaviour:
   maxCardCount: 9
   initialSpacing: -5.5
   maxWidth: 18
-  yIncrement: 0.01
+  yIncrement: 0.02
   baseXOffset: -2
   baseYOffset: 0.5
 --- !u!1 &968274200
@@ -9350,7 +9350,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1237388767
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11638,6 +11638,10 @@ MonoBehaviour:
     Hand Cards Count":{"_name":"Self Hand Cards Count","_id":"3c6a4a89-ead2-4d2b-b75f-6dec166633b6","$type":"NodeCanvas.Framework.Variable`1[[System.Int32,
     mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"Wait
     Time":{"_name":"Wait Time","_id":"a193a648-8af7-4196-be01-15fcb555688b","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
+    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"Calculated
+    Chance":{"_name":"Calculated Chance","_id":"bdbd899b-4711-48db-962d-a28a15604932","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
+    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"Inverted
+    Calculated Chance":{"_name":"Inverted Calculated Chance","_id":"f70dfe36-0ce0-4a33-92f0-aed54d3b3356","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
     mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}}}'
   _objectReferences:
   - {fileID: 0}
@@ -11705,6 +11709,12 @@ MonoBehaviour:
   - _json: '{"_name":"Wait Time","_id":"a193a648-8af7-4196-be01-15fcb555688b","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
       mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}'
     _references: []
+  - _json: '{"_name":"Calculated Chance","_id":"bdbd899b-4711-48db-962d-a28a15604932","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}'
+    _references: []
+  - _json: '{"_name":"Inverted Calculated Chance","_id":"f70dfe36-0ce0-4a33-92f0-aed54d3b3356","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}'
+    _references: []
 --- !u!114 &1488327236
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11742,18 +11752,25 @@ MonoBehaviour:
     Moves Defence","_targetVariableID":"dfc3a45d-ad09-4c76-9332-e943cbb05388"},"setTo":0,"$type":"NodeCanvas.Tasks.Actions.SetBoolean"},"_position":{"x":51.70377,"y":615.4383},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"13"},{"_position":{"x":436.2719,"y":248.3628},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"14"},{"_action":{"minValue":{"_value":1.0},"maxValue":{"_value":3.0},"floatVariable":{"_name":"Wait
     Time","_targetVariableID":"a193a648-8af7-4196-be01-15fcb555688b"},"$type":"NodeCanvas.Tasks.Actions.SetFloatRandom"},"_position":{"x":299.3804,"y":328.7725},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"15"},{"_action":{"waitTime":{"_name":"Wait
     Time","_targetVariableID":"a193a648-8af7-4196-be01-15fcb555688b"},"$type":"NodeCanvas.Tasks.Actions.Wait"},"_position":{"x":499.2719,"y":328.3628},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"16"},{"_position":{"x":838.5402,"y":243.2896},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"17"},{"_position":{"x":768.7499,"y":411.1141},"$type":"NodeCanvas.BehaviourTrees.Selector","$id":"18"},{"_condition":{"valueA":{"_name":"Self
-    Hand Cards Count","_targetVariableID":"3c6a4a89-ead2-4d2b-b75f-6dec166633b6"},"valueB":{},"$type":"NodeCanvas.Tasks.Conditions.CheckInt"},"_position":{"x":511.9161,"y":520.8174},"$type":"NodeCanvas.BehaviourTrees.ConditionNode","$id":"19"},{"childWeights":[{"_value":1.0},{"_value":0.66}],"failChance":{},"_position":{"x":826.0958,"y":530.5673},"$type":"NodeCanvas.BehaviourTrees.ProbabilitySelector","$id":"20"},{"_action":{"knowledgeData":{"_name":"Enemy
+    Hand Cards Count","_targetVariableID":"3c6a4a89-ead2-4d2b-b75f-6dec166633b6"},"valueB":{},"$type":"NodeCanvas.Tasks.Conditions.CheckInt"},"_position":{"x":511.9161,"y":520.8174},"$type":"NodeCanvas.BehaviourTrees.ConditionNode","$id":"19"},{"childWeights":[{"_value":1.0},{"_value":0.66}],"failChance":{},"_position":{"x":823.6888,"y":517.3291},"$type":"NodeCanvas.BehaviourTrees.ProbabilitySelector","$id":"20"},{"_action":{"knowledgeData":{"_name":"Enemy
     Knowledge Data","_targetVariableID":"7d9675a7-e931-42b7-b654-6c49f94c9990"},"soCardEvents":{"_name":"So
     Card Events","_targetVariableID":"cf5f2bf5-51d0-40a2-aa41-ba6c6e6769fe"},"tableMoves":{"_name":"Attack
-    Table Moves","_targetVariableID":"54d13299-35fc-42d8-8014-00a12277ef45"},"targetContainer":{"OwnerType":1,"ContainerType":2},"$type":"NodeCanvas.Tasks.Actions.PlaceCard"},"_position":{"x":757.4372,"y":630.8985},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"21"},{"_action":{"knowledgeData":{"_name":"Enemy
+    Table Moves","_targetVariableID":"54d13299-35fc-42d8-8014-00a12277ef45"},"selfHandCardsCount":{"_name":"Self
+    Hand Cards Count","_targetVariableID":"3c6a4a89-ead2-4d2b-b75f-6dec166633b6"},"targetContainer":{"OwnerType":1,"ContainerType":2},"$type":"NodeCanvas.Tasks.Actions.PlaceCard"},"_position":{"x":757.4372,"y":630.8985},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"21"},{"_action":{"knowledgeData":{"_name":"Enemy
     Knowledge Data","_targetVariableID":"7d9675a7-e931-42b7-b654-6c49f94c9990"},"soCardEvents":{"_name":"So
     Card Events","_targetVariableID":"cf5f2bf5-51d0-40a2-aa41-ba6c6e6769fe"},"tableMoves":{"_name":"Defence
-    Table Moves","_targetVariableID":"79614bd0-c8f8-44b6-aff5-06051ea2d01e"},"targetContainer":{"OwnerType":1,"ContainerType":3},"$type":"NodeCanvas.Tasks.Actions.PlaceCard"},"_position":{"x":883.8092,"y":628.9928},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"22"},{"_position":{"x":1199.689,"y":412.1198},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"23"},{"_action":{"minValue":{},"maxValue":{"_value":2.0},"floatVariable":{"_name":"Wait
+    Table Moves","_targetVariableID":"79614bd0-c8f8-44b6-aff5-06051ea2d01e"},"selfHandCardsCount":{"_name":"Self
+    Hand Cards Count","_targetVariableID":"3c6a4a89-ead2-4d2b-b75f-6dec166633b6"},"targetContainer":{"OwnerType":1,"ContainerType":3},"$type":"NodeCanvas.Tasks.Actions.PlaceCard"},"_position":{"x":883.8092,"y":628.9928},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"22"},{"_position":{"x":1199.689,"y":412.1198},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"23"},{"_action":{"minValue":{},"maxValue":{"_value":2.0},"floatVariable":{"_name":"Wait
     Time","_targetVariableID":"a193a648-8af7-4196-be01-15fcb555688b"},"$type":"NodeCanvas.Tasks.Actions.SetFloatRandom"},"_position":{"x":969.797,"y":519.5295},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"24"},{"_action":{"waitTime":{"_name":"Wait
-    Time","_targetVariableID":"a193a648-8af7-4196-be01-15fcb555688b"},"$type":"NodeCanvas.Tasks.Actions.Wait"},"_position":{"x":1169.689,"y":519.1199},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"25"},{"childWeights":[{},{"_value":1.0}],"failChance":{},"_position":{"x":1387.733,"y":523.9514},"$type":"NodeCanvas.BehaviourTrees.ProbabilitySelector","$id":"26"},{"_action":{"gameStateEvents":{"_name":"Game
-    State Event","_targetVariableID":"7f9f8d75-8dbf-4fa2-8ae0-574a88e91f5a"},"$type":"NodeCanvas.Tasks.Actions.EndTurn"},"_position":{"x":1301.493,"y":625.8357},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"27"},{"_position":{"x":1446.833,"y":636.4702},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"28"},{"_action":{"gameStateEvents":{"_name":"Game
-    State Event","_targetVariableID":"7f9f8d75-8dbf-4fa2-8ae0-574a88e91f5a"},"$type":"NodeCanvas.Tasks.Actions.EndRound"},"_position":{"x":1445.697,"y":753.5352},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"29"},{"_action":{"gameStateEvents":{"_name":"Game
-    State Event","_targetVariableID":"7f9f8d75-8dbf-4fa2-8ae0-574a88e91f5a"},"$type":"NodeCanvas.Tasks.Actions.EndTurn"},"_position":{"x":1593.448,"y":758.0812},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"30"}],"connections":[{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"1"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"14"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"17"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"1"},"_targetNode":{"$ref":"2"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"1"},"_targetNode":{"$ref":"3"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"1"},"_targetNode":{"$ref":"4"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"1"},"_targetNode":{"$ref":"9"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"4"},"_targetNode":{"$ref":"5"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"4"},"_targetNode":{"$ref":"6"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"6"},"_targetNode":{"$ref":"7"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"6"},"_targetNode":{"$ref":"8"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"9"},"_targetNode":{"$ref":"10"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"9"},"_targetNode":{"$ref":"11"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"11"},"_targetNode":{"$ref":"12"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"11"},"_targetNode":{"$ref":"13"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"14"},"_targetNode":{"$ref":"15"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"14"},"_targetNode":{"$ref":"16"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"17"},"_targetNode":{"$ref":"18"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"17"},"_targetNode":{"$ref":"23"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"18"},"_targetNode":{"$ref":"19"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"18"},"_targetNode":{"$ref":"20"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"20"},"_targetNode":{"$ref":"21"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"20"},"_targetNode":{"$ref":"22"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"23"},"_targetNode":{"$ref":"24"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"23"},"_targetNode":{"$ref":"25"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"23"},"_targetNode":{"$ref":"26"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"26"},"_targetNode":{"$ref":"27"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"26"},"_targetNode":{"$ref":"28"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"28"},"_targetNode":{"$ref":"29"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"28"},"_targetNode":{"$ref":"30"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"}],"canvasGroups":[],"localBlackboard":{"_variables":{}},"derivedData":{"$type":"NodeCanvas.BehaviourTrees.BehaviourTree+DerivedSerializationData"}}'
+    Time","_targetVariableID":"a193a648-8af7-4196-be01-15fcb555688b"},"$type":"NodeCanvas.Tasks.Actions.Wait"},"_position":{"x":1169.689,"y":519.1199},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"25"},{"_position":{"x":1464.624,"y":486.2023},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"26"},{"_action":{"inputValue":{"_name":"Self
+    Hand Cards Count","_targetVariableID":"3c6a4a89-ead2-4d2b-b75f-6dec166633b6"},"rangeStart1":{},"rangeEnd1":{"_value":5.0},"outputStart1":{"_value":100.0},"outputEnd1":{"_value":25.0},"rangeStart2":{"_value":15.0},"rangeEnd2":{"_value":5.0},"outputStart2":{"_value":25.0},"outputEnd2":{},"calculatedChance":{"_name":"Calculated
+    Chance","_targetVariableID":"bdbd899b-4711-48db-962d-a28a15604932"},"invertedCalculatedChance":{"_name":"Inverted
+    Calculated Chance","_targetVariableID":"f70dfe36-0ce0-4a33-92f0-aed54d3b3356"},"$type":"NodeCanvas.Tasks.Actions.CalculateChance"},"_position":{"x":1347.888,"y":574.0557},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"27"},{"childWeights":[{"_name":"Calculated
+    Chance","_targetVariableID":"bdbd899b-4711-48db-962d-a28a15604932"},{"_name":"Inverted
+    Calculated Chance","_targetVariableID":"f70dfe36-0ce0-4a33-92f0-aed54d3b3356"}],"failChance":{},"_position":{"x":1573.068,"y":578.1077},"$type":"NodeCanvas.BehaviourTrees.ProbabilitySelector","$id":"28"},{"_position":{"x":1491.039,"y":694.4053},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"29"},{"_action":{"gameStateEvents":{"_name":"Game
+    State Event","_targetVariableID":"7f9f8d75-8dbf-4fa2-8ae0-574a88e91f5a"},"$type":"NodeCanvas.Tasks.Actions.EndRound"},"_position":{"x":1409.012,"y":799.4227},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"30"},{"_action":{"gameStateEvents":{"_name":"Game
+    State Event","_targetVariableID":"7f9f8d75-8dbf-4fa2-8ae0-574a88e91f5a"},"$type":"NodeCanvas.Tasks.Actions.EndTurn"},"_position":{"x":1556.763,"y":803.9686},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"31"},{"_action":{"gameStateEvents":{"_name":"Game
+    State Event","_targetVariableID":"7f9f8d75-8dbf-4fa2-8ae0-574a88e91f5a"},"$type":"NodeCanvas.Tasks.Actions.EndTurn"},"_position":{"x":1677.531,"y":698.5615},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"32"}],"connections":[{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"1"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"14"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"17"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"1"},"_targetNode":{"$ref":"2"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"1"},"_targetNode":{"$ref":"3"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"1"},"_targetNode":{"$ref":"4"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"1"},"_targetNode":{"$ref":"9"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"4"},"_targetNode":{"$ref":"5"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"4"},"_targetNode":{"$ref":"6"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"6"},"_targetNode":{"$ref":"7"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"6"},"_targetNode":{"$ref":"8"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"9"},"_targetNode":{"$ref":"10"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"9"},"_targetNode":{"$ref":"11"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"11"},"_targetNode":{"$ref":"12"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"11"},"_targetNode":{"$ref":"13"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"14"},"_targetNode":{"$ref":"15"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"14"},"_targetNode":{"$ref":"16"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"17"},"_targetNode":{"$ref":"18"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"17"},"_targetNode":{"$ref":"23"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"18"},"_targetNode":{"$ref":"19"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"18"},"_targetNode":{"$ref":"20"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"20"},"_targetNode":{"$ref":"21"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"20"},"_targetNode":{"$ref":"22"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"23"},"_targetNode":{"$ref":"24"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"23"},"_targetNode":{"$ref":"25"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"23"},"_targetNode":{"$ref":"26"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"26"},"_targetNode":{"$ref":"27"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"26"},"_targetNode":{"$ref":"28"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"28"},"_targetNode":{"$ref":"29"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"28"},"_targetNode":{"$ref":"32"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"29"},"_targetNode":{"$ref":"30"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"29"},"_targetNode":{"$ref":"31"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"}],"canvasGroups":[],"localBlackboard":{"_variables":{}},"derivedData":{"$type":"NodeCanvas.BehaviourTrees.BehaviourTree+DerivedSerializationData"}}'
   _boundGraphObjectReferences:
   - {fileID: 0}
   - {fileID: 349244754}
@@ -11761,8 +11778,8 @@ MonoBehaviour:
     _version: 3.31
     _category: 
     _comments: 
-    _translation: {x: 72, y: -247}
-    _zoomFactor: 0.5367341
+    _translation: {x: 89.24008, y: -141.74844}
+    _zoomFactor: 0.6533632
   _firstActivation: 0
   _enableAction: 0
   _disableAction: 0
@@ -12444,6 +12461,7 @@ MonoBehaviour:
   cardSelectionController: {fileID: 1073608851}
   cameraController: {fileID: 1073608850}
   inputUIManager: {fileID: 1969345824}
+  soUIEvents: {fileID: 11400000, guid: a0e657fff93598c43ade600609422f21, type: 2}
   enemySoCardEvents: {fileID: 11400000, guid: 6e71cc9daf3642c4c8aff564782847dc, type: 2}
   enemyBehaviourTreeOwner: {fileID: 1488327236}
 --- !u!4 &1588663890
@@ -12856,7 +12874,7 @@ MonoBehaviour:
   maxCardCount: 9
   initialSpacing: -5.5
   maxWidth: 18
-  yIncrement: 0.01
+  yIncrement: 0.02
   baseXOffset: -2
   baseYOffset: 0.1
 --- !u!1001 &1678385894
@@ -16278,6 +16296,12 @@ MonoBehaviour:
   soUIEvents: {fileID: 11400000, guid: a0e657fff93598c43ade600609422f21, type: 2}
   slider: {fileID: 260749445}
   currentTurnText: {fileID: 655955685}
+  playerCrystals:
+  - {fileID: 825912780}
+  - {fileID: 1353107319}
+  opponentCrystals:
+  - {fileID: 1237388766}
+  - {fileID: 1859140915}
 --- !u!1 &2023849142
 GameObject:
   m_ObjectHideFlags: 0

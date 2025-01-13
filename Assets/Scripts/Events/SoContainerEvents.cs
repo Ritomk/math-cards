@@ -23,6 +23,9 @@ public class SoContainerEvents : ScriptableObject
 
     public delegate void GetCardDataHandler(EnemyKnowledgeData data);
     public event GetCardDataHandler OnGetCardData;
+    
+    public delegate void ClearTablesHandler();
+    public event ClearTablesHandler OnClearTables;
 
     public void RaiseChangeCardsState(CardData.CardState newState)
     {
@@ -54,5 +57,10 @@ public class SoContainerEvents : ScriptableObject
         EnemyKnowledgeData containersData = new EnemyKnowledgeData();
         OnGetCardData?.Invoke(containersData);
         return containersData;
+    }
+
+    public void RaiseClearTables()
+    {
+        OnClearTables?.Invoke();
     }
 }

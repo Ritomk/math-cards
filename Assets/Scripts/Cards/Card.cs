@@ -128,7 +128,19 @@ public class Card : MonoBehaviour
 
     private void UpdateTextMesh()
     {
-        tokenText.text = IsOperator(_token) ? OperatorToString(_token) : _token.ToString();
+        if (IsFloat(_token))
+        {
+            tokenText.text = OperatorFloatToString(_token);
+        }
+        else if (IsOperator(_token))
+        {
+            tokenText.text = OperatorToString(_token);
+        }
+        else
+        {
+            tokenText.text = _token.ToString();
+        }
+        //tokenText.text = IsOperator(_token) ? OperatorToString(_token) : _token.ToString();
     }
     
     private void UpdateCardColor()
@@ -163,7 +175,8 @@ public class Card : MonoBehaviour
 
     private void UpdateCardTag()
     {
-        transform.tag = State is CardData.CardState.NonPickable or CardData.CardState.Placed
+        transform.tag = State is CardData.CardState.NonPickable 
+            or CardData.CardState.Placed or CardData.CardState.EnemyHand
             ? "NonPickableCard"
             : "Card";
     }
@@ -175,28 +188,36 @@ public class Card : MonoBehaviour
 
     private bool DetermineTokenType(int token)
     {
-        if (!IsOperator(token))
+        if (IsFloat(token))
         {
-            if (token is >= -99 and <= 99)
-            {
-                TokenType = token / 10 == 0 ? CardData.TokenType.SingleDigit : CardData.TokenType.DoubleDigit;
-            }
-            else
-            {
-                TokenType = CardData.TokenType.IllegalToken;
-                return false;
-            }
+            TokenType = CardData.TokenType.Float;
         }
-        else
+        else if (IsOperator(token))
         {
             TokenType = CardData.TokenType.Symbol;
         }
+        else if (token is >= -99 and <= 99)
+        {
+            TokenType = token / 10 == 0 ? CardData.TokenType.SingleDigit : CardData.TokenType.DoubleDigit;
+        }
+        else
+        {
+            TokenType = CardData.TokenType.IllegalToken;
+            return false;
+        }
+
         return true;
     }
     
     
     private void DetermineTokenWeight(int token)
     {
+        if (IsFloat(token))
+        {
+            int absToken = Math.Abs(token);
+            int wholePart = (absToken / 100) % 100;
+            TokenWeight = wholePart == 0 ? 7 : wholePart;
+        }
         if (IsOperator(token))
         {
             TokenWeight = OperatorToWeight(token);
@@ -212,6 +233,11 @@ public class Card : MonoBehaviour
         return token is >= 101 and <= 104;
     }
 
+    private static bool IsFloat(int token)
+    {
+        return token is >= 10001 or <= -10001;
+    }
+    
     private static string OperatorToString(int token)
     {
         return token switch
@@ -236,6 +262,18 @@ public class Card : MonoBehaviour
         };
     }
 
+    private static string OperatorFloatToString(int token)
+    {
+        int sign = token < 0 ? -1 : 1;
+        int absToken = Mathf.Abs(token);
+
+        int wholePart = (absToken / 100) % 100;
+        int fractionalPart = absToken % 100;
+        
+        string decodedValue = $"{wholePart}.{fractionalPart}";
+        return decodedValue;
+    }
+    
     private static string ArabicToRoman(int arabic)
     {
         return arabic switch

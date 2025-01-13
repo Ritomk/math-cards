@@ -22,6 +22,7 @@ public class CardData : ScriptableObject
     {
         SingleDigit,
         DoubleDigit,
+        Float,
         Symbol,
         IllegalToken
     }
