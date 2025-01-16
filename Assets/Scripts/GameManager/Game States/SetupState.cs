@@ -22,7 +22,8 @@ namespace GameStates
             _soGameStateEvents.playerHasEndedRound = false;
             _soGameStateEvents.opponentHasEndedRound = false;
             
-            yield return new WaitForSeconds(0.1f);
+            //For cutscene to play out
+            yield return new WaitForSeconds(11f);
             
             _soGameStateEvents.RaiseGameStateChange(GameStateEnum.BeginRound);
         }

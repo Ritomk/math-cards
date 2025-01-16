@@ -43,6 +43,11 @@ public class MergerContainer : CardContainerBase
         bool result = base.AddCard(card);
         if (result)
         {
+            if (SelfContainerKey.OwnerType == OwnerType.Enemy)
+            {
+                card.IsTokenVisible = false;
+            }
+            
             UpdateCardPositions();
         }
         
@@ -124,6 +129,11 @@ public class MergerContainer : CardContainerBase
         foreach (var card in CardsDictionary.Values)
         {
             card.State = newState;
+            
+            if (SelfContainerKey.OwnerType == OwnerType.Enemy)
+            {
+                card.IsTokenVisible = false;
+            }
         }
     }
 
