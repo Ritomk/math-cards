@@ -142,12 +142,47 @@ public static class RpnExpressionHelper
                 operationOrder.Add(currentOperation);
             }
         }
-
         
         if (resultStack.Count > 0)
         {
             result = resultStack.Max();
             Debug.Log($"Final Result: {result}");
+            return true;
+        }
+        else
+        {
+            result = 0;
+            return false;
+        }
+    }
+    
+    public static bool EvaluateRpnExpressionLeader(List<int> expression, out float result)
+    {
+        Stack<float> stack = new Stack<float>();
+
+        foreach (var token in expression)
+        {
+            if (!IsOperator(token))
+            {
+                stack.Push(token);
+            }
+            else
+            {
+                if (stack.Count < 2)
+                {
+                    result = 0;
+                    return false;
+                }
+                float b = stack.Pop();
+                float a = stack.Pop();
+                float res = ApplyOperator(a, b, token);
+                stack.Push(res);
+            }
+        }
+
+        if (stack.Count > 0)
+        {
+            result = stack.Max();
             return true;
         }
         else

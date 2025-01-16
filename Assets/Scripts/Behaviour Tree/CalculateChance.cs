@@ -38,6 +38,7 @@ namespace NodeCanvas.Tasks.Actions
 
         protected override void OnExecute() {
             float normalizedInputValue = NormalizeInput(inputValue.value);
+
             calculatedChance.value = Calculate(normalizedInputValue);
             invertedCalculatedChance.value = 100 - calculatedChance.value;
             EndAction(true);

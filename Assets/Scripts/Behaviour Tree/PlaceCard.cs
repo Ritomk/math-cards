@@ -22,9 +22,12 @@ namespace NodeCanvas.Tasks.Actions {
 
 		public ContainerKey targetContainer;
 
-		private static readonly ContainerKey handContainer = new ContainerKey(OwnerType.Enemy, CardContainerType.Hand);
+		private readonly ContainerKey handContainer = new ContainerKey(OwnerType.Enemy, CardContainerType.Hand);
 		
-
+		protected override string info
+		{
+			get { return $"Place Card on {targetContainer.OwnerType} {targetContainer.ContainerType}"; }
+		}
 
 		protected override void OnExecute()
 		{
