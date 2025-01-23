@@ -21,7 +21,7 @@ public class CardData : ScriptableObject
     public enum TokenType
     {
         SingleDigit,
-        DoubleDigit,
+        ManyDigits,
         Float,
         Symbol,
         IllegalToken

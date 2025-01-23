@@ -46,28 +46,43 @@ public class TableContainer : CardContainerBase
         return result;
     }
 
+    public override IEnumerator BurnCard(int cardId)
+    {
+        yield return base.BurnCard(cardId);
+        
+        UpdateCardPositions();
+    }
+
     protected override void ValidateCardPlacement()
     {
-        var cos = 0;
+        var stackHeight = 0;
         foreach (var card in CardsDictionary.Values)
         {
             switch (card.TokenType)
             {
                 case CardData.TokenType.SingleDigit:
-                case CardData.TokenType.DoubleDigit:
-                    ++cos;
+                case CardData.TokenType.ManyDigits:
+                case CardData.TokenType.Float:
+                    ++stackHeight;
                     break;
                 case CardData.TokenType.Symbol:
-                    --cos;
+                    --stackHeight;
                     break;
             }
 
-            if (cos <= 0)
+            if (stackHeight <= 0)
             {
                 CoroutineHelper.Start(BurnCard(CardsDictionary.Last().Value.CardId));
                 return;
             }
         }
+        if(CardsDictionary.Count == 0) return;
+        
+        var lastCard = CardsDictionary.Last();
+        
+        if (lastCard.Value.Token == 0)
+            lastCard.Value.Token = 0.1f;
+        
     }
 
     private void UpdateCardPositions()
@@ -107,6 +122,14 @@ public class TableContainer : CardContainerBase
     private IEnumerator VisualizeRpnEvaluation(Dictionary<int, Card> cardsDictionary, List<List<int>> operationOrder)
     {
         Card resultCard = null;
+
+        if (operationOrder.Count == 0)
+        {
+            resultCard = cardsDictionary.Values
+                .Where(card => card.TokenType != CardData.TokenType.Symbol)
+                .OrderByDescending(card => card.Token)
+                .FirstOrDefault();
+        }
         
         foreach (var operation in operationOrder)
         {
@@ -133,7 +156,7 @@ public class TableContainer : CardContainerBase
             float operand2Value = operand2.Token;
             float resultValue = RpnExpressionHelper.ApplyOperator(operand1Value, operand2Value, operatorCard.Token);
 
-            operatorCard.Token = RpnExpressionHelper.EncodeToken(resultValue);
+            operatorCard.Token = resultValue;
             
             resultCard = operatorCard;
             
@@ -146,8 +169,11 @@ public class TableContainer : CardContainerBase
             yield return new WaitForSecondsPauseable(0.5f);
         }
         
+        Debug.Log($"Burn: {string.Join(" ", cardsDictionary.Values)}");
         foreach (var card in cardsDictionary.Values)
         {
+            Debug.Log($"Burn: {card.CardId} {resultCard?.CardId}");
+
             if (resultCard && card.CardId != resultCard.CardId)
             {
                 CoroutineHelper.Start(BurnCard(card.CardId));
@@ -187,10 +213,20 @@ public class TableContainer : CardContainerBase
 
     private void HandleClearTables()
     {
+        CoroutineHelper.Start(ClearTables());
+    }
+
+    private IEnumerator ClearTables()
+    {
         foreach (var card in CardsDictionary.Values)
         {
             CoroutineHelper.Start(BurnCard(card.CardId));
         }
+
+        yield return new WaitForSecondsPauseable(1.5f);
+        
+        CardsDictionary.Clear();
+        currentCardCount = 0;
     }
 
     protected override void HandleCardData(EnemyKnowledgeData data)

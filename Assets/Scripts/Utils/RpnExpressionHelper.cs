@@ -6,12 +6,12 @@ using UnityEngine;
 
 public static class RpnExpressionHelper
 {
-    public static string ExpressionToString(List<int> expression)
+    public static string ExpressionToString(List<float> expression)
     {
         List<string> tokensAsString = new List<string>();
-        foreach (int token in expression)
+        foreach (float token in expression)
         {
-            if (TokenMapping.IntToStringMap.TryGetValue(token, out string opStr))
+            if (TokenMapping.FloatToStringMap.TryGetValue(token, out string opStr))
             {
                 tokensAsString.Add(opStr);
             }
@@ -22,104 +22,30 @@ public static class RpnExpressionHelper
         }
         return string.Join(" ", tokensAsString);
     }
-
-    public static List<string> ExpressionToStringList(List<int> expression)
-    {
-        List<string> tokensAsString = new List<string>();
-        foreach (int token in expression)
-        {
-            if (TokenMapping.IntToStringMap.TryGetValue(token, out string opStr))
-            {
-                tokensAsString.Add(opStr);
-            }
-            else
-            {
-                tokensAsString.Add(token.ToString());
-            }
-        }
-        return tokensAsString;
-    }
     
-    public static List<int> ExpressionToIntList(List<string> expression)
-    {
-        List<int> tokensAsInt = new List<int>();
-        foreach (string token in expression)
-        {
-            if (TokenMapping.StringToIntMap.TryGetValue(token, out int opInt))
-            {
-                tokensAsInt.Add(opInt);
-            }
-            else if (int.TryParse(token, out int number))
-            {
-                tokensAsInt.Add(number);
-            }
-            else
-            {
-                throw new ArgumentException($"Invalid token: {token}");
-            }
-        }
-        return tokensAsInt;
-    }
+    public static bool IsOperator(float token) => token is >= 0.05f and <= 0.08f;
     
-    private static bool IsOperator(int opToken)
-    {
-        return opToken >= 101;
-    }
-    
-    public static bool EvaluateRpnExpression(List<int> expression, out float result)
-    {
-        Stack<float> stack = new Stack<float>();
-
-        foreach (var token in expression)
-        {
-            if (!IsOperator(token))
-            {
-                stack.Push(token);
-            }
-            else
-            {
-                if (stack.Count < 2)
-                {
-                    result = 0;
-                    return false;
-                }
-                float b = stack.Pop();
-                float a = stack.Pop();
-                float res = ApplyOperator(a, b, token);
-                stack.Push(res);
-            }
-        }
-
-        if (stack.Count == 1)
-        {
-            result = stack.Pop();
-            return true;
-        }
-        else
-        {
-            result = 0;
-            return false;
-        }
-    }
-
     public static bool EvaluateRpnExpressionOrder(
         Dictionary<int, Card> cardsDictionary,
         out float result,
         out List<List<int>> operationOrder)
     {
-        Stack<float> resultStack = new Stack<float>(); // Stack for calculation results
-        Stack<int> idStack = new Stack<int>(); // Stack for card IDs
+        Stack<float> resultStack = new Stack<float>();
+        Stack<int> idStack = new Stack<int>();
         operationOrder = new List<List<int>>();
 
         foreach (var (cardId, card) in cardsDictionary)
         {
+            // card.Token is float
             if (!IsOperator(card.Token))
             {
+                // Push numeric token
                 resultStack.Push(card.Token);
                 idStack.Push(cardId);
             }
             else
             {
+                // Operator => pop two floats
                 if (resultStack.Count < 2 || idStack.Count < 2)
                 {
                     Debug.LogError("Not enough operands on the stack for the operation.");
@@ -129,23 +55,29 @@ public static class RpnExpressionHelper
 
                 float operand2 = resultStack.Pop();
                 float operand1 = resultStack.Pop();
-
+                
                 int operand2Id = idStack.Pop();
                 int operand1Id = idStack.Pop();
 
                 float operationResult = ApplyOperator(operand1, operand2, card.Token);
 
+                // Push result back
                 resultStack.Push(operationResult);
                 idStack.Push(cardId);
 
+                // Record the operation: { OperatorCardID, Operand1CardID, Operand2CardID }
                 var currentOperation = new List<int> { cardId, operand1Id, operand2Id };
                 operationOrder.Add(currentOperation);
             }
         }
         
+        // Final result is top of the stack
         if (resultStack.Count > 0)
         {
             result = resultStack.Max();
+            
+            if (result % 1 != 0)
+                result = Mathf.Floor(result * 100) / 100;
             Debug.Log($"Final Result: {result}");
             return true;
         }
@@ -155,12 +87,13 @@ public static class RpnExpressionHelper
             return false;
         }
     }
-    
-    public static bool EvaluateRpnExpressionLeader(List<int> expression, out float result)
-    {
-        Stack<float> stack = new Stack<float>();
 
-        foreach (var token in expression)
+    private static Stack<float> EvaluateRpnToStack(List<float> tokens, out bool success)
+    {
+        var stack = new Stack<float>();
+        success = true;
+
+        foreach (var token in tokens)
         {
             if (!IsOperator(token))
             {
@@ -170,9 +103,10 @@ public static class RpnExpressionHelper
             {
                 if (stack.Count < 2)
                 {
-                    result = 0;
-                    return false;
+                    success = false;
+                    return stack;
                 }
+
                 float b = stack.Pop();
                 float a = stack.Pop();
                 float res = ApplyOperator(a, b, token);
@@ -180,9 +114,25 @@ public static class RpnExpressionHelper
             }
         }
 
-        if (stack.Count > 0)
+        return stack;
+    }
+
+
+    public static bool EvaluateRpnExpression(List<float> expression, out float result)
+    {
+        var finalStack = EvaluateRpnToStack(expression, out var success);
+        if (!success || finalStack.Count == 0)
         {
-            result = stack.Max();
+            result = 0;
+            return false;
+        }
+
+        if (finalStack.Count == 1)
+        {
+            result = finalStack.Pop();
+            
+            if(result % 1 != 0)
+                result = Mathf.Floor(result * 100) / 100;
             return true;
         }
         else
@@ -191,35 +141,58 @@ public static class RpnExpressionHelper
             return false;
         }
     }
-
-    public static int EncodeToken(float value)
+    
+    public static bool EvaluateRpnExpressionLeader(List<float> expression, out float result)
     {
-        if (!Mathf.Approximately(value, (int)value))
+        var finalStack = EvaluateRpnToStack(expression, out var success);
+        if (!success || finalStack.Count == 0)
         {
-            int sign = value < 0 ? -1 : 1;
-            int wholePart = Mathf.FloorToInt(Mathf.Abs(value));
-            int fractionalPart = Mathf.FloorToInt((Mathf.Abs(value) - wholePart) * 100);
-
-            int encodedValue = 10000 + (wholePart * 100) + fractionalPart;
-            return encodedValue * sign;
+            result = 0;
+            return false;
         }
-        else
-        {
-            return (int)value;
-        }
+        Debug.Log(finalStack.Count);
+        result = finalStack.Max();
+        if(result % 1 != 0)
+            result = Mathf.Floor(result * 100) / 100;
+        return true;
     }
 
-    public static float ApplyOperator(float a, float b, int opToken)
+    public static bool EvaluateRpnExpressionAll(List<float> expression, out List<float> finalValues)
+    {
+        Stack<float> stack = EvaluateRpnToStack(expression, out bool success);
+
+        if (!success || stack.Count == 0)
+        {
+            finalValues = new List<float>();
+            return false;
+        }
+        
+        finalValues = stack.Reverse().ToList();
+
+        for (int i = 0; i < finalValues.Count; i++)
+        {
+            float val = finalValues[i];
+            
+            if (val % 1 != 0)
+                val = Mathf.Floor(val * 100) / 100;
+            
+            finalValues[i] = val;
+        }
+        
+        return true;
+    }
+
+    public static float ApplyOperator(float a, float b, float  opToken)
     {
         switch (opToken)
         {
-            case 101:
+            case 0.05f:
                 return a + b;
-            case 102:
+            case 0.06f:
                 return a - b;
-            case 103:
+            case 0.07f:
                 return a * b;
-            case 104:
+            case 0.08f:
                 if (b == 0) return a / 0.1f;
                 return a / b;
             default:
@@ -230,19 +203,21 @@ public static class RpnExpressionHelper
 
 public static class TokenMapping
 {
-    public static readonly Dictionary<string, int> StringToIntMap = new Dictionary<string, int>
-    {
-        { "+", 101 },
-        { "-", 102 },
-        { "\u00d7", 103 },
-        { "\u00f7", 104 }
-    };
+    public static readonly Dictionary<float, string> FloatToStringMap =
+        new Dictionary<float, string>
+        {
+            { 0.05f, "+" },
+            { 0.06f, "-" },
+            { 0.07f, "\u00d7" },
+            { 0.08f, "\u00f7" }
+        };
     
-    public static readonly Dictionary<int, string> IntToStringMap = new Dictionary<int, string>
-    {
-        { 101, "+" },
-        { 102, "-" },
-        { 103, "\u00d7" },
-        { 104, "\u00f7" },
-    };
+    public static readonly Dictionary<int, float> IntToFloatMap =
+        new Dictionary<int, float>
+        {
+            { 1, 0.05f },
+            { 2, 0.06f },
+            { 3, 0.07f },
+            { 4, 0.08f }
+        };
 }

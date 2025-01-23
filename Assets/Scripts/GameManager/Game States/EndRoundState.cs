@@ -33,6 +33,7 @@ namespace GameStates
             _soContainerEvents.OnSendExpressionResult += HandleReceiveRpnFromTables;
             
             _soContainerEvents.RaiseEvaluateExpression();
+            _soContainerEvents.RaiseBurnMergedCards();
             yield return new WaitUntil(() => _winnerDecided);
             
             _soGameStateEvents.RaisePlayerStateChange(PlayerStateEnum.EndRound);
@@ -47,6 +48,8 @@ namespace GameStates
             
             yield return CoroutineHelper.StartAndWait(ReturnCardsToDeck());
             
+            _soContainerEvents.RaiseReshuffleCards();
+            
             yield return null;
         }
 
@@ -54,7 +57,7 @@ namespace GameStates
         {
             var shouldContinuePlayer = true;
             var shouldContinueOpponent = true;
-
+            
             while (true)
             {
                 shouldContinuePlayer = TryDrawCard(_soCardEvents, shouldContinuePlayer);
@@ -84,16 +87,11 @@ namespace GameStates
             var enemyAttackKey    = new ContainerKey(OwnerType.Enemy,  CardContainerType.AttackTable);
             var enemyDefenceKey   = new ContainerKey(OwnerType.Enemy,  CardContainerType.DefenceTable);
 
-            if (_rpnResults.ContainsKey(playerAttackKey) &&
-                _rpnResults.ContainsKey(playerDefenceKey) &&
-                _rpnResults.ContainsKey(enemyAttackKey) &&
-                _rpnResults.ContainsKey(enemyDefenceKey))
+            if (_rpnResults.TryGetValue(playerAttackKey, out var playerAttackValue) &&
+                _rpnResults.TryGetValue(playerDefenceKey, out var playerDefenceValue) &&
+                _rpnResults.TryGetValue(enemyAttackKey, out var enemyAttackValue) &&
+                _rpnResults.TryGetValue(enemyDefenceKey, out var enemyDefenceValue))
             {
-                float playerAttackValue  = _rpnResults[playerAttackKey];
-                float playerDefenceValue = _rpnResults[playerDefenceKey];
-                float enemyAttackValue   = _rpnResults[enemyAttackKey];
-                float enemyDefenceValue  = _rpnResults[enemyDefenceKey];
-                
                 DecideWinner(playerAttackValue, playerDefenceValue, enemyAttackValue, enemyDefenceValue);
             }
         }

@@ -11,6 +11,9 @@ public class SoUIEvents : ScriptableObject
     
     public delegate void SetCrystalsAmountHandler(int playerAmount, int opponentAmount);
     public event SetCrystalsAmountHandler OnSetCrystalsAmount;
+    
+    public delegate void EndGameHandler(bool playerWon);
+    public event EndGameHandler OnEndGame;
 
     public void RaiseStartSlider()
     {
@@ -25,5 +28,10 @@ public class SoUIEvents : ScriptableObject
     public void RaiseSetCrystalsAmount(int playerAmount, int opponentAmount)
     {
         OnSetCrystalsAmount?.Invoke(playerAmount, opponentAmount);
+    }
+
+    public void RaiseEndGame(bool playerWon)
+    {
+        OnEndGame?.Invoke(playerWon);
     }
 }

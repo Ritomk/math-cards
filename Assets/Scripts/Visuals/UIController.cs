@@ -12,6 +12,8 @@ public class UIController : MonoBehaviour
     
     [SerializeField] private Slider slider;
     [SerializeField] private TextMeshProUGUI currentTurnText;
+    [SerializeField] private GameObject endGameObject;
+    [SerializeField] private TextMeshProUGUI endGameText;
     
     [SerializeField] private List<GameObject> playerCrystals = new List<GameObject>();
     [SerializeField] private List<GameObject> opponentCrystals = new List<GameObject>();
@@ -24,6 +26,7 @@ public class UIController : MonoBehaviour
         soUIEvents.OnStartSlider += HandleStartSlider;
         soUIEvents.OnEndSlider += HandleEndSlider;
         soUIEvents.OnSetCrystalsAmount += HandleSetCrystalsAmount;
+        soUIEvents.OnEndGame += HandleEndGame;
     }
 
     private void OnDisable()
@@ -32,6 +35,7 @@ public class UIController : MonoBehaviour
         soUIEvents.OnStartSlider -= HandleStartSlider;
         soUIEvents.OnEndSlider -= HandleEndSlider;
         soUIEvents.OnSetCrystalsAmount -= HandleSetCrystalsAmount;
+        soUIEvents.OnEndGame += HandleEndGame;
     }
 
     private void HandleGameStateChange(GameStateEnum newState)
@@ -121,6 +125,20 @@ public class UIController : MonoBehaviour
         for (int i = 0; i < opponentAmount; i++)
         {
             opponentCrystals[i].SetActive(i < opponentAmount);
+        }
+    }
+
+    private void HandleEndGame(bool playerWon)
+    {
+        endGameObject.SetActive(true);
+        
+        if (playerWon)
+        {
+            endGameText.text = "You\nwon!";
+        }
+        else
+        {
+            endGameText.text = "Barman\nwon...";
         }
     }
 }

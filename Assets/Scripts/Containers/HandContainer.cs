@@ -24,8 +24,8 @@ public class HandContainer : CardContainerBase, IDrawableContainer
     protected override void OnEnable()
     {
         base.OnEnable();
-        Application.targetFrameRate = 0;
         soContainerEvents.OnValidateCardPlacement += ValidateCards;
+        soContainerEvents.OnBurnMerged += HandleBurnMerged;
     }
 
     protected override void OnDisable()
@@ -33,6 +33,7 @@ public class HandContainer : CardContainerBase, IDrawableContainer
         base.OnDisable();
         
         soContainerEvents.OnValidateCardPlacement -= ValidateCards;
+        soContainerEvents.OnBurnMerged += HandleBurnMerged;
     }
 
     private void ValidateCards()
@@ -168,7 +169,8 @@ public class HandContainer : CardContainerBase, IDrawableContainer
                 Card = group.First(),
                 Count = group.Count()
             })
-            .OrderBy(card => card.Card.Token)
+            .OrderBy(card => card.Card.TokenType)
+            .ThenBy(card => card.Token)
             .ToList();
         
         var activeCardSet = new HashSet<Card>(groupedCards.Select(card => card.Card));
@@ -201,7 +203,17 @@ public class HandContainer : CardContainerBase, IDrawableContainer
             i++;
         }
     }
-
+    
+    private void HandleBurnMerged()
+    {
+        foreach (var (cardId, card) in CardsDictionary)
+        {
+            if (card.TokenType == CardData.TokenType.ManyDigits)
+            {
+                CoroutineHelper.Start(BurnCard(cardId));
+            }
+        }
+    }
     protected override void HandleCardData(EnemyKnowledgeData data)
     {
         switch (SelfContainerKey.OwnerType)

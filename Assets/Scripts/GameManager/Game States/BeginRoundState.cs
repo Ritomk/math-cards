@@ -13,7 +13,7 @@ namespace GameStates
         private SoCardEvents _opponentSoCardEvents;
         private SoAnimationEvents _soAnimationEvents;
 
-        private int _numberOfCards = 20;
+        private int _numberOfCards = 21;
         private float _timeBetweenDraws = 0.3f;
 
         public BeginRoundState(StateMachine<GameStateEnum> stateMachine, SoGameStateEvents soGameStateEvents,

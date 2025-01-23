@@ -2,6 +2,8 @@ using System;
 using UnityEngine;
 using TMPro;
 using System.Collections;
+using System.Globalization;
+using Unity.Mathematics;
 
 public class Card : MonoBehaviour
 {
@@ -33,11 +35,11 @@ public class Card : MonoBehaviour
         set => tokenText.gameObject.SetActive(value);
     }
 
-    public CardData.TokenType TokenType { get; private set; } = CardData.TokenType.IllegalToken;
+    [field: SerializeField] public CardData.TokenType TokenType { get; private set; } = CardData.TokenType.IllegalToken;
 
-    private int _token;
+    private float _token;
     
-    public int Token
+    public float Token
     {
         get => _token;
         set
@@ -100,7 +102,7 @@ public class Card : MonoBehaviour
     }
     private bool _drawFrontCard;
 
-    public void Initialize(int token = 0, bool isTokenVisible = true,
+    public void Initialize(float token = 0, bool isTokenVisible = true,
         CardData.CardState state = CardData.CardState.Normal, int duplicates = 0, bool drawFrontCard = true)
     {
         CardId = GenerateUniqueID();
@@ -128,19 +130,13 @@ public class Card : MonoBehaviour
 
     private void UpdateTextMesh()
     {
-        if (IsFloat(_token))
+        tokenText.text = TokenType switch
         {
-            tokenText.text = OperatorFloatToString(_token);
-        }
-        else if (IsOperator(_token))
-        {
-            tokenText.text = OperatorToString(_token);
-        }
-        else
-        {
-            tokenText.text = _token.ToString();
-        }
-        //tokenText.text = IsOperator(_token) ? OperatorToString(_token) : _token.ToString();
+            CardData.TokenType.Symbol => OperatorToString(_token),
+            CardData.TokenType.SingleDigit or CardData.TokenType.ManyDigits => _token.ToString("0"),
+            CardData.TokenType.Float => _token.ToString("0.00"),
+            _ => tokenText.text
+        };
     }
     
     private void UpdateCardColor()
@@ -186,92 +182,63 @@ public class Card : MonoBehaviour
         return ++_globalCardId;
     }
 
-    private bool DetermineTokenType(int token)
+    private bool DetermineTokenType(float token)
     {
-        if (IsFloat(token))
-        {
-            TokenType = CardData.TokenType.Float;
-        }
-        else if (IsOperator(token))
+        if (IsOperator(token))
         {
             TokenType = CardData.TokenType.Symbol;
         }
-        else if (token is >= -99 and <= 99)
+        else if (!IsFractional(token))
         {
-            TokenType = token / 10 == 0 ? CardData.TokenType.SingleDigit : CardData.TokenType.DoubleDigit;
+            TokenType = Mathf.Abs(token) < 10 ? CardData.TokenType.SingleDigit : CardData.TokenType.ManyDigits;
         }
         else
         {
-            TokenType = CardData.TokenType.IllegalToken;
-            return false;
+            TokenType = CardData.TokenType.Float;
         }
 
         return true;
     }
     
-    
-    private void DetermineTokenWeight(int token)
+    private void DetermineTokenWeight(float token)
     {
-        if (IsFloat(token))
-        {
-            int absToken = Math.Abs(token);
-            int wholePart = (absToken / 100) % 100;
-            TokenWeight = wholePart == 0 ? 7 : wholePart;
-        }
         if (IsOperator(token))
         {
             TokenWeight = OperatorToWeight(token);
         }
         else
         {
-            TokenWeight = token == 0 ? 7 : Mathf.Abs(token);
+            TokenWeight = token == 0 ? 7 : Mathf.Abs((int)token);
         }
     }
 
-    private static bool IsOperator(int token)
-    {
-        return token is >= 101 and <= 104;
-    }
+    private static bool IsFractional(float number) => number % 1 != 0;
 
-    private static bool IsFloat(int token)
-    {
-        return token is >= 10001 or <= -10001;
-    }
+    private static bool IsOperator(float token) => token is >= 0.05f and <= 0.08f;
+
     
-    private static string OperatorToString(int token)
+    private static string OperatorToString(float token)
     {
         return token switch
         {
-            101 => "+",
-            102 => "-",
-            103 => "\u00d7",
-            104 => "\u00f7",
+            0.05f => "+",
+            0.06f => "-",
+            0.07f => "\u00d7",
+            0.08f => "\u00f7",
             _ => throw new ArgumentOutOfRangeException(nameof(token), token, null)
         };
     }
 
-    private static int OperatorToWeight(int token)
+    private static int OperatorToWeight(float token)
     {
         return token switch
         {
-            101 => 6,
-            102 => 4,
-            103 => 8,
-            104 => 8,
+            0.05f => 6,
+            0.06f => 4,
+            0.07f => 8,
+            0.08f => 8,
             _ => throw new ArgumentOutOfRangeException(nameof(token), token, null)
         };
-    }
-
-    private static string OperatorFloatToString(int token)
-    {
-        int sign = token < 0 ? -1 : 1;
-        int absToken = Mathf.Abs(token);
-
-        int wholePart = (absToken / 100) % 100;
-        int fractionalPart = absToken % 100;
-        
-        string decodedValue = $"{wholePart}.{fractionalPart}";
-        return decodedValue;
     }
     
     private static string ArabicToRoman(int arabic)

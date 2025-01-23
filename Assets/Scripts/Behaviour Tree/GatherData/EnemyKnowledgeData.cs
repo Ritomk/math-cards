@@ -5,12 +5,12 @@ public class EnemyKnowledgeData
 {
     public Dictionary<int, Card> selfHandCardsDictionary;
     public int selfDeckCardsCount;
-    public List<int> selfMergerList;
-    public List<int> selfAttackTableList;
-    public List<int> selfDefenceTableList;
+    public List<float> selfMergerList;
+    public List<float> selfAttackTableList;
+    public List<float> selfDefenceTableList;
     public int playerHandCardsCount;
     public int playerDeckCardsCount;
     public int playerMergerCardsCount;
-    public List<int> playerAttackTableList;
-    public List<int> playerDefenceTableList;
+    public List<float> playerAttackTableList;
+    public List<float> playerDefenceTableList;
 }

@@ -1169,6 +1169,7 @@ MonoBehaviour:
     OwnerType: 0
     ContainerType: 0
   _currentState: 0
+  <TokenType>k__BackingField: 4
 --- !u!64 &155142960
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -3764,7 +3765,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000061035156, y: 0.000061035156}
+  m_AnchoredPosition: {x: 0, y: 0.000061035156}
   m_SizeDelta: {x: -1820, y: -980}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &386219302
@@ -3896,6 +3897,143 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 393732814}
+  m_CullTransparentMesh: 1
+--- !u!1 &395141675
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 395141676}
+  - component: {fileID: 395141678}
+  - component: {fileID: 395141677}
+  m_Layer: 5
+  m_Name: Win Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &395141676
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 395141675}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1818267462}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 42.2739, y: 0.9607}
+  m_SizeDelta: {x: 777.7103, y: 468.4572}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &395141677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 395141675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: 'Barman
+
+    Wins'
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 6576a3a3390f4724198da8072bd1d48e, type: 2}
+  m_sharedMaterial: {fileID: 6133949291647857287, guid: 6576a3a3390f4724198da8072bd1d48e,
+    type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 2860100028
+  m_fontColor: {r: 0.7372549, g: 0.6616816, b: 0.4745098, a: 0.6666667}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 200
+  m_fontSizeBase: 200
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: -10
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0.330368, y: 1.8052826, z: -0.23394795, w: -0.12302019}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &395141678
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 395141675}
   m_CullTransparentMesh: 1
 --- !u!1001 &403449307
 PrefabInstance:
@@ -4736,7 +4874,7 @@ MonoBehaviour:
   <SelfContainerKey>k__BackingField:
     OwnerType: 1
     ContainerType: 1
-  maxCardCount: 50
+  maxCardCount: 51
   cardPrefab: {fileID: 6504372016689131239, guid: 89a2f4734eb2da14ca059f1a334db8a1,
     type: 3}
   spacing: 0.01
@@ -9534,7 +9672,7 @@ MonoBehaviour:
   <SelfContainerKey>k__BackingField:
     OwnerType: 0
     ContainerType: 1
-  maxCardCount: 50
+  maxCardCount: 51
   cardPrefab: {fileID: 6504372016689131239, guid: 89a2f4734eb2da14ca059f1a334db8a1,
     type: 3}
   spacing: 0.01
@@ -12204,6 +12342,7 @@ PrefabInstance:
     m_RemovedGameObjects:
     - {fileID: 2384361985388284137, guid: 89a2f4734eb2da14ca059f1a334db8a1, type: 3}
     - {fileID: 8535779579161804185, guid: 89a2f4734eb2da14ca059f1a334db8a1, type: 3}
+    - {fileID: 3791930228753438650, guid: 89a2f4734eb2da14ca059f1a334db8a1, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 3112027162826726230, guid: 89a2f4734eb2da14ca059f1a334db8a1,
         type: 3}
@@ -12612,6 +12751,8 @@ MonoBehaviour:
   - {fileID: 965366080}
   - {fileID: 386219304}
   - {fileID: 1488900622}
+  - {fileID: 1643367085}
+  - {fileID: 807776359}
   ownerType: 1
 --- !u!114 &1488327235
 MonoBehaviour:
@@ -12642,7 +12783,7 @@ MonoBehaviour:
     Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"Generate
     Cards Pool":{"_value":true,"_name":"Generate Cards Pool","_id":"d02f1276-8a4e-49a7-938e-25c8be6820a9","$type":"NodeCanvas.Framework.Variable`1[[System.Boolean,
     mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"Self
-    Attack Table List":{"_name":"Self Attack Table List","_id":"3a04af6d-9b13-454b-b587-54bd0831ca99","$type":"NodeCanvas.Framework.Variable`1[[System.Collections.Generic.List`1[[System.Int32,
+    Attack Table List":{"_name":"Self Attack Table List","_id":"3a04af6d-9b13-454b-b587-54bd0831ca99","$type":"NodeCanvas.Framework.Variable`1[[System.Collections.Generic.List`1[[System.Single,
     mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]],
     mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"Attack
     Table Moves":{"_name":"Attack Table Moves","_id":"54d13299-35fc-42d8-8014-00a12277ef45","$type":"NodeCanvas.Framework.Variable`1[[System.Collections.Generic.Stack`1[[Card,
@@ -12650,10 +12791,10 @@ MonoBehaviour:
     Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"Generate
     Moves Attack":{"_name":"Generate Moves Attack","_id":"fa85bf36-25e5-4eaa-94b1-c5af63bd80b8","$type":"NodeCanvas.Framework.Variable`1[[System.Boolean,
     mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"Self
-    Defence Table List":{"_name":"Self Defence Table List","_id":"bbd93a62-caf0-4fd7-9940-18c74536838c","$type":"NodeCanvas.Framework.Variable`1[[System.Collections.Generic.List`1[[System.Int32,
+    Defence Table List":{"_name":"Self Defence Table List","_id":"bbd93a62-caf0-4fd7-9940-18c74536838c","$type":"NodeCanvas.Framework.Variable`1[[System.Collections.Generic.List`1[[System.Single,
     mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]],
     mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"Defence
-    Table Moves":{"_name":"Defence Table Moves","_id":"79614bd0-c8f8-44b6-aff5-06051ea2d01e","$type":"NodeCanvas.Framework.Variable`1[[System.Collections.Generic.Stack`1[[Card,
+    Table Moves":{"_name":"Defence Table Moves","_id":"c27de77d-0dfa-42b4-8bfc-04f43e6c7513","$type":"NodeCanvas.Framework.Variable`1[[System.Collections.Generic.Stack`1[[Card,
     Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]], mscorlib,
     Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"Generate
     Moves Defence":{"_name":"Generate Moves Defence","_id":"dfc3a45d-ad09-4c76-9332-e943cbb05388","$type":"NodeCanvas.Framework.Variable`1[[System.Boolean,
@@ -12667,6 +12808,14 @@ MonoBehaviour:
     Calculated Chance":{"_name":"Inverted Calculated Chance","_id":"f70dfe36-0ce0-4a33-92f0-aed54d3b3356","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
     mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"Has
     Started Merging":{"_name":"Has Started Merging","_id":"55842fbd-82e1-4ed9-b04e-a75265152552","$type":"NodeCanvas.Framework.Variable`1[[System.Boolean,
+    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"Has
+    Enemy Won":{"_name":"Has Enemy Won","_id":"f1598d9c-f372-40f3-990d-790907cfec66","$type":"NodeCanvas.Framework.Variable`1[[System.Boolean,
+    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"Chosen
+    Card To Place":{"_name":"Chosen Card To Place","_id":"1b00f4a3-794f-43f2-bd86-a8ead9566ee4","$type":"NodeCanvas.Framework.Variable`1[[Card,
+    Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"},"Should
+    Place On Attack Table":{"_name":"Should Place On Attack Table","_id":"06b8c7ad-f39b-444e-b5d9-227746a33224","$type":"NodeCanvas.Framework.Variable`1[[System.Boolean,
+    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"Chance
+    To Mess":{"_value":20.0,"_name":"Chance To Mess","_id":"a2545adf-c9e6-46d0-8069-0bd791180d02","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
     mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}}}'
   _objectReferences:
   - {fileID: 0}
@@ -12706,7 +12855,7 @@ MonoBehaviour:
   - _json: '{"_value":true,"_name":"Generate Cards Pool","_id":"d02f1276-8a4e-49a7-938e-25c8be6820a9","$type":"NodeCanvas.Framework.Variable`1[[System.Boolean,
       mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}'
     _references: []
-  - _json: '{"_name":"Self Attack Table List","_id":"3a04af6d-9b13-454b-b587-54bd0831ca99","$type":"NodeCanvas.Framework.Variable`1[[System.Collections.Generic.List`1[[System.Int32,
+  - _json: '{"_name":"Self Attack Table List","_id":"3a04af6d-9b13-454b-b587-54bd0831ca99","$type":"NodeCanvas.Framework.Variable`1[[System.Collections.Generic.List`1[[System.Single,
       mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]],
       mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}'
     _references: []
@@ -12717,11 +12866,11 @@ MonoBehaviour:
   - _json: '{"_name":"Generate Moves Attack","_id":"fa85bf36-25e5-4eaa-94b1-c5af63bd80b8","$type":"NodeCanvas.Framework.Variable`1[[System.Boolean,
       mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}'
     _references: []
-  - _json: '{"_name":"Self Defence Table List","_id":"bbd93a62-caf0-4fd7-9940-18c74536838c","$type":"NodeCanvas.Framework.Variable`1[[System.Collections.Generic.List`1[[System.Int32,
+  - _json: '{"_name":"Self Defence Table List","_id":"bbd93a62-caf0-4fd7-9940-18c74536838c","$type":"NodeCanvas.Framework.Variable`1[[System.Collections.Generic.List`1[[System.Single,
       mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]],
       mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}'
     _references: []
-  - _json: '{"_name":"Defence Table Moves","_id":"79614bd0-c8f8-44b6-aff5-06051ea2d01e","$type":"NodeCanvas.Framework.Variable`1[[System.Collections.Generic.Stack`1[[Card,
+  - _json: '{"_name":"Defence Table Moves","_id":"c27de77d-0dfa-42b4-8bfc-04f43e6c7513","$type":"NodeCanvas.Framework.Variable`1[[System.Collections.Generic.Stack`1[[Card,
       Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]], mscorlib,
       Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}'
     _references: []
@@ -12743,6 +12892,18 @@ MonoBehaviour:
   - _json: '{"_name":"Has Started Merging","_id":"55842fbd-82e1-4ed9-b04e-a75265152552","$type":"NodeCanvas.Framework.Variable`1[[System.Boolean,
       mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}'
     _references: []
+  - _json: '{"_name":"Has Enemy Won","_id":"f1598d9c-f372-40f3-990d-790907cfec66","$type":"NodeCanvas.Framework.Variable`1[[System.Boolean,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}'
+    _references: []
+  - _json: '{"_name":"Chosen Card To Place","_id":"1b00f4a3-794f-43f2-bd86-a8ead9566ee4","$type":"NodeCanvas.Framework.Variable`1[[Card,
+      Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"}'
+    _references: []
+  - _json: '{"_name":"Should Place On Attack Table","_id":"06b8c7ad-f39b-444e-b5d9-227746a33224","$type":"NodeCanvas.Framework.Variable`1[[System.Boolean,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}'
+    _references: []
+  - _json: '{"_value":20.0,"_name":"Chance To Mess","_id":"a2545adf-c9e6-46d0-8069-0bd791180d02","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}'
+    _references: []
 --- !u!114 &1488327236
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12756,7 +12917,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _serializedExposedParameters: []
-  _boundGraphSerialization: '{"type":"NodeCanvas.BehaviourTrees.BehaviourTree","nodes":[{"_position":{"x":533.9128,"y":49.62294},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"0"},{"_position":{"x":-768.2808,"y":256.4311},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"1"},{"_action":{"containerEvents":{"_name":"Container
+  _boundGraphSerialization: '{"type":"NodeCanvas.BehaviourTrees.BehaviourTree","nodes":[{"_position":{"x":507.0419,"y":-35.23254},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"0"},{"_position":{"x":-905.2769,"y":250.6925},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"1"},{"_action":{"containerEvents":{"_name":"Container
     Events","_targetVariableID":"1ea3ac94-ba00-4a14-beb3-c6d648193fc0"},"enemyKnowledgeData":{"_name":"Enemy
     Knowledge Data","_targetVariableID":"7d9675a7-e931-42b7-b654-6c49f94c9990"},"availableCardsPool":{"_name":"Available
     Cards Pool","_targetVariableID":"75bd781b-2c6f-44c4-a3f0-e466d48a7094"},"selfHandCardsCount":{"_name":"Self
@@ -12765,72 +12926,102 @@ MonoBehaviour:
     Defence Table List","_targetVariableID":"bbd93a62-caf0-4fd7-9940-18c74536838c"},"generateMovesAttack":{"_name":"Generate
     Moves Attack","_targetVariableID":"fa85bf36-25e5-4eaa-94b1-c5af63bd80b8"},"generateMovesDefence":{"_name":"Generate
     Moves Defence","_targetVariableID":"dfc3a45d-ad09-4c76-9332-e943cbb05388"},"generateCardsPool":{"_name":"Generate
-    Cards Pool","_targetVariableID":"d02f1276-8a4e-49a7-938e-25c8be6820a9"},"overrideAgent":{"_type":"CardContainerBase","_value":1},"$type":"NodeCanvas.Tasks.Actions.GetCardsDataFromContainer"},"_position":{"x":-1470.004,"y":359.2108},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"2"},{"_action":{"waitTime":{"_value":2.0},"$type":"NodeCanvas.Tasks.Actions.Wait"},"_position":{"x":-1209.313,"y":359.5525},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"3"},{"_position":{"x":-1023.793,"y":378.7863},"$type":"NodeCanvas.BehaviourTrees.Selector","$id":"4"},{"_condition":{"valueA":{"_name":"Generate
-    Moves Attack","_targetVariableID":"fa85bf36-25e5-4eaa-94b1-c5af63bd80b8"},"valueB":{},"$type":"NodeCanvas.Tasks.Conditions.CheckBoolean"},"_position":{"x":-1349.699,"y":481.3507},"$type":"NodeCanvas.BehaviourTrees.ConditionNode","$id":"5"},{"_position":{"x":-1026.879,"y":486.1765},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"6"},{"_action":{"knowledgeData":{"_name":"Enemy
+    Cards Pool","_targetVariableID":"d02f1276-8a4e-49a7-938e-25c8be6820a9"},"overrideAgent":{"_type":"CardContainerBase","_value":1},"$type":"NodeCanvas.Tasks.Actions.GetCardsDataFromContainer"},"_position":{"x":-1422.248,"y":361.1248},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"2"},{"_position":{"x":-1160.789,"y":373.0477},"$type":"NodeCanvas.BehaviourTrees.Selector","$id":"3"},{"_condition":{"valueA":{"_name":"Generate
+    Moves Attack","_targetVariableID":"fa85bf36-25e5-4eaa-94b1-c5af63bd80b8"},"valueB":{"_value":true},"_invert":true,"$type":"NodeCanvas.Tasks.Conditions.CheckBoolean"},"_position":{"x":-1486.695,"y":475.6123},"$type":"NodeCanvas.BehaviourTrees.ConditionNode","$id":"4"},{"_position":{"x":-1163.875,"y":480.438},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"5"},{"_position":{"x":-1223.799,"y":590.17},"$type":"NodeCanvas.BehaviourTrees.Selector","$id":"6"},{"_action":{"knowledgeData":{"_name":"Enemy
     Knowledge Data","_targetVariableID":"7d9675a7-e931-42b7-b654-6c49f94c9990"},"generator":{"_name":"Generator","_targetVariableID":"135c9e50-4968-4e34-b1a3-6b730d9b4cc6"},"tableMoves":{"_name":"Attack
     Table Moves","_targetVariableID":"54d13299-35fc-42d8-8014-00a12277ef45"},"tableList":{"_name":"Self
     Attack Table List","_targetVariableID":"3a04af6d-9b13-454b-b587-54bd0831ca99"},"availableCardsPool":{"_name":"Available
-    Cards Pool","_targetVariableID":"75bd781b-2c6f-44c4-a3f0-e466d48a7094"},"$type":"NodeCanvas.Tasks.Actions.GenerateMoves"},"_position":{"x":-1182.04,"y":610.1761},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"7"},{"_action":{"boolVariable":{"_name":"Generate
-    Moves Attack","_targetVariableID":"fa85bf36-25e5-4eaa-94b1-c5af63bd80b8"},"setTo":0,"$type":"NodeCanvas.Tasks.Actions.SetBoolean"},"_position":{"x":-1009.28,"y":607.8978},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"8"},{"_position":{"x":-520.7618,"y":370.3874},"$type":"NodeCanvas.BehaviourTrees.Selector","$id":"9"},{"_condition":{"valueA":{"_name":"Generate
-    Moves Defence","_targetVariableID":"dfc3a45d-ad09-4c76-9332-e943cbb05388"},"valueB":{},"$type":"NodeCanvas.Tasks.Conditions.CheckBoolean"},"_position":{"x":-828.5511,"y":477.8593},"$type":"NodeCanvas.BehaviourTrees.ConditionNode","$id":"10"},{"_position":{"x":-521.0328,"y":475.8466},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"11"},{"_action":{"knowledgeData":{"_name":"Enemy
+    Cards Pool","_targetVariableID":"75bd781b-2c6f-44c4-a3f0-e466d48a7094"},"$type":"NodeCanvas.Tasks.Actions.GenerateMoves"},"_position":{"x":-1396.428,"y":693.736},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"7"},{"_position":{"x":-1223.672,"y":694.5209},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"8"},{"_action":{"gameStateEvents":{"_name":"Game
+    State Event","_targetVariableID":"7f9f8d75-8dbf-4fa2-8ae0-574a88e91f5a"},"$type":"NodeCanvas.Tasks.Actions.EndRound"},"_position":{"x":-1302.326,"y":807.818},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"9"},{"_position":{"x":-1126.054,"y":801.2764},"$type":"NodeCanvas.BehaviourTrees.Inverter","$id":"10"},{"_action":{"gameStateEvents":{"_name":"Game
+    State Event","_targetVariableID":"7f9f8d75-8dbf-4fa2-8ae0-574a88e91f5a"},"$type":"NodeCanvas.Tasks.Actions.EndTurn"},"_position":{"x":-1124.517,"y":881.0098},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"11"},{"_action":{"boolVariable":{"_name":"Generate
+    Moves Attack","_targetVariableID":"fa85bf36-25e5-4eaa-94b1-c5af63bd80b8"},"setTo":0,"$type":"NodeCanvas.Tasks.Actions.SetBoolean"},"_position":{"x":-1102.611,"y":590.4453},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"12"},{"_position":{"x":-657.7578,"y":364.6489},"$type":"NodeCanvas.BehaviourTrees.Selector","$id":"13"},{"_condition":{"valueA":{"_name":"Generate
+    Moves Defence","_targetVariableID":"dfc3a45d-ad09-4c76-9332-e943cbb05388"},"valueB":{"_value":true},"_invert":true,"$type":"NodeCanvas.Tasks.Conditions.CheckBoolean"},"_position":{"x":-965.5471,"y":472.1208},"$type":"NodeCanvas.BehaviourTrees.ConditionNode","$id":"14"},{"_position":{"x":-658.0287,"y":470.108},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"15"},{"_position":{"x":-656.4071,"y":591.832},"$type":"NodeCanvas.BehaviourTrees.Selector","$id":"16"},{"_action":{"knowledgeData":{"_name":"Enemy
     Knowledge Data","_targetVariableID":"7d9675a7-e931-42b7-b654-6c49f94c9990"},"generator":{"_name":"Generator","_targetVariableID":"135c9e50-4968-4e34-b1a3-6b730d9b4cc6"},"tableMoves":{"_name":"Defence
-    Table Moves","_targetVariableID":"79614bd0-c8f8-44b6-aff5-06051ea2d01e"},"tableList":{"_name":"Self
+    Table Moves","_targetVariableID":"c27de77d-0dfa-42b4-8bfc-04f43e6c7513"},"tableList":{"_name":"Self
     Defence Table List","_targetVariableID":"bbd93a62-caf0-4fd7-9940-18c74536838c"},"availableCardsPool":{"_name":"Available
-    Cards Pool","_targetVariableID":"75bd781b-2c6f-44c4-a3f0-e466d48a7094"},"maxExpressionLength":9,"$type":"NodeCanvas.Tasks.Actions.GenerateMoves"},"_position":{"x":-642.7616,"y":601.4697},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"12"},{"_action":{"boolVariable":{"_name":"Generate
-    Moves Defence","_targetVariableID":"dfc3a45d-ad09-4c76-9332-e943cbb05388"},"setTo":0,"$type":"NodeCanvas.Tasks.Actions.SetBoolean"},"_position":{"x":-474.4711,"y":600.0307},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"13"},{"_subTree":{"_value":2},"_variablesMap":[{"_targetSubGraphVariableID":"394baae1-c13f-4bbf-9beb-7f117d8af9ec","_canWrite":true,"_type":"System.Single","_value":{"$content":1.0,"$type":"System.Single"}},{"_targetSubGraphVariableID":"1f87aef8-d5eb-4a76-bf20-6943b60aa05b","_canWrite":true,"_type":"System.Single","_value":{"$content":2.0,"$type":"System.Single"}}],"_position":{"x":-356.6543,"y":258.4443},"$type":"NodeCanvas.BehaviourTrees.SubTree","$id":"14"},{"_position":{"x":1050.078,"y":142.1921},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"15"},{"_position":{"x":305.1567,"y":329.7943},"$type":"NodeCanvas.BehaviourTrees.Selector","$id":"16"},{"_condition":{"valueA":{"_name":"Self
-    Hand Cards Count","_targetVariableID":"3c6a4a89-ead2-4d2b-b75f-6dec166633b6"},"valueB":{},"$type":"NodeCanvas.Tasks.Conditions.CheckInt"},"_position":{"x":46.58966,"y":443.7843},"$type":"NodeCanvas.BehaviourTrees.ConditionNode","$id":"17"},{"childWeights":[{"_value":60.0},{"_value":40.0}],"failChance":{},"_position":{"x":404.0771,"y":494.6367},"$type":"NodeCanvas.BehaviourTrees.ProbabilitySelector","$id":"18"},{"_condition":{"knowledgeData":{"_name":"Enemy
-    Knowledge Data","_targetVariableID":"7d9675a7-e931-42b7-b654-6c49f94c9990"},"comparisonValue":9,"targetContainer":{"OwnerType":1,"ContainerType":2},"$type":"NodeCanvas.Tasks.Conditions.CheckCanPlace"},"_position":{"x":-16.16574,"y":608.3418},"$type":"NodeCanvas.BehaviourTrees.BinarySelector","$id":"19"},{"_action":{"knowledgeData":{"_name":"Enemy
+    Cards Pool","_targetVariableID":"75bd781b-2c6f-44c4-a3f0-e466d48a7094"},"maxExpressionLength":9,"$type":"NodeCanvas.Tasks.Actions.GenerateMoves"},"_position":{"x":-834.527,"y":695.7455},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"17"},{"_position":{"x":-655.9648,"y":694.189},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"18"},{"_action":{"gameStateEvents":{"_name":"Game
+    State Event","_targetVariableID":"7f9f8d75-8dbf-4fa2-8ae0-574a88e91f5a"},"$type":"NodeCanvas.Tasks.Actions.EndRound"},"_position":{"x":-747.8252,"y":802.3882},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"19"},{"_position":{"x":-583.1775,"y":795.3496},"$type":"NodeCanvas.BehaviourTrees.Inverter","$id":"20"},{"_action":{"gameStateEvents":{"_name":"Game
+    State Event","_targetVariableID":"7f9f8d75-8dbf-4fa2-8ae0-574a88e91f5a"},"$type":"NodeCanvas.Tasks.Actions.EndTurn"},"_position":{"x":-581.4205,"y":874.8266},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"21"},{"_action":{"boolVariable":{"_name":"Generate
+    Moves Defence","_targetVariableID":"dfc3a45d-ad09-4c76-9332-e943cbb05388"},"setTo":0,"$type":"NodeCanvas.Tasks.Actions.SetBoolean"},"_position":{"x":-514.2554,"y":594.6778},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"22"},{"_subTree":{"_value":2},"_variablesMap":[{"_targetSubGraphVariableID":"394baae1-c13f-4bbf-9beb-7f117d8af9ec","_canWrite":true,"_type":"System.Single","_value":{"$content":1.0,"$type":"System.Single"}},{"_targetSubGraphVariableID":"1f87aef8-d5eb-4a76-bf20-6943b60aa05b","_canWrite":true,"_type":"System.Single","_value":{"$content":4.0,"$type":"System.Single"}}],"_position":{"x":-383.481,"y":256.5201},"$type":"NodeCanvas.BehaviourTrees.SubTree","$id":"23"},{"_position":{"x":1050.078,"y":142.1921},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"24"},{"_position":{"x":483.6758,"y":301.5681},"$type":"NodeCanvas.BehaviourTrees.Selector","$id":"25"},{"_position":{"x":374.2231,"y":400.0374},"$type":"NodeCanvas.BehaviourTrees.Inverter","$id":"26"},{"_position":{"x":375.3459,"y":486.7245},"$type":"NodeCanvas.BehaviourTrees.Selector","$id":"27"},{"_condition":{"gameStateEvents":{"_name":"Game
+    State Event","_targetVariableID":"7f9f8d75-8dbf-4fa2-8ae0-574a88e91f5a"},"$type":"NodeCanvas.Tasks.Conditions.CheckPlayerHasEndedRound"},"_position":{"x":-163.5324,"y":576.7744},"$type":"NodeCanvas.BehaviourTrees.ConditionNode","$id":"28"},{"_condition":{"enemyKnowledgeData":{"_name":"Enemy
+    Knowledge Data","_targetVariableID":"7d9675a7-e931-42b7-b654-6c49f94c9990"},"availableCardsPool":{"_name":"Available
+    Cards Pool","_targetVariableID":"75bd781b-2c6f-44c4-a3f0-e466d48a7094"},"chosenCardToPlace":{"_name":"Chosen
+    Card To Place","_targetVariableID":"1b00f4a3-794f-43f2-bd86-a8ead9566ee4"},"placeOnAttackTable":{"_name":"Should
+    Place On Attack Table","_targetVariableID":"06b8c7ad-f39b-444e-b5d9-227746a33224"},"chanceToMess":{"_name":"Chance
+    To Mess","_targetVariableID":"a2545adf-c9e6-46d0-8069-0bd791180d02"},"_invert":true,"$type":"NodeCanvas.Tasks.Conditions.CheckMessWithPlayer"},"_position":{"x":159.2103,"y":576.051},"$type":"NodeCanvas.BehaviourTrees.ConditionNode","$id":"29"},{"_position":{"x":374.0562,"y":596.3852},"$type":"NodeCanvas.BehaviourTrees.Inverter","$id":"30"},{"_condition":{"valueA":{"_name":"Should
+    Place On Attack Table","_targetVariableID":"06b8c7ad-f39b-444e-b5d9-227746a33224"},"valueB":{"_value":true},"$type":"NodeCanvas.Tasks.Conditions.CheckBoolean"},"_position":{"x":282.0906,"y":683.094},"$type":"NodeCanvas.BehaviourTrees.BinarySelector","$id":"31"},{"_action":{"knowledgeData":{"_name":"Enemy
+    Knowledge Data","_targetVariableID":"7d9675a7-e931-42b7-b654-6c49f94c9990"},"soCardEvents":{"_name":"So
+    Card Events","_targetVariableID":"cf5f2bf5-51d0-40a2-aa41-ba6c6e6769fe"},"chosenCardToPlace":{"_name":"Chosen
+    Card To Place","_targetVariableID":"1b00f4a3-794f-43f2-bd86-a8ead9566ee4"},"selfHandCardsCount":{"_name":"Self
+    Hand Cards Count","_targetVariableID":"3c6a4a89-ead2-4d2b-b75f-6dec166633b6"},"targetContainer":{"ContainerType":2},"$type":"NodeCanvas.Tasks.Actions.PlaceCardPlayerTable"},"_position":{"x":133.0766,"y":835.6885},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"32"},{"_action":{"knowledgeData":{"_name":"Enemy
+    Knowledge Data","_targetVariableID":"7d9675a7-e931-42b7-b654-6c49f94c9990"},"soCardEvents":{"_name":"So
+    Card Events","_targetVariableID":"cf5f2bf5-51d0-40a2-aa41-ba6c6e6769fe"},"chosenCardToPlace":{"_name":"Chosen
+    Card To Place","_targetVariableID":"1b00f4a3-794f-43f2-bd86-a8ead9566ee4"},"selfHandCardsCount":{"_name":"Self
+    Hand Cards Count","_targetVariableID":"3c6a4a89-ead2-4d2b-b75f-6dec166633b6"},"targetContainer":{"ContainerType":3},"$type":"NodeCanvas.Tasks.Actions.PlaceCardPlayerTable"},"_position":{"x":405.3835,"y":839.8743},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"33"},{"_position":{"x":1150.584,"y":407.3741},"$type":"NodeCanvas.BehaviourTrees.Selector","$id":"34"},{"_condition":{"valueA":{"_name":"Self
+    Hand Cards Count","_targetVariableID":"3c6a4a89-ead2-4d2b-b75f-6dec166633b6"},"valueB":{},"$type":"NodeCanvas.Tasks.Conditions.CheckInt"},"_position":{"x":903.3161,"y":528.5477},"$type":"NodeCanvas.BehaviourTrees.ConditionNode","$id":"35"},{"childWeights":[{"_value":60.0},{"_value":40.0}],"failChance":{},"_position":{"x":1249.505,"y":572.2164},"$type":"NodeCanvas.BehaviourTrees.ProbabilitySelector","$id":"36"},{"_condition":{"knowledgeData":{"_name":"Enemy
+    Knowledge Data","_targetVariableID":"7d9675a7-e931-42b7-b654-6c49f94c9990"},"comparisonValue":9,"targetContainer":{"OwnerType":1,"ContainerType":2},"$type":"NodeCanvas.Tasks.Conditions.CheckCanPlace"},"_position":{"x":829.2618,"y":685.9215},"$type":"NodeCanvas.BehaviourTrees.BinarySelector","$id":"37"},{"_action":{"knowledgeData":{"_name":"Enemy
     Knowledge Data","_targetVariableID":"7d9675a7-e931-42b7-b654-6c49f94c9990"},"soCardEvents":{"_name":"So
     Card Events","_targetVariableID":"cf5f2bf5-51d0-40a2-aa41-ba6c6e6769fe"},"tableMoves":{"_name":"Attack
     Table Moves","_targetVariableID":"54d13299-35fc-42d8-8014-00a12277ef45"},"selfHandCardsCount":{"_name":"Self
-    Hand Cards Count","_targetVariableID":"3c6a4a89-ead2-4d2b-b75f-6dec166633b6"},"targetContainer":{"OwnerType":1,"ContainerType":2},"$type":"NodeCanvas.Tasks.Actions.PlaceCard"},"_position":{"x":-136.8735,"y":758.2656},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"20"},{"_condition":{"knowledgeData":{"_name":"Enemy
-    Knowledge Data","_targetVariableID":"7d9675a7-e931-42b7-b654-6c49f94c9990"},"comparisonValue":9,"targetContainer":{"OwnerType":1,"ContainerType":3},"$type":"NodeCanvas.Tasks.Conditions.CheckCanPlace"},"_position":{"x":120.944,"y":758.6948},"$type":"NodeCanvas.BehaviourTrees.BinarySelector","$id":"21"},{"_action":{"knowledgeData":{"_name":"Enemy
+    Hand Cards Count","_targetVariableID":"3c6a4a89-ead2-4d2b-b75f-6dec166633b6"},"targetContainer":{"OwnerType":1,"ContainerType":2},"$type":"NodeCanvas.Tasks.Actions.PlaceCard"},"_position":{"x":708.554,"y":835.8452},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"38"},{"_condition":{"knowledgeData":{"_name":"Enemy
+    Knowledge Data","_targetVariableID":"7d9675a7-e931-42b7-b654-6c49f94c9990"},"comparisonValue":9,"targetContainer":{"OwnerType":1,"ContainerType":3},"$type":"NodeCanvas.Tasks.Conditions.CheckCanPlace"},"_position":{"x":966.3715,"y":836.2744},"$type":"NodeCanvas.BehaviourTrees.BinarySelector","$id":"39"},{"_action":{"knowledgeData":{"_name":"Enemy
     Knowledge Data","_targetVariableID":"7d9675a7-e931-42b7-b654-6c49f94c9990"},"soCardEvents":{"_name":"So
     Card Events","_targetVariableID":"cf5f2bf5-51d0-40a2-aa41-ba6c6e6769fe"},"tableMoves":{"_name":"Defence
-    Table Moves","_targetVariableID":"79614bd0-c8f8-44b6-aff5-06051ea2d01e"},"selfHandCardsCount":{"_name":"Self
-    Hand Cards Count","_targetVariableID":"3c6a4a89-ead2-4d2b-b75f-6dec166633b6"},"targetContainer":{"OwnerType":1,"ContainerType":3},"$type":"NodeCanvas.Tasks.Actions.PlaceCard"},"_position":{"x":36.93297,"y":886.3486},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"22"},{"_position":{"x":320.1341,"y":886.5817},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"23"},{"_action":{"gameStateEvents":{"_name":"Game
-    State Event","_targetVariableID":"7f9f8d75-8dbf-4fa2-8ae0-574a88e91f5a"},"$type":"NodeCanvas.Tasks.Actions.EndRound"},"_position":{"x":249.299,"y":996.632},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"24"},{"_action":{"gameStateEvents":{"_name":"Game
-    State Event","_targetVariableID":"7f9f8d75-8dbf-4fa2-8ae0-574a88e91f5a"},"$type":"NodeCanvas.Tasks.Actions.EndTurn"},"_position":{"x":388.998,"y":995.139},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"25"},{"_condition":{"knowledgeData":{"_name":"Enemy
-    Knowledge Data","_targetVariableID":"7d9675a7-e931-42b7-b654-6c49f94c9990"},"comparisonValue":9,"targetContainer":{"OwnerType":1,"ContainerType":3},"$type":"NodeCanvas.Tasks.Conditions.CheckCanPlace"},"_position":{"x":476.2361,"y":603.0596},"$type":"NodeCanvas.BehaviourTrees.BinarySelector","$id":"26"},{"_action":{"knowledgeData":{"_name":"Enemy
+    Table Moves","_targetVariableID":"c27de77d-0dfa-42b4-8bfc-04f43e6c7513"},"selfHandCardsCount":{"_name":"Self
+    Hand Cards Count","_targetVariableID":"3c6a4a89-ead2-4d2b-b75f-6dec166633b6"},"targetContainer":{"OwnerType":1,"ContainerType":3},"$type":"NodeCanvas.Tasks.Actions.PlaceCard"},"_position":{"x":882.3602,"y":965.9265},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"40"},{"_position":{"x":1165.562,"y":964.1616},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"41"},{"_action":{"gameStateEvents":{"_name":"Game
+    State Event","_targetVariableID":"7f9f8d75-8dbf-4fa2-8ae0-574a88e91f5a"},"$type":"NodeCanvas.Tasks.Actions.EndRound"},"_position":{"x":1094.727,"y":1074.212},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"42"},{"_action":{"gameStateEvents":{"_name":"Game
+    State Event","_targetVariableID":"7f9f8d75-8dbf-4fa2-8ae0-574a88e91f5a"},"$type":"NodeCanvas.Tasks.Actions.EndTurn"},"_position":{"x":1234.426,"y":1072.718},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"43"},{"_condition":{"knowledgeData":{"_name":"Enemy
+    Knowledge Data","_targetVariableID":"7d9675a7-e931-42b7-b654-6c49f94c9990"},"comparisonValue":9,"targetContainer":{"OwnerType":1,"ContainerType":3},"$type":"NodeCanvas.Tasks.Conditions.CheckCanPlace"},"_position":{"x":1321.664,"y":680.6393},"$type":"NodeCanvas.BehaviourTrees.BinarySelector","$id":"44"},{"_action":{"knowledgeData":{"_name":"Enemy
     Knowledge Data","_targetVariableID":"7d9675a7-e931-42b7-b654-6c49f94c9990"},"soCardEvents":{"_name":"So
     Card Events","_targetVariableID":"cf5f2bf5-51d0-40a2-aa41-ba6c6e6769fe"},"tableMoves":{"_name":"Defence
-    Table Moves","_targetVariableID":"79614bd0-c8f8-44b6-aff5-06051ea2d01e"},"selfHandCardsCount":{"_name":"Self
-    Hand Cards Count","_targetVariableID":"3c6a4a89-ead2-4d2b-b75f-6dec166633b6"},"targetContainer":{"OwnerType":1,"ContainerType":3},"$type":"NodeCanvas.Tasks.Actions.PlaceCard"},"_position":{"x":446.0231,"y":756.1086},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"27"},{"_condition":{"knowledgeData":{"_name":"Enemy
-    Knowledge Data","_targetVariableID":"7d9675a7-e931-42b7-b654-6c49f94c9990"},"comparisonValue":9,"targetContainer":{"OwnerType":1,"ContainerType":2},"$type":"NodeCanvas.Tasks.Conditions.CheckCanPlace"},"_position":{"x":699.7123,"y":751.1067},"$type":"NodeCanvas.BehaviourTrees.BinarySelector","$id":"28"},{"_action":{"knowledgeData":{"_name":"Enemy
+    Table Moves","_targetVariableID":"c27de77d-0dfa-42b4-8bfc-04f43e6c7513"},"selfHandCardsCount":{"_name":"Self
+    Hand Cards Count","_targetVariableID":"3c6a4a89-ead2-4d2b-b75f-6dec166633b6"},"targetContainer":{"OwnerType":1,"ContainerType":3},"$type":"NodeCanvas.Tasks.Actions.PlaceCard"},"_position":{"x":1291.451,"y":833.6882},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"45"},{"_condition":{"knowledgeData":{"_name":"Enemy
+    Knowledge Data","_targetVariableID":"7d9675a7-e931-42b7-b654-6c49f94c9990"},"comparisonValue":9,"targetContainer":{"OwnerType":1,"ContainerType":2},"$type":"NodeCanvas.Tasks.Conditions.CheckCanPlace"},"_position":{"x":1545.141,"y":828.6864},"$type":"NodeCanvas.BehaviourTrees.BinarySelector","$id":"46"},{"_action":{"knowledgeData":{"_name":"Enemy
     Knowledge Data","_targetVariableID":"7d9675a7-e931-42b7-b654-6c49f94c9990"},"soCardEvents":{"_name":"So
     Card Events","_targetVariableID":"cf5f2bf5-51d0-40a2-aa41-ba6c6e6769fe"},"tableMoves":{"_name":"Attack
     Table Moves","_targetVariableID":"54d13299-35fc-42d8-8014-00a12277ef45"},"selfHandCardsCount":{"_name":"Self
-    Hand Cards Count","_targetVariableID":"3c6a4a89-ead2-4d2b-b75f-6dec166633b6"},"targetContainer":{"OwnerType":1,"ContainerType":2},"$type":"NodeCanvas.Tasks.Actions.PlaceCard"},"_position":{"x":590.8552,"y":883.7787},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"29"},{"_position":{"x":905.904,"y":895.0026},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"30"},{"_action":{"gameStateEvents":{"_name":"Game
-    State Event","_targetVariableID":"7f9f8d75-8dbf-4fa2-8ae0-574a88e91f5a"},"$type":"NodeCanvas.Tasks.Actions.EndRound"},"_position":{"x":835.0682,"y":1005.053},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"31"},{"_action":{"gameStateEvents":{"_name":"Game
-    State Event","_targetVariableID":"7f9f8d75-8dbf-4fa2-8ae0-574a88e91f5a"},"$type":"NodeCanvas.Tasks.Actions.EndTurn"},"_position":{"x":974.767,"y":1003.56},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"32"},{"_position":{"x":1651.388,"y":225.4187},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"33"},{"_subTree":{"_value":2},"_variablesMap":[{"_targetSubGraphVariableID":"394baae1-c13f-4bbf-9beb-7f117d8af9ec","_canWrite":true,"_type":"System.Single","_value":{"$content":0.0,"$type":"System.Single"}},{"_targetSubGraphVariableID":"1f87aef8-d5eb-4a76-bf20-6943b60aa05b","_canWrite":true,"_type":"System.Single","_value":{"$content":0.0,"$type":"System.Single"}}],"_position":{"x":1127.899,"y":404.9802},"$type":"NodeCanvas.BehaviourTrees.SubTree","$id":"34"},{"_condition":{"valueA":{"_name":"Has
-    Started Merging","_targetVariableID":"55842fbd-82e1-4ed9-b04e-a75265152552"},"valueB":{"_value":true},"$type":"NodeCanvas.Tasks.Conditions.CheckBoolean"},"_position":{"x":1315.517,"y":405.8407},"$type":"NodeCanvas.BehaviourTrees.BinarySelector","$id":"35"},{"_action":{"knowledgeData":{"_name":"Enemy
+    Hand Cards Count","_targetVariableID":"3c6a4a89-ead2-4d2b-b75f-6dec166633b6"},"targetContainer":{"OwnerType":1,"ContainerType":2},"$type":"NodeCanvas.Tasks.Actions.PlaceCard"},"_position":{"x":1436.284,"y":961.3584},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"47"},{"_position":{"x":1763.286,"y":962.6208},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"48"},{"_action":{"gameStateEvents":{"_name":"Game
+    State Event","_targetVariableID":"7f9f8d75-8dbf-4fa2-8ae0-574a88e91f5a"},"$type":"NodeCanvas.Tasks.Actions.EndRound"},"_position":{"x":1680.497,"y":1082.633},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"49"},{"_action":{"gameStateEvents":{"_name":"Game
+    State Event","_targetVariableID":"7f9f8d75-8dbf-4fa2-8ae0-574a88e91f5a"},"$type":"NodeCanvas.Tasks.Actions.EndTurn"},"_position":{"x":1836.134,"y":1082.532},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"50"},{"_position":{"x":2803.397,"y":262.6921},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"51"},{"_subTree":{"_value":2},"_variablesMap":[{"_targetSubGraphVariableID":"394baae1-c13f-4bbf-9beb-7f117d8af9ec","_canWrite":true,"_type":"System.Single","_value":{"$content":1.0,"$type":"System.Single"}},{"_targetSubGraphVariableID":"1f87aef8-d5eb-4a76-bf20-6943b60aa05b","_canWrite":true,"_type":"System.Single","_value":{"$content":4.0,"$type":"System.Single"}}],"_position":{"x":1992.114,"y":461.9128},"$type":"NodeCanvas.BehaviourTrees.SubTree","$id":"52"},{"_position":{"x":2378.278,"y":441.649},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"53"},{"_condition":{"gameStateEvents":{"_name":"Game
+    State Event","_targetVariableID":"7f9f8d75-8dbf-4fa2-8ae0-574a88e91f5a"},"$type":"NodeCanvas.Tasks.Conditions.CheckPlayerHasEndedRound"},"_position":{"x":2023.269,"y":565.3689},"$type":"NodeCanvas.BehaviourTrees.BinarySelector","$id":"54"},{"_action":{"soContainerEvents":{"_name":"Container
+    Events","_targetVariableID":"1ea3ac94-ba00-4a14-beb3-c6d648193fc0"},"hasEnemyWon":{"_name":"Has
+    Enemy Won","_targetVariableID":"f1598d9c-f372-40f3-990d-790907cfec66"},"$type":"NodeCanvas.Tasks.Actions.HasWon"},"_position":{"x":1995.017,"y":687.5159},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"55"},{"_action":{"boolVariable":{"_name":"Has
+    Enemy Won","_targetVariableID":"f1598d9c-f372-40f3-990d-790907cfec66"},"setTo":0,"$type":"NodeCanvas.Tasks.Actions.SetBoolean"},"_position":{"x":2178.56,"y":685.4032},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"56"},{"_position":{"x":2606.804,"y":541.1136},"$type":"NodeCanvas.BehaviourTrees.Selector","$id":"57"},{"_condition":{"valueA":{"_name":"Has
+    Enemy Won","_targetVariableID":"f1598d9c-f372-40f3-990d-790907cfec66"},"valueB":{},"_invert":true,"$type":"NodeCanvas.Tasks.Conditions.CheckBoolean"},"_position":{"x":2410.502,"y":684.4399},"$type":"NodeCanvas.BehaviourTrees.ConditionNode","$id":"58"},{"_condition":{"valueA":{"_name":"Has
+    Started Merging","_targetVariableID":"55842fbd-82e1-4ed9-b04e-a75265152552"},"valueB":{"_value":true},"$type":"NodeCanvas.Tasks.Conditions.CheckBoolean"},"_position":{"x":2543.394,"y":772.7535},"$type":"NodeCanvas.BehaviourTrees.BinarySelector","$id":"59"},{"_action":{"actions":[{"knowledgeData":{"_name":"Enemy
     Knowledge Data","_targetVariableID":"7d9675a7-e931-42b7-b654-6c49f94c9990"},"soCardEvents":{"_name":"So
     Card Events","_targetVariableID":"cf5f2bf5-51d0-40a2-aa41-ba6c6e6769fe"},"hasStartedMerging":{"_name":"Has
-    Started Merging","_targetVariableID":"55842fbd-82e1-4ed9-b04e-a75265152552"},"$type":"NodeCanvas.Tasks.Actions.MergeCards"},"_position":{"x":1223.989,"y":560.0306},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"36"},{"_position":{"x":1472.489,"y":554.1558},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"37"},{"_action":{"inputValue":{"_name":"Self
+    Started Merging","_targetVariableID":"55842fbd-82e1-4ed9-b04e-a75265152552"},"$type":"NodeCanvas.Tasks.Actions.MergeCards"},{"boolVariable":{"_name":"Generate
+    Moves Attack","_targetVariableID":"fa85bf36-25e5-4eaa-94b1-c5af63bd80b8"},"$type":"NodeCanvas.Tasks.Actions.SetBoolean"},{"boolVariable":{"_name":"Generate
+    Moves Defence","_targetVariableID":"dfc3a45d-ad09-4c76-9332-e943cbb05388"},"$type":"NodeCanvas.Tasks.Actions.SetBoolean"}],"$type":"NodeCanvas.Framework.ActionList"},"_position":{"x":2334.179,"y":910.8528},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"60"},{"_position":{"x":2700.365,"y":922.0682},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"61"},{"_action":{"inputValue":{"_name":"Self
     Hand Cards Count","_targetVariableID":"3c6a4a89-ead2-4d2b-b75f-6dec166633b6"},"rangeStart1":{"_value":20.0},"rangeEnd1":{"_value":15.0},"outputStart1":{"_value":80.0},"outputEnd1":{},"rangeStart2":{"_value":15.0},"rangeEnd2":{},"outputStart2":{},"outputEnd2":{},"calculatedChance":{"_name":"Calculated
     Chance","_targetVariableID":"bdbd899b-4711-48db-962d-a28a15604932"},"invertedCalculatedChance":{"_name":"Inverted
-    Calculated Chance","_targetVariableID":"f70dfe36-0ce0-4a33-92f0-aed54d3b3356"},"$type":"NodeCanvas.Tasks.Actions.CalculateChance"},"_position":{"x":1373.39,"y":649.6304},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"38"},{"childWeights":[{"_name":"Calculated
+    Calculated Chance","_targetVariableID":"f70dfe36-0ce0-4a33-92f0-aed54d3b3356"},"$type":"NodeCanvas.Tasks.Actions.CalculateChance"},"_position":{"x":2601.267,"y":1017.542},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"62"},{"childWeights":[{"_name":"Calculated
     Chance","_targetVariableID":"bdbd899b-4711-48db-962d-a28a15604932"},{"_name":"Inverted
-    Calculated Chance","_targetVariableID":"f70dfe36-0ce0-4a33-92f0-aed54d3b3356"}],"failChance":{},"_position":{"x":1546.306,"y":652.8845},"$type":"NodeCanvas.BehaviourTrees.ProbabilitySelector","$id":"39"},{"_action":{"knowledgeData":{"_name":"Enemy
+    Calculated Chance","_targetVariableID":"f70dfe36-0ce0-4a33-92f0-aed54d3b3356"}],"failChance":{},"_position":{"x":2774.183,"y":1020.797},"$type":"NodeCanvas.BehaviourTrees.ProbabilitySelector","$id":"63"},{"_action":{"knowledgeData":{"_name":"Enemy
     Knowledge Data","_targetVariableID":"7d9675a7-e931-42b7-b654-6c49f94c9990"},"soCardEvents":{"_name":"So
     Card Events","_targetVariableID":"cf5f2bf5-51d0-40a2-aa41-ba6c6e6769fe"},"hasStartedMerging":{"_name":"Has
-    Started Merging","_targetVariableID":"55842fbd-82e1-4ed9-b04e-a75265152552"},"$type":"NodeCanvas.Tasks.Actions.MergeCards"},"_position":{"x":1370.039,"y":776.4244},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"40"},{"_subTree":{"_value":2},"_variablesMap":[{"_targetSubGraphVariableID":"394baae1-c13f-4bbf-9beb-7f117d8af9ec","_canWrite":true,"_type":"System.Single","_value":{"$content":0.0,"$type":"System.Single"}},{"_targetSubGraphVariableID":"1f87aef8-d5eb-4a76-bf20-6943b60aa05b","_canWrite":true,"_type":"System.Single","_value":{"$content":0.0,"$type":"System.Single"}}],"_position":{"x":1521.874,"y":773.4675},"$type":"NodeCanvas.BehaviourTrees.SubTree","$id":"41"},{"_subTree":{"_value":2},"_variablesMap":[{"_targetSubGraphVariableID":"394baae1-c13f-4bbf-9beb-7f117d8af9ec","_canWrite":true,"_type":"System.Single","_value":{"$content":1.0,"$type":"System.Single"}},{"_targetSubGraphVariableID":"1f87aef8-d5eb-4a76-bf20-6943b60aa05b","_canWrite":true,"_type":"System.Single","_value":{"$content":2.0,"$type":"System.Single"}}],"_position":{"x":1759.039,"y":399.5599},"$type":"NodeCanvas.BehaviourTrees.SubTree","$id":"42"},{"_position":{"x":2032.45,"y":415.8814},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"43"},{"_action":{"inputValue":{"_name":"Self
+    Started Merging","_targetVariableID":"55842fbd-82e1-4ed9-b04e-a75265152552"},"$type":"NodeCanvas.Tasks.Actions.MergeCards"},"_position":{"x":2597.915,"y":1144.335},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"64"},{"_subTree":{"_value":2},"_variablesMap":[{"_targetSubGraphVariableID":"394baae1-c13f-4bbf-9beb-7f117d8af9ec","_canWrite":true,"_type":"System.Single","_value":{"$content":0.0,"$type":"System.Single"}},{"_targetSubGraphVariableID":"1f87aef8-d5eb-4a76-bf20-6943b60aa05b","_canWrite":true,"_type":"System.Single","_value":{"$content":0.0,"$type":"System.Single"}}],"_position":{"x":2749.748,"y":1141.379},"$type":"NodeCanvas.BehaviourTrees.SubTree","$id":"65"},{"_subTree":{"_value":2},"_variablesMap":[{"_targetSubGraphVariableID":"394baae1-c13f-4bbf-9beb-7f117d8af9ec","_canWrite":true,"_type":"System.Single","_value":{"$content":1.0,"$type":"System.Single"}},{"_targetSubGraphVariableID":"1f87aef8-d5eb-4a76-bf20-6943b60aa05b","_canWrite":true,"_type":"System.Single","_value":{"$content":4.0,"$type":"System.Single"}}],"_position":{"x":3018.063,"y":444.0546},"$type":"NodeCanvas.BehaviourTrees.SubTree","$id":"66"},{"_position":{"x":3380.249,"y":447.0917},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"67"},{"_position":{"x":3218.33,"y":557.2257},"$type":"NodeCanvas.BehaviourTrees.Selector","$id":"68"},{"_condition":{"valueA":{"_name":"Has
+    Enemy Won","_targetVariableID":"f1598d9c-f372-40f3-990d-790907cfec66"},"valueB":{"_value":true},"_invert":true,"$type":"NodeCanvas.Tasks.Conditions.CheckBoolean"},"_position":{"x":2978.097,"y":678.2056},"$type":"NodeCanvas.BehaviourTrees.ConditionNode","$id":"69"},{"_position":{"x":3216.371,"y":682.163},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"70"},{"_action":{"gameStateEvents":{"_name":"Game
+    State Event","_targetVariableID":"7f9f8d75-8dbf-4fa2-8ae0-574a88e91f5a"},"$type":"NodeCanvas.Tasks.Actions.EndRound"},"_position":{"x":3146.597,"y":849.2991},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"71"},{"_action":{"gameStateEvents":{"_name":"Game
+    State Event","_targetVariableID":"7f9f8d75-8dbf-4fa2-8ae0-574a88e91f5a"},"$type":"NodeCanvas.Tasks.Actions.EndTurn"},"_position":{"x":3292.516,"y":845.116},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"72"},{"_position":{"x":3593.269,"y":553.171},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"73"},{"_action":{"inputValue":{"_name":"Self
     Hand Cards Count","_targetVariableID":"3c6a4a89-ead2-4d2b-b75f-6dec166633b6"},"rangeStart1":{},"rangeEnd1":{"_value":6.0},"outputStart1":{"_value":100.0},"outputEnd1":{"_value":25.0},"rangeStart2":{"_value":6.0},"rangeEnd2":{"_value":16.0},"outputStart2":{"_value":25.0},"outputEnd2":{},"calculatedChance":{"_name":"Calculated
     Chance","_targetVariableID":"bdbd899b-4711-48db-962d-a28a15604932"},"invertedCalculatedChance":{"_name":"Inverted
-    Calculated Chance","_targetVariableID":"f70dfe36-0ce0-4a33-92f0-aed54d3b3356"},"$type":"NodeCanvas.Tasks.Actions.CalculateChance"},"_position":{"x":1825.116,"y":520.3787},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"44"},{"_action":{"gameStateEvents":{"_name":"Game
+    Calculated Chance","_targetVariableID":"f70dfe36-0ce0-4a33-92f0-aed54d3b3356"},"$type":"NodeCanvas.Tasks.Actions.CalculateChance"},"_position":{"x":3441.255,"y":672.588},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"74"},{"_action":{"gameStateEvents":{"_name":"Game
     State Event","_targetVariableID":"7f9f8d75-8dbf-4fa2-8ae0-574a88e91f5a"},"knowledgeData":{"_name":"Enemy
     Knowledge Data","_targetVariableID":"7d9675a7-e931-42b7-b654-6c49f94c9990"},"calculatedChance":{"_name":"Calculated
     Chance","_targetVariableID":"bdbd899b-4711-48db-962d-a28a15604932"},"invertedCalculatedChance":{"_name":"Inverted
-    Calculated Chance","_targetVariableID":"f70dfe36-0ce0-4a33-92f0-aed54d3b3356"},"$type":"NodeCanvas.Tasks.Actions.IsWinning"},"_position":{"x":2029.778,"y":514.2493},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"45"},{"childWeights":[{"_name":"Calculated
+    Calculated Chance","_targetVariableID":"f70dfe36-0ce0-4a33-92f0-aed54d3b3356"},"$type":"NodeCanvas.Tasks.Actions.IsWinning"},"_position":{"x":3596.153,"y":673.5858},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"75"},{"childWeights":[{"_name":"Calculated
     Chance","_targetVariableID":"bdbd899b-4711-48db-962d-a28a15604932"},{"_name":"Inverted
-    Calculated Chance","_targetVariableID":"f70dfe36-0ce0-4a33-92f0-aed54d3b3356"}],"failChance":{},"_position":{"x":2179.182,"y":522.492},"$type":"NodeCanvas.BehaviourTrees.ProbabilitySelector","$id":"46"},{"_position":{"x":2075.012,"y":639.7956},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"47"},{"_action":{"gameStateEvents":{"_name":"Game
-    State Event","_targetVariableID":"7f9f8d75-8dbf-4fa2-8ae0-574a88e91f5a"},"$type":"NodeCanvas.Tasks.Actions.EndRound"},"_position":{"x":2004.176,"y":749.845},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"48"},{"_action":{"gameStateEvents":{"_name":"Game
-    State Event","_targetVariableID":"7f9f8d75-8dbf-4fa2-8ae0-574a88e91f5a"},"$type":"NodeCanvas.Tasks.Actions.EndTurn"},"_position":{"x":2143.876,"y":748.3526},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"49"},{"_action":{"gameStateEvents":{"_name":"Game
-    State Event","_targetVariableID":"7f9f8d75-8dbf-4fa2-8ae0-574a88e91f5a"},"$type":"NodeCanvas.Tasks.Actions.EndTurn"},"_position":{"x":2283.645,"y":642.9455},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"50"}],"connections":[{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"1"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"14"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"15"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"1"},"_targetNode":{"$ref":"2"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"1"},"_targetNode":{"$ref":"3"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"1"},"_targetNode":{"$ref":"4"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"1"},"_targetNode":{"$ref":"9"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"4"},"_targetNode":{"$ref":"5"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"4"},"_targetNode":{"$ref":"6"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"6"},"_targetNode":{"$ref":"7"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"6"},"_targetNode":{"$ref":"8"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"9"},"_targetNode":{"$ref":"10"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"9"},"_targetNode":{"$ref":"11"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"11"},"_targetNode":{"$ref":"12"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"11"},"_targetNode":{"$ref":"13"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"15"},"_targetNode":{"$ref":"16"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"15"},"_targetNode":{"$ref":"33"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"16"},"_targetNode":{"$ref":"17"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"16"},"_targetNode":{"$ref":"18"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"18"},"_targetNode":{"$ref":"19"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"18"},"_targetNode":{"$ref":"26"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"19"},"_targetNode":{"$ref":"20"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"19"},"_targetNode":{"$ref":"21"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"21"},"_targetNode":{"$ref":"22"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"21"},"_targetNode":{"$ref":"23"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"23"},"_targetNode":{"$ref":"24"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"23"},"_targetNode":{"$ref":"25"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"26"},"_targetNode":{"$ref":"27"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"26"},"_targetNode":{"$ref":"28"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"28"},"_targetNode":{"$ref":"29"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"28"},"_targetNode":{"$ref":"30"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"30"},"_targetNode":{"$ref":"31"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"30"},"_targetNode":{"$ref":"32"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"33"},"_targetNode":{"$ref":"34"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"33"},"_targetNode":{"$ref":"35"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"33"},"_targetNode":{"$ref":"42"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"33"},"_targetNode":{"$ref":"43"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"35"},"_targetNode":{"$ref":"36"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"35"},"_targetNode":{"$ref":"37"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"37"},"_targetNode":{"$ref":"38"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"37"},"_targetNode":{"$ref":"39"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"39"},"_targetNode":{"$ref":"40"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"39"},"_targetNode":{"$ref":"41"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"43"},"_targetNode":{"$ref":"44"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"43"},"_targetNode":{"$ref":"45"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"43"},"_targetNode":{"$ref":"46"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"46"},"_targetNode":{"$ref":"47"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"46"},"_targetNode":{"$ref":"50"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"47"},"_targetNode":{"$ref":"48"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"47"},"_targetNode":{"$ref":"49"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"}],"canvasGroups":[{"name":"Place
-    Card On Own Table","rect":{"xMin":-166.8735,"yMin":264.7943,"xMax":1084.767,"yMax":1094.052},"autoGroup":true},{"name":"Moves
-    Generation","rect":{"xMin":-1500.004,"yMin":191.4311,"xMax":-213.6663,"yMax":699.1761},"autoGroup":true},{"name":"End
-    Turn","rect":{"xMin":1729.039,"yMin":334.5599,"xMax":2393.645,"yMax":837.845},"autoGroup":true},{"name":"Merge
-    Cards","rect":{"xMin":1097.899,"yMin":339.9802,"xMax":1680.874,"yMax":876.4675},"autoGroup":true}],"localBlackboard":{"_variables":{}},"derivedData":{"$type":"NodeCanvas.BehaviourTrees.BehaviourTree+DerivedSerializationData"}}'
+    Calculated Chance","_targetVariableID":"f70dfe36-0ce0-4a33-92f0-aed54d3b3356"}],"failChance":{},"_position":{"x":3719.062,"y":673.6224},"$type":"NodeCanvas.BehaviourTrees.ProbabilitySelector","$id":"76"},{"_position":{"x":3614.89,"y":790.9263},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"77"},{"_action":{"gameStateEvents":{"_name":"Game
+    State Event","_targetVariableID":"7f9f8d75-8dbf-4fa2-8ae0-574a88e91f5a"},"$type":"NodeCanvas.Tasks.Actions.EndRound"},"_position":{"x":3544.053,"y":900.9755},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"78"},{"_action":{"gameStateEvents":{"_name":"Game
+    State Event","_targetVariableID":"7f9f8d75-8dbf-4fa2-8ae0-574a88e91f5a"},"$type":"NodeCanvas.Tasks.Actions.EndTurn"},"_position":{"x":3683.753,"y":899.483},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"79"},{"_action":{"gameStateEvents":{"_name":"Game
+    State Event","_targetVariableID":"7f9f8d75-8dbf-4fa2-8ae0-574a88e91f5a"},"$type":"NodeCanvas.Tasks.Actions.EndTurn"},"_position":{"x":3823.522,"y":794.0762},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"80"}],"connections":[{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"1"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"23"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"24"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"1"},"_targetNode":{"$ref":"2"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"1"},"_targetNode":{"$ref":"3"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"1"},"_targetNode":{"$ref":"13"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"3"},"_targetNode":{"$ref":"4"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"3"},"_targetNode":{"$ref":"5"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"5"},"_targetNode":{"$ref":"6"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"5"},"_targetNode":{"$ref":"12"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"6"},"_targetNode":{"$ref":"7"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"6"},"_targetNode":{"$ref":"8"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"8"},"_targetNode":{"$ref":"9"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"8"},"_targetNode":{"$ref":"10"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"10"},"_targetNode":{"$ref":"11"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"13"},"_targetNode":{"$ref":"14"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"13"},"_targetNode":{"$ref":"15"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"15"},"_targetNode":{"$ref":"16"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"15"},"_targetNode":{"$ref":"22"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"16"},"_targetNode":{"$ref":"17"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"16"},"_targetNode":{"$ref":"18"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"18"},"_targetNode":{"$ref":"19"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"18"},"_targetNode":{"$ref":"20"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"20"},"_targetNode":{"$ref":"21"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"24"},"_targetNode":{"$ref":"25"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"24"},"_targetNode":{"$ref":"51"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"25"},"_targetNode":{"$ref":"26"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"25"},"_targetNode":{"$ref":"34"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"26"},"_targetNode":{"$ref":"27"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"27"},"_targetNode":{"$ref":"28"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"27"},"_targetNode":{"$ref":"29"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"27"},"_targetNode":{"$ref":"30"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"30"},"_targetNode":{"$ref":"31"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"31"},"_targetNode":{"$ref":"32"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"31"},"_targetNode":{"$ref":"33"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"34"},"_targetNode":{"$ref":"35"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"34"},"_targetNode":{"$ref":"36"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"36"},"_targetNode":{"$ref":"37"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"36"},"_targetNode":{"$ref":"44"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"37"},"_targetNode":{"$ref":"38"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"37"},"_targetNode":{"$ref":"39"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"39"},"_targetNode":{"$ref":"40"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"39"},"_targetNode":{"$ref":"41"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"41"},"_targetNode":{"$ref":"42"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"41"},"_targetNode":{"$ref":"43"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"44"},"_targetNode":{"$ref":"45"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"44"},"_targetNode":{"$ref":"46"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"46"},"_targetNode":{"$ref":"47"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"46"},"_targetNode":{"$ref":"48"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"48"},"_targetNode":{"$ref":"49"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"48"},"_targetNode":{"$ref":"50"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"51"},"_targetNode":{"$ref":"52"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"51"},"_targetNode":{"$ref":"53"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"51"},"_targetNode":{"$ref":"66"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"51"},"_targetNode":{"$ref":"67"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"53"},"_targetNode":{"$ref":"54"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"53"},"_targetNode":{"$ref":"57"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"54"},"_targetNode":{"$ref":"55"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"54"},"_targetNode":{"$ref":"56"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"57"},"_targetNode":{"$ref":"58"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"57"},"_targetNode":{"$ref":"59"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"59"},"_targetNode":{"$ref":"60"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"59"},"_targetNode":{"$ref":"61"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"61"},"_targetNode":{"$ref":"62"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"61"},"_targetNode":{"$ref":"63"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"63"},"_targetNode":{"$ref":"64"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"63"},"_targetNode":{"$ref":"65"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"67"},"_targetNode":{"$ref":"68"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"67"},"_targetNode":{"$ref":"73"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"68"},"_targetNode":{"$ref":"69"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"68"},"_targetNode":{"$ref":"70"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"70"},"_targetNode":{"$ref":"71"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"70"},"_targetNode":{"$ref":"72"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"73"},"_targetNode":{"$ref":"74"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"73"},"_targetNode":{"$ref":"75"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"73"},"_targetNode":{"$ref":"76"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"76"},"_targetNode":{"$ref":"77"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"76"},"_targetNode":{"$ref":"80"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"77"},"_targetNode":{"$ref":"78"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"77"},"_targetNode":{"$ref":"79"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"}],"canvasGroups":[{"name":"Place
+    Card On Own Table","rect":{"xMin":678.554,"yMin":342.3741,"xMax":1946.134,"yMax":1170.633},"autoGroup":true},{"name":"Moves
+    Generation","rect":{"xMin":-1516.695,"yMin":185.6925,"xMax":-226.481,"yMax":970.0098},"autoGroup":true},{"name":"Merge
+    Cards","rect":{"xMin":1962.114,"yMin":376.649,"xMax":2933.795,"yMax":1243.38},"autoGroup":true},{"name":"Place
+    Card On Player Table","rect":{"xMin":-193.5324,"yMin":236.5681,"xMax":655.3835,"yMax":928.8743},"autoGroup":true},{"name":"End
+    Turn","rect":{"xMin":2948.097,"yMin":379.0546,"xMax":3933.522,"yMax":990.9758},"autoGroup":true}],"localBlackboard":{"_variables":{}},"derivedData":{"$type":"NodeCanvas.BehaviourTrees.BehaviourTree+DerivedSerializationData"}}'
   _boundGraphObjectReferences:
   - {fileID: 0}
   - {fileID: 349244754}
@@ -12839,8 +13030,8 @@ MonoBehaviour:
     _version: 3.31
     _category: 
     _comments: 
-    _translation: {x: 346, y: 159}
-    _zoomFactor: 0.5443731
+    _translation: {x: 691, y: 30}
+    _zoomFactor: 0.5015356
   _firstActivation: 0
   _enableAction: 0
   _disableAction: 0
@@ -15355,6 +15546,82 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1816486101}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1818267461
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1818267462}
+  - component: {fileID: 1818267464}
+  - component: {fileID: 1818267463}
+  m_Layer: 5
+  m_Name: End Back Ground
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &1818267462
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1818267461}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 395141676}
+  m_Father: {fileID: 2022070760}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0.000068426, y: -0.0025177}
+  m_SizeDelta: {x: 1920, y: 1079.7}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1818267463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1818267461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.37647063, g: 0.31764707, b: 0.23529413, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1818267464
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1818267461}
+  m_CullTransparentMesh: 1
 --- !u!1 &1822179653
 GameObject:
   m_ObjectHideFlags: 0
@@ -18203,6 +18470,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1818267462}
   - {fileID: 1484235961}
   - {fileID: 1761309641}
   - {fileID: 1983712157}
@@ -18248,6 +18516,8 @@ MonoBehaviour:
   soUIEvents: {fileID: 11400000, guid: a0e657fff93598c43ade600609422f21, type: 2}
   slider: {fileID: 260749445}
   currentTurnText: {fileID: 655955685}
+  endGameObject: {fileID: 1818267461}
+  endGameText: {fileID: 395141677}
   playerCrystals:
   - {fileID: 825912780}
   - {fileID: 1353107319}

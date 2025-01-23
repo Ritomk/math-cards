@@ -26,6 +26,12 @@ public class SoContainerEvents : ScriptableObject
     
     public delegate void ClearTablesHandler();
     public event ClearTablesHandler OnClearTables;
+    
+    public delegate void ReshuffleCardsHandler();
+    public event ReshuffleCardsHandler OnReshuffleCards;
+    
+    public delegate void BurnMergedCardsHandler();
+    public event BurnMergedCardsHandler OnBurnMerged;
 
     public void RaiseChangeCardsState(CardData.CardState newState)
     {
@@ -62,5 +68,15 @@ public class SoContainerEvents : ScriptableObject
     public void RaiseClearTables()
     {
         OnClearTables?.Invoke();
+    }
+
+    public void RaiseReshuffleCards()
+    {
+        OnReshuffleCards?.Invoke();
+    }
+
+    public void RaiseBurnMergedCards()
+    {
+        OnBurnMerged?.Invoke();
     }
 }

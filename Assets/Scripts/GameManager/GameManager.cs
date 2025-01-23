@@ -212,7 +212,8 @@ public class GameManager : MonoBehaviour
         
         if (_playerScore == 2 || _opponentScore == 2)
         {
-            
+            inputManager.enabled = false;
+            soUIEvents.RaiseEndGame(wonByPlayer);
         }
     }
 }

@@ -150,17 +150,17 @@ public class MergerContainer : CardContainerBase
         var firstCard = CardsDictionary.Values.ElementAt(0);
         var secondCard = CardsDictionary.Values.ElementAt(1);
         
-        firstCard.State = CardData.CardState.Normal;
+        //firstCard.State = CardData.CardState.Normal;
         firstCard.Token = (firstCard.Token * 10) + secondCard.Token;
         
         RemoveCard(secondCard.CardId);
         Destroy(secondCard.gameObject);
-        //CoroutineHelper.Start(BurnCard(secondCard.CardId));
         
         UpdateCardPositions();
         
         HandleToggleChestAnimation(SelfContainerKey.OwnerType, true);
         yield return new WaitWhile(() => chestAnimation!.IsMoving);
+        firstCard.State = CardData.CardState.Normal;
         
         var toKey = new ContainerKey(SelfContainerKey.OwnerType, CardContainerType.Hand);
         soCardEvents.RaiseCardMove(firstCard, SelfContainerKey, toKey);
