@@ -25,6 +25,7 @@ public class MergerContainer : CardContainerBase
         soContainerEvents.OnMergeCards += HandleMergeCards;
         soContainerEvents.OnChangeCardsState += HandleChangeCardsState;
         soContainerEvents.OnValidateCardPlacement += ValidateCardPlacement;
+        soContainerEvents.OnBurnMerged += HandleBurnMerged;
     }
 
 
@@ -36,6 +37,7 @@ public class MergerContainer : CardContainerBase
         soContainerEvents.OnMergeCards -= HandleMergeCards;
         soContainerEvents.OnChangeCardsState -= HandleChangeCardsState;
         soContainerEvents.OnValidateCardPlacement -= ValidateCardPlacement;
+        soContainerEvents.OnBurnMerged -= HandleBurnMerged;
     }
 
     public override bool AddCard(Card card)
@@ -101,13 +103,6 @@ public class MergerContainer : CardContainerBase
         }
     }
 
-    private void PositionCard(Card card, Vector3 position, Quaternion rotation)
-    {
-        if (card == null) return;
-        card.transform.position = position;
-        card.transform.rotation = rotation;
-    }
-
     private void HandleToggleChestAnimation(OwnerType ownerType, bool isOpen)
     {
         if(ownerType != OwnerType.Any &&
@@ -164,6 +159,16 @@ public class MergerContainer : CardContainerBase
         
         var toKey = new ContainerKey(SelfContainerKey.OwnerType, CardContainerType.Hand);
         soCardEvents.RaiseCardMove(firstCard, SelfContainerKey, toKey);
+    }
+
+    private void HandleBurnMerged()
+    {
+        if (CardsDictionary.Count == 1)
+        {
+            var card = CardsDictionary.Values.First();
+            RemoveCard(card.CardId);
+            Destroy(card.gameObject);
+        }
     }
 
     protected override void HandleCardData(EnemyKnowledgeData data)
