@@ -34,7 +34,7 @@ The game integrates educational content with interactive gameplay, allowing play
 ## Installation
 
 1. Clone the Repository:
-   git clone https://github.com/Ritomk/math-cards-shippuden.git
+   git clone https://github.com/Ritomk/math-cards.git
 
 2. Open in Unity:
    - Use Unity Hub to open the project.
@@ -58,7 +58,8 @@ After setting up the project in Unity and importing all necessary assets:
 
 ## Project Structure
 
-math-cards-shippuden/
+```
+math-cards/
 ├── Assets/                  # Contains game assets including scripts, prefabs, and shaders
 ├── Packages/                # Unity package configurations
 ├── ProjectSettings/         # Project settings and configurations
@@ -66,6 +67,7 @@ math-cards-shippuden/
 ├── .gitignore               # Specifies files to ignore in version control
 ├── .vsconfig                # Visual Studio configuration
 └── README.md                # Project documentation
+```
 
 ## License
 
